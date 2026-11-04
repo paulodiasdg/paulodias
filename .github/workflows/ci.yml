@@ -45,6 +45,11 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
 
+      # As portas do Supabase local (54321 a 54329) ficam na faixa que o Linux usa para conexões
+      # de saída; os downloads das imagens podem ocupá-las antes de o banco subir.
+      - name: Tirar as portas do Supabase da faixa de conexões de saída
+        run: sudo sysctl -w net.ipv4.ip_local_port_range="60000 65000"
+
       - name: Subir o Supabase local
         run: pnpm db:start
 
