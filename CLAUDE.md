@@ -4,7 +4,7 @@ Sistema de controle financeiro pessoal que lê documentos e diz, toda semana, qu
 
 - Especificação: `docs/SPEC.md` (fonte da verdade do produto).
 - Revisão da especificação, decisões e plano por etapa: `docs/PLANO.md`. Uma decisão aprovada ali prevalece sobre o texto original da spec.
-- Estado atual: **Etapa 1 (base do projeto) entregue; aguardando o Paulo conferir os testes para começar a Etapa 2 (motor de cálculo).** Atualize esta linha ao concluir cada etapa.
+- Estado atual: **Etapa 2 (motor de cálculo) entregue; aguardando o Paulo conferir os testes para começar a Etapa 3 (cadastros e lançamentos).** Atualize esta linha ao concluir cada etapa.
 
 ## Stack
 
@@ -37,6 +37,7 @@ docs/                 SPEC.md e PLANO.md
 - `apps/web/src/lib/supabase/tipos-banco.ts` é gerado por `pnpm db:types`; não edite à mão. O CI falha se ele estiver desatualizado em relação às migrações.
 - `supabase/testes/tabelas.ts` lista todas as tabelas. Tabela nova entra nessa lista e nos casos de `isolamento.test.ts`, senão o meta-teste falha.
 - O Next.js instalado traz a documentação da versão em `node_modules/next/dist/docs/`; consulte antes de usar APIs do framework.
+- `packages/motor/src/index.ts` é a API pública do motor; `resumoDaSemana(dados, hoje)` devolve tudo o que o painel mostra. `packages/motor/src/testes/cenario-3-6.ts` monta o cenário da seção 3.6 da spec.
 
 ## Comandos
 
@@ -51,6 +52,7 @@ pnpm typecheck                     # tsc em todos os pacotes e nos testes de iso
 pnpm format                        # Prettier (pnpm format:check só confere)
 pnpm test                          # testes unitários de todos os pacotes (Vitest)
 pnpm --filter @no-azul/motor test  # só o motor
+pnpm --filter @no-azul/motor test:cobertura  # motor com relatório de cobertura
 pnpm db:start                      # sobe o Supabase local (Docker), sem Studio e serviços extras
 pnpm db:reset                      # recria o banco local aplicando as migrações
 pnpm db:stop                       # derruba o Supabase local

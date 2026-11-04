@@ -1,6 +1,6 @@
 # No Azul: revisão da especificação e plano das Etapas 1 e 2
 
-04/11/2026 · Referência: `docs/SPEC.md` · **Situação: D1 a D7 aprovadas em 04/11/2026 como recomendado; Etapa 1 entregue**
+04/11/2026 · Referência: `docs/SPEC.md` · **Situação: D1 a D7 aprovadas em 04/11/2026 como recomendado; Etapas 1 e 2 entregues**
 
 As decisões D1 a D7 (seção 5) valem sobre o texto da spec.
 
@@ -179,6 +179,28 @@ A entrada do motor são objetos simples: perfil, recorrências, ocorrências, co
 5. **Pagar e desfazer** no motor devolve o saldo ao estado anterior, preparando o aceite da Etapa 3.
 
 **Aceite:** os três critérios da seção 7, com o critério da simulação reescrito conforme C2. Mostro a saída do Vitest e o relatório de cobertura de `packages/motor`.
+
+### Resultado da Etapa 2 (04/11/2026)
+
+- 95 testes no Vitest, com 100% das linhas e 97,4% dos ramos de `packages/motor` cobertos.
+- Cenário 3.6: todos os valores da spec batem, de R$ 925 "até 15/11" ao índice 82. Na semana 7, a tabela da spec mostra R$ 747,14; o motor mostra R$ 747,15, porque arredonda para cima no centavo (C7). Isso não muda o resultado, definido pela semana 2.
+- Simulação de 52 semanas: no cenário 3.6 e em 150 cenários aleatórios (fast-check, semente fixa), guardando o valor pedido, nenhuma conta fica descoberta. Guardar R$ 1 a menos por semana deixa o aluguel descoberto, o que mostra que o valor pedido é o mínimo.
+- Valor fixo na semana: o valor é o mesmo de segunda a domingo, e não muda com aporte, pagamento da semana, pagamento antecipado, pagamento com saldo insuficiente, saque manual ou pagamento desfeito. Conta nova, valor ou vencimento alterado, conta removida e ajuste de saldo recalculam e informam o motivo. Usar o saldo atual no lugar da foto de segunda quebra 5 desses testes.
+
+**Escolhas de implementação** que decorrem das decisões aprovadas:
+
+| Item                            | Escolha                                                                                                                                                                                                                                                                                                                   |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Referência das metas            | Os meses até o prazo contam a partir da segunda-feira da semana, não de hoje. É consequência de D1 e D3 juntas: contando de hoje, a fração do mês muda todo dia e o aporte semanal mudaria no meio da semana. No teste, os prazos do cenário 3.6 caem no dia 2 (a segunda de referência) para dar 18, 8 e 10 meses exatos |
+| Fração do mês                   | Meses completos mais os dias restantes divididos pelos dias do mês seguinte ao último completo. Ex.: de 31/01 a 15/03 são 1 + 15/31 meses                                                                                                                                                                                 |
+| Ajuste e saque manual na semana | Ajuste recalcula (é correção de cadastro); saque manual não muda o valor da semana (é movimento) e entra na foto da semana seguinte                                                                                                                                                                                       |
+| Fixas não marcadas como pagas   | Toda ocorrência entre o início da recorrência e hoje sem pagamento conta como vencida. Na Etapa 3, o cadastro deve sugerir como início o próximo vencimento, para não criar dívidas antigas por engano                                                                                                                    |
+| Meta com verba parcial          | Nova data = segunda-feira + (falta ÷ alocado por mês) meses, arredondado para cima                                                                                                                                                                                                                                        |
+| Meta com prazo vencido          | Segue a fórmula da spec (pede tudo o que falta no mês) e sai marcada como vencida para o alerta. Pode consumir a verba das metas seguintes; a tela deve convidar a mudar o prazo                                                                                                                                          |
+| Desfazer pagamento de fixa      | A ocorrência gravada continua existindo, agora pendente; saldos, lançamentos e números do painel voltam a ser os de antes                                                                                                                                                                                                 |
+| "Vencido" no índice             | Contas sem pagamento com vencimento antes de hoje, sem contar fixas pagas no cartão                                                                                                                                                                                                                                       |
+| "Meses com dados" na média      | Meses completos com ao menos um gasto variável, até 3, do mais recente para trás                                                                                                                                                                                                                                          |
+| Datas no motor                  | Aritmética própria com o número do dia, sem o objeto `Date`; o ESLint bloqueia `new Date()` e `Date.now()` no pacote                                                                                                                                                                                                      |
 
 ## 5. Decisões para aprovar
 
