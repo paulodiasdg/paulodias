@@ -64,5 +64,7 @@ test('cadastro com e-mail repetido é recusado', async ({ page }) => {
   await expect(page).toHaveURL(/\/entrar$/);
 
   await criarCadastro(page, pessoa);
-  await expect(page.getByRole('main').getByRole('alert')).toHaveText('Já existe um cadastro com este e-mail.');
+  await expect(page.getByRole('main').getByRole('alert')).toHaveText(
+    'Já existe um cadastro com este e-mail.',
+  );
 });
