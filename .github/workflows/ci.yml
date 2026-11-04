@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main, 'claude/**']
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verificacoes:
+    name: Lint, tipos e testes unitários
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm format:check
+      - run: pnpm typecheck
+      - run: pnpm test
+
+  integracao:
+    name: Isolamento entre usuários e ponta a ponta
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Subir o Supabase local
+        run: pnpm db:start
+
+      - name: Testes de isolamento entre usuários (RLS)
+        run: pnpm test:rls
+
+      - name: Gerar apps/web/.env.local
+        run: pnpm env:local
+
+      - name: Conferir se os tipos do banco estão atualizados
+        run: |
+          pnpm db:types
+          git diff --exit-code apps/web/src/lib/supabase/tipos-banco.ts
+
+      - name: Build
+        run: pnpm build
+
+      - name: Instalar o navegador do Playwright
+        run: pnpm --filter @no-azul/web exec playwright install --with-deps chromium
+
+      - name: Testes ponta a ponta
+        run: pnpm test:e2e
+
+      - name: Guardar o relatório do Playwright
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-playwright
+          path: apps/web/playwright-report/
+          retention-days: 7
+
+      - name: Derrubar o Supabase local
+        if: always()
+        run: pnpm db:stop

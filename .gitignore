@@ -1,0 +1,23 @@
+node_modules/
+.next/
+out/
+dist/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# ambiente
+.env
+.env.*
+!.env.example
+
+# supabase local
+supabase/.branches/
+supabase/.temp/
+
+# playwright
+apps/web/test-results/
+apps/web/playwright-report/
+apps/web/playwright/.cache/
+
+.DS_Store

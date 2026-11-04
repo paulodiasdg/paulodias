@@ -4,20 +4,20 @@ Sistema de controle financeiro pessoal que lê documentos e diz, toda semana, qu
 
 - Especificação: `docs/SPEC.md` (fonte da verdade do produto).
 - Revisão da especificação, decisões e plano por etapa: `docs/PLANO.md`. Uma decisão aprovada ali prevalece sobre o texto original da spec.
-- Estado atual: **Etapa 0, especificação revisada, aguardando aprovação do plano.** Os comandos abaixo passam a existir na Etapa 1. Atualize esta linha ao concluir cada etapa.
+- Estado atual: **Etapa 1 (base do projeto) entregue; aguardando o Paulo conferir os testes para começar a Etapa 2 (motor de cálculo).** Atualize esta linha ao concluir cada etapa.
 
 ## Stack
 
-| Camada | Escolha |
-| --- | --- |
-| Interface e servidor | Next.js (App Router) com TypeScript estrito |
-| Estilo e gráficos | Tailwind CSS e Recharts |
-| Banco, login e arquivos | Supabase (PostgreSQL, Auth, Storage) com Row Level Security |
-| Leitura de documentos | API do Claude, saída validada com Zod (Etapa 5) |
-| Segundo plano | Fila de tarefas, Inngest ou Trigger.dev (decidir na Etapa 5) |
-| Testes | Vitest (unidade e isolamento) e Playwright (ponta a ponta) |
-| Monorepo | pnpm workspaces, Node 22 |
-| Hospedagem | Vercel e Supabase |
+| Camada                  | Escolha                                                      |
+| ----------------------- | ------------------------------------------------------------ |
+| Interface e servidor    | Next.js (App Router) com TypeScript estrito                  |
+| Estilo e gráficos       | Tailwind CSS e Recharts                                      |
+| Banco, login e arquivos | Supabase (PostgreSQL, Auth, Storage) com Row Level Security  |
+| Leitura de documentos   | API do Claude, saída validada com Zod (Etapa 5)              |
+| Segundo plano           | Fila de tarefas, Inngest ou Trigger.dev (decidir na Etapa 5) |
+| Testes                  | Vitest (unidade e isolamento) e Playwright (ponta a ponta)   |
+| Monorepo                | pnpm workspaces, Node 22                                     |
+| Hospedagem              | Vercel e Supabase                                            |
 
 As versões ficam fixadas nos `package.json`. Não troque biblioteca da stack sem combinar antes.
 
@@ -27,29 +27,48 @@ As versões ficam fixadas nos `package.json`. Não troque biblioteca da stack se
 apps/web/             telas, rotas e ações do servidor
 packages/motor/       cálculos financeiros puros e seus testes
 packages/documentos/  preparação, extração e cruzamento de documentos (Etapa 5)
-supabase/             config, migrações, seed e testes de isolamento
+supabase/             config, migrações e testes de isolamento (supabase/testes)
+scripts/              utilitários de desenvolvimento
 docs/                 SPEC.md e PLANO.md
+.github/workflows/    integração contínua
 ```
 
+- `apps/web/src/proxy.ts` renova a sessão e protege as rotas (Next.js 16 trocou `middleware` por `proxy`).
+- `apps/web/src/lib/supabase/tipos-banco.ts` é gerado por `pnpm db:types`; não edite à mão. O CI falha se ele estiver desatualizado em relação às migrações.
+- `supabase/testes/tabelas.ts` lista todas as tabelas. Tabela nova entra nessa lista e nos casos de `isolamento.test.ts`, senão o meta-teste falha.
+- O Next.js instalado traz a documentação da versão em `node_modules/next/dist/docs/`; consulte antes de usar APIs do framework.
+
 ## Comandos
+
+Primeira vez: `pnpm install`, `pnpm db:start` e `pnpm env:local`; depois `pnpm dev`.
 
 ```bash
 pnpm install                       # dependências
 pnpm dev                           # app em http://localhost:3000 (precisa do Supabase local)
-pnpm lint                          # ESLint
-pnpm typecheck                     # tsc em todos os pacotes
-pnpm format                        # Prettier
+pnpm build                         # build de produção do app
+pnpm lint                          # ESLint (inclui as regras de pureza do motor)
+pnpm typecheck                     # tsc em todos os pacotes e nos testes de isolamento
+pnpm format                        # Prettier (pnpm format:check só confere)
 pnpm test                          # testes unitários de todos os pacotes (Vitest)
 pnpm --filter @no-azul/motor test  # só o motor
-pnpm db:start                      # sobe o Supabase local (Docker)
-pnpm db:reset                      # recria o banco local com migrações e seed
+pnpm db:start                      # sobe o Supabase local (Docker), sem Studio e serviços extras
+pnpm db:reset                      # recria o banco local aplicando as migrações
 pnpm db:stop                       # derruba o Supabase local
 pnpm db:types                      # gera os tipos TypeScript do banco
+pnpm env:local                     # gera apps/web/.env.local a partir do Supabase local
 pnpm test:rls                      # isolamento entre usuários (precisa do Supabase local)
-pnpm test:e2e                      # Playwright (precisa do Supabase local)
+pnpm test:e2e                      # Playwright, computador e celular (precisa do Supabase local)
 ```
 
-Antes de dar uma tarefa por concluída, rode `pnpm lint`, `pnpm typecheck` e `pnpm test`. Se mexer em migração ou política, rode também `pnpm db:reset` e `pnpm test:rls`.
+Antes de dar uma tarefa por concluída, rode `pnpm lint`, `pnpm typecheck` e `pnpm test`. Se mexer em migração ou política, rode também `pnpm db:reset`, `pnpm db:types` e `pnpm test:rls`. Se mexer em tela ou rota, rode `pnpm test:e2e`.
+
+Para o Supabase completo, com Studio, use `pnpm exec supabase start`.
+
+### Sessões na nuvem do Claude Code
+
+- O Docker não sobe sozinho: rode `sudo dockerd` em segundo plano antes de `pnpm db:start`.
+- O registro padrão das imagens do Supabase (`public.ecr.aws`) é bloqueado pela rede. Use o Docker Hub: `SUPABASE_INTERNAL_IMAGE_REGISTRY=docker.io pnpm db:start`. Se o Docker Hub responder 429 (limite de requisições), espere um pouco e tente `docker pull` da imagem que falhou.
+- O Chromium do Playwright já vem instalado; não rode `playwright install`. A versão de `@playwright/test` precisa continuar igual à do ambiente (1.63.0).
 
 ## Regras do projeto
 

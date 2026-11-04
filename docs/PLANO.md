@@ -1,8 +1,8 @@
 # No Azul: revisão da especificação e plano das Etapas 1 e 2
 
-04/11/2026 · Referência: `docs/SPEC.md` · **Situação: aguardando aprovação**
+04/11/2026 · Referência: `docs/SPEC.md` · **Situação: D1 a D7 aprovadas em 04/11/2026 como recomendado; Etapa 1 entregue**
 
-As decisões D1 a D7 (seção 4) mudam o que será construído. Depois de aprovadas, valem sobre o texto da spec.
+As decisões D1 a D7 (seção 5) valem sobre o texto da spec.
 
 ## 1. Contradições e lacunas que precisam de decisão agora
 
@@ -10,12 +10,12 @@ As decisões D1 a D7 (seção 4) mudam o que será construído. Depois de aprova
 
 A 3.3 divide os dias até o prazo por 30,4375. Com datas reais, 18 meses depois de 04/11/2026 são 547 dias, ou 17,97 meses, e os valores mudam:
 
-| Meta | Exemplo da spec | Fórmula da 3.3 com datas reais |
-| --- | --- | --- |
-| Reserva de emergência | R$ 1.233,33/mês, R$ 285/semana | R$ 1.235,31/mês, R$ 286/semana |
-| Viagem | R$ 562,50/mês, R$ 130/semana | R$ 565,99/mês, R$ 131/semana |
-| Notebook | R$ 324,17/mês, R$ 75/semana | R$ 318,71/mês, R$ 74/semana |
-| Reserva total da semana | R$ 1.415 | R$ 1.416 |
+| Meta                    | Exemplo da spec                | Fórmula da 3.3 com datas reais |
+| ----------------------- | ------------------------------ | ------------------------------ |
+| Reserva de emergência   | R$ 1.233,33/mês, R$ 285/semana | R$ 1.235,31/mês, R$ 286/semana |
+| Viagem                  | R$ 562,50/mês, R$ 130/semana   | R$ 565,99/mês, R$ 131/semana   |
+| Notebook                | R$ 324,17/mês, R$ 75/semana    | R$ 318,71/mês, R$ 74/semana    |
+| Reserva total da semana | R$ 1.415                       | R$ 1.416                       |
 
 Testei todas as combinações de 500 a 600 dias para a emergência e de 200 a 290 dias para a viagem: nenhuma reproduz 285, 130 e 75 ao mesmo tempo. O exemplo só fecha com meses inteiros.
 
@@ -68,12 +68,12 @@ O exemplo mostra R$ 1.233,33 (22.200 ÷ 18 arredondado ao centavo), mas a spec n
 
 **Recomendação:**
 
-| Valor | Arredondamento |
-| --- | --- |
-| Necessário e alocado por mês | Centavo mais próximo (reproduz o exemplo) |
-| Reserva de contas e aporte semanal | Para cima, em reais inteiros (como na spec) |
-| Limite semanal e limite por dia | Para baixo, no centavo, para não prometer mais do que há |
-| Índice de saúde | Componentes com uma casa decimal; total arredondado ao inteiro mais próximo |
+| Valor                              | Arredondamento                                                              |
+| ---------------------------------- | --------------------------------------------------------------------------- |
+| Necessário e alocado por mês       | Centavo mais próximo (reproduz o exemplo)                                   |
+| Reserva de contas e aporte semanal | Para cima, em reais inteiros (como na spec)                                 |
+| Limite semanal e limite por dia    | Para baixo, no centavo, para não prometer mais do que há                    |
+| Índice de saúde                    | Componentes com uma casa decimal; total arredondado ao inteiro mais próximo |
 
 ### C8. Faltam regras para casos de borda
 
@@ -86,20 +86,20 @@ O exemplo mostra R$ 1.233,33 (22.200 ÷ 18 arredondado ao centavo), mas a spec n
 
 ## 2. Lacunas que podem esperar a etapa correspondente
 
-| Lacuna | Etapa | Proposta |
-| --- | --- | --- |
-| Agenda de 8 semanas, projeção de 6 meses, comparação 50/30/20 e alerta de "gasto acima do ritmo" não têm regra na seção 3 | 4 | Definir antes da Etapa 4, dentro de `packages/motor`. A agenda deve simular semana a semana, supondo que a pessoa guarda o valor pedido; repetir o r da semana atual nas 8 semanas seria enganoso, porque ele é recalculado toda semana |
-| Navegar para semanas passadas exigiria reconstruir quanto o sistema pediu na época | 4 | Semanas passadas mostram o que aconteceu (aportes, contas pagas, gastos contra o limite); semanas futuras mostram a agenda |
-| Contracheque e crédito de salário no extrato podem duplicar a renda recorrente | 5 | O cruzamento também procura renda prevista em aberto, não só contas |
-| Descrições de extrato (PIX) trazem nomes e CPF parcial, e a 4.5 depende só da instrução ao modelo | 5 | Mascarar CPF e CNPJ por expressão regular na validação, antes de gravar `extracao_json` |
-| Compras parceladas: a fatura mostra só a parcela atual, e as futuras não entram na agenda nem na projeção | 5 | Aceitar na primeira versão e registrar como limitação conhecida |
-| A exclusão em cascata do banco não apaga arquivos do Storage | 7 | Rotina própria de exclusão, coberta por teste |
-| A reserva ignora quando a renda cai. No exemplo, a semana pede R$ 1.415 (cerca de R$ 6.130 por mês), enquanto o mês comporta R$ 5.500 para contas e metas, porque o saldo é baixo e a semana 2 tem R$ 2.130 | 4 | A fórmula está certa; o painel explica o pico junto com a data mais apertada |
-| O índice dá nota máxima com 6 meses de fixas mais variáveis (R$ 31.200 no exemplo), mas o alvo da emergência no exemplo é R$ 30.000 | 3 | Sugerir alvo de 6 meses ao criar a meta de emergência |
-| Três conversões entre mês e semana: 12 ÷ 52 nos aportes, 7 ÷ dias do mês no limite e 30,4375 no prazo. Arredondar os aportes para cima faz a semana pedir um pouco mais que a verba (R$ 490 × 52 ÷ 12 = R$ 2.123,33, contra R$ 2.120) | 2 | Diferença pequena; manter como na spec |
-| "Média dos últimos 3 meses com dados" não diz se o mês atual ou um mês parcial contam | 2 | Usar só meses completos, ignorando o mês parcial de entrada no sistema |
-| "Conta" tem três sentidos: conta a pagar, conta bancária e conta do usuário | 1 | No código, "conta" é conta a pagar; a do usuário é "cadastro" (glossário no `CLAUDE.md`) |
-| O diagrama da seção 6 não veio na exportação ("embedded content") | — | A tabela de camadas basta |
+| Lacuna                                                                                                                                                                                                                                | Etapa | Proposta                                                                                                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Agenda de 8 semanas, projeção de 6 meses, comparação 50/30/20 e alerta de "gasto acima do ritmo" não têm regra na seção 3                                                                                                             | 4     | Definir antes da Etapa 4, dentro de `packages/motor`. A agenda deve simular semana a semana, supondo que a pessoa guarda o valor pedido; repetir o r da semana atual nas 8 semanas seria enganoso, porque ele é recalculado toda semana |
+| Navegar para semanas passadas exigiria reconstruir quanto o sistema pediu na época                                                                                                                                                    | 4     | Semanas passadas mostram o que aconteceu (aportes, contas pagas, gastos contra o limite); semanas futuras mostram a agenda                                                                                                              |
+| Contracheque e crédito de salário no extrato podem duplicar a renda recorrente                                                                                                                                                        | 5     | O cruzamento também procura renda prevista em aberto, não só contas                                                                                                                                                                     |
+| Descrições de extrato (PIX) trazem nomes e CPF parcial, e a 4.5 depende só da instrução ao modelo                                                                                                                                     | 5     | Mascarar CPF e CNPJ por expressão regular na validação, antes de gravar `extracao_json`                                                                                                                                                 |
+| Compras parceladas: a fatura mostra só a parcela atual, e as futuras não entram na agenda nem na projeção                                                                                                                             | 5     | Aceitar na primeira versão e registrar como limitação conhecida                                                                                                                                                                         |
+| A exclusão em cascata do banco não apaga arquivos do Storage                                                                                                                                                                          | 7     | Rotina própria de exclusão, coberta por teste                                                                                                                                                                                           |
+| A reserva ignora quando a renda cai. No exemplo, a semana pede R$ 1.415 (cerca de R$ 6.130 por mês), enquanto o mês comporta R$ 5.500 para contas e metas, porque o saldo é baixo e a semana 2 tem R$ 2.130                           | 4     | A fórmula está certa; o painel explica o pico junto com a data mais apertada                                                                                                                                                            |
+| O índice dá nota máxima com 6 meses de fixas mais variáveis (R$ 31.200 no exemplo), mas o alvo da emergência no exemplo é R$ 30.000                                                                                                   | 3     | Sugerir alvo de 6 meses ao criar a meta de emergência                                                                                                                                                                                   |
+| Três conversões entre mês e semana: 12 ÷ 52 nos aportes, 7 ÷ dias do mês no limite e 30,4375 no prazo. Arredondar os aportes para cima faz a semana pedir um pouco mais que a verba (R$ 490 × 52 ÷ 12 = R$ 2.123,33, contra R$ 2.120) | 2     | Diferença pequena; manter como na spec                                                                                                                                                                                                  |
+| "Média dos últimos 3 meses com dados" não diz se o mês atual ou um mês parcial contam                                                                                                                                                 | 2     | Usar só meses completos, ignorando o mês parcial de entrada no sistema                                                                                                                                                                  |
+| "Conta" tem três sentidos: conta a pagar, conta bancária e conta do usuário                                                                                                                                                           | 1     | No código, "conta" é conta a pagar; a do usuário é "cadastro" (glossário no `CLAUDE.md`)                                                                                                                                                |
+| O diagrama da seção 6 não veio na exportação ("embedded content")                                                                                                                                                                     | —     | A tabela de camadas basta                                                                                                                                                                                                               |
 
 ## 3. Plano da Etapa 1: base do projeto
 
@@ -128,24 +128,45 @@ O exemplo mostra R$ 1.233,33 (22.200 ÷ 18 arredondado ao centavo), mas a spec n
 
 **Risco conhecido:** o Supabase local precisa de Docker. Neste ambiente o Docker funciona e o Docker Hub responde, mas o registro padrão das imagens do Supabase (`public.ecr.aws`) é bloqueado pela rede. Vou configurar a CLI para baixar do Docker Hub. Se não der, aviso antes de mudar a abordagem dos testes de isolamento.
 
+### Resultado da Etapa 1 (04/11/2026)
+
+- O Supabase local roda com as imagens do Docker Hub (`SUPABASE_INTERNAL_IMAGE_REGISTRY=docker.io`); no GitHub Actions, usa o registro padrão.
+- Testes de isolamento: 78 verificações (Vitest e supabase-js), cobrindo as nove tabelas, chaves estrangeiras entre usuários, exclusão pelo dono e exclusão do cadastro em cascata. Desligar o RLS de uma tabela ou criar uma tabela fora da lista quebra 5 verificações, o que confirma que o teste pega a falha.
+- Ponta a ponta: 4 cenários de login no Playwright, em computador e celular (8 execuções).
+- O ESLint impede `new Date()`, `Date.now()`, `process`, `parseFloat` e imports de banco, rede ou tela dentro de `packages/motor`.
+
+**Escolhas de implementação** que a spec não detalhava:
+
+| Item                         | Escolha                                                                                                                                      |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Nomes das colunas de valor   | Sempre `*_centavos` (`valor_centavos`, `alvo_centavos`, `teto_variavel_centavos`)                                                            |
+| `ocorrencias.status`         | `pendente`, `paga` (fixa) ou `recebida` (renda); `pago_em` preenchido sempre que não estiver pendente                                        |
+| `lancamentos.origem`         | `manual`, `documento` ou `pagamento` (gerado ao pagar uma conta)                                                                             |
+| `documentos.tipo`            | `comprovante`, `boleto`, `fatura_cartao`, `extrato` ou `contracheque`; vazio até a extração                                                  |
+| Valores negativos            | Só em `movimentos_reserva` do tipo `ajuste`; aporte e saque são sempre positivos                                                             |
+| Perfil                       | Criado pelo gatilho de cadastro; a pessoa lê e altera, mas não cria nem exclui (só sai com o cadastro)                                       |
+| Categorias padrão            | 20 categorias copiadas no cadastro: 7 essenciais, 8 livres, 3 de receita e 2 de transferência                                                |
+| Login                        | E-mail e senha, mínimo de 8 caracteres. No ambiente local o e-mail não precisa de confirmação; na nuvem, a tela avisa que o link foi enviado |
+| Exclusão de categoria em uso | A referência fica vazia (`set null`), e o lançamento passa a "sem categoria"                                                                 |
+
 ## 4. Plano da Etapa 2: motor de cálculo
 
 O pacote `@no-azul/motor` é TypeScript puro, sem dependências em tempo de execução, sem banco, rede ou relógio. A data atual entra como parâmetro.
 
 **Módulos**
 
-| Arquivo | Conteúdo |
-| --- | --- |
-| `dinheiro.ts` | Tipo `Centavos` (inteiro), somas e divisões com arredondamento explícito (C7) |
-| `datas.ts` | Datas civis `AAAA-MM-DD` sem fuso, semana de segunda a domingo, dias do mês, dia 31 nos meses menores, meses até o prazo (C1) |
-| `recorrencias.ts` | Projeta as ocorrências de rendas e fixas de um período, juntando as previstas com as gravadas |
-| `reserva-contas.ts` | Regra 3.1: valor semanal, semana mais apertada, data limite e foto da segunda-feira (C3) |
-| `orcamento.ts` | Regra 3.2: renda, fixas, avulsas, Livre e estimativa de variáveis com a fonte usada (teto, média ou 30%) |
-| `metas.ts` | Regra 3.3: necessário, alocado, aporte semanal, situação (completa, parcial, sem verba, prazo vencido, concluída), nova data prevista e falta por mês |
-| `limite.ts` | Regra 3.4: limite mensal, semanal (soma dia a dia) e disponível por dia |
-| `saude.ts` e `config/saude.ts` | Regra 3.5: componentes, faixa, pesos e limites em configuração |
-| `semana.ts` | Junta tudo: reserva da semana igual a contas mais metas, com a explicação de cada parte |
-| `simulacao.ts` | Avança semanas aplicando aportes e pagamentos, para os testes e, depois, para a agenda |
+| Arquivo                        | Conteúdo                                                                                                                                              |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dinheiro.ts`                  | Tipo `Centavos` (inteiro), somas e divisões com arredondamento explícito (C7)                                                                         |
+| `datas.ts`                     | Datas civis `AAAA-MM-DD` sem fuso, semana de segunda a domingo, dias do mês, dia 31 nos meses menores, meses até o prazo (C1)                         |
+| `recorrencias.ts`              | Projeta as ocorrências de rendas e fixas de um período, juntando as previstas com as gravadas                                                         |
+| `reserva-contas.ts`            | Regra 3.1: valor semanal, semana mais apertada, data limite e foto da segunda-feira (C3)                                                              |
+| `orcamento.ts`                 | Regra 3.2: renda, fixas, avulsas, Livre e estimativa de variáveis com a fonte usada (teto, média ou 30%)                                              |
+| `metas.ts`                     | Regra 3.3: necessário, alocado, aporte semanal, situação (completa, parcial, sem verba, prazo vencido, concluída), nova data prevista e falta por mês |
+| `limite.ts`                    | Regra 3.4: limite mensal, semanal (soma dia a dia) e disponível por dia                                                                               |
+| `saude.ts` e `config/saude.ts` | Regra 3.5: componentes, faixa, pesos e limites em configuração                                                                                        |
+| `semana.ts`                    | Junta tudo: reserva da semana igual a contas mais metas, com a explicação de cada parte                                                               |
+| `simulacao.ts`                 | Avança semanas aplicando aportes e pagamentos, para os testes e, depois, para a agenda                                                                |
 
 A entrada do motor são objetos simples: perfil, recorrências, ocorrências, contas avulsas, lançamentos, metas e movimentos. O motor nunca recebe documentos, só dados já aprovados e gravados.
 
@@ -163,12 +184,12 @@ A entrada do motor são objetos simples: perfil, recorrências, ocorrências, co
 
 As cinco decisões da seção 8 da spec seguem a recomendação de lá: uso pessoal com estrutura para vários usuários, limite mensal de documentos, arquivo original apagado por padrão, só pessoa física e nome provisório No Azul.
 
-| # | Decisão | Recomendação |
-| --- | --- | --- |
-| D1 | Contagem de meses até o prazo (C1) | Meses de calendário; o exemplo 3.6 fica como está |
-| D2 | Critério da simulação de 52 semanas (C2) | Toda conta paga inteira pela reserva no vencimento |
-| D3 | Valor fixo na semana (C3) | Foto da segunda-feira; cadastros recalculam e mostram o motivo |
-| D4 | Fatura e fixas pagas no cartão (C4) | Fatura na reserva e fora do orçamento; marcação `paga_no_cartao` |
-| D5 | Ajustes no modelo de dados (C5 e C6) | Todos os listados |
-| D6 | Arredondamentos e casos de borda (C7 e C8) | Como proposto |
-| D7 | Deploy | Só local e CI até a Etapa 4 |
+| #   | Decisão                                    | Recomendação                                                     |
+| --- | ------------------------------------------ | ---------------------------------------------------------------- |
+| D1  | Contagem de meses até o prazo (C1)         | Meses de calendário; o exemplo 3.6 fica como está                |
+| D2  | Critério da simulação de 52 semanas (C2)   | Toda conta paga inteira pela reserva no vencimento               |
+| D3  | Valor fixo na semana (C3)                  | Foto da segunda-feira; cadastros recalculam e mostram o motivo   |
+| D4  | Fatura e fixas pagas no cartão (C4)        | Fatura na reserva e fora do orçamento; marcação `paga_no_cartao` |
+| D5  | Ajustes no modelo de dados (C5 e C6)       | Todos os listados                                                |
+| D6  | Arredondamentos e casos de borda (C7 e C8) | Como proposto                                                    |
+| D7  | Deploy                                     | Só local e CI até a Etapa 4                                      |

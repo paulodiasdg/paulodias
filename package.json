@@ -1,0 +1,48 @@
+{
+  "name": "no-azul",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @no-azul/web dev",
+    "build": "pnpm --filter @no-azul/web build",
+    "lint": "eslint .",
+    "typecheck": "pnpm -r typecheck && tsc --noEmit -p supabase/testes/tsconfig.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "pnpm -r test",
+    "test:rls": "vitest run --config supabase/testes/vitest.config.ts",
+    "test:e2e": "pnpm --filter @no-azul/web test:e2e",
+    "db:start": "supabase start -x studio,postgres-meta,mailpit,imgproxy,vector,supavisor,logflare",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "db:types": "supabase gen types typescript > apps/web/src/lib/supabase/tipos-banco.ts && prettier --write apps/web/src/lib/supabase/tipos-banco.ts",
+    "env:local": "node scripts/gerar-env-local.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "eslint-config-next": "16.4.5",
+    "@supabase/supabase-js": "2.118.0",
+    "@types/node": "22.20.5",
+    "@types/pg": "8.23.1",
+    "eslint": "9.39.5",
+    "globals": "17.14.0",
+    "pg": "8.23.1",
+    "prettier": "3.9.10",
+    "supabase": "3.0.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.1",
+    "vitest": "5.1.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "supabase",
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
+  }
+}
