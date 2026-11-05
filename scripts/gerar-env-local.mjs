@@ -8,11 +8,15 @@ try {
   status = JSON.parse(
     execFileSync('supabase', ['status', '-o', 'json'], {
       encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'ignore'],
+      stdio: ['ignore', 'pipe', 'pipe'],
+      // No Windows, a CLI instalada pelo pnpm é um atalho .cmd, que só roda pelo shell.
+      shell: process.platform === 'win32',
     }),
   );
-} catch {
+} catch (erro) {
   console.error('Supabase local não está rodando. Rode `pnpm db:start` antes.');
+  const detalhe = String(erro?.stderr ?? erro?.message ?? '').trim();
+  if (detalhe) console.error(`Detalhe: ${detalhe}`);
   process.exit(1);
 }
 

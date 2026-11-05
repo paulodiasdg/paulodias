@@ -27,6 +27,8 @@ export function lerAmbiente(): AmbienteSupabase {
     saida = execFileSync('supabase', ['status', '-o', 'json'], {
       encoding: 'utf8',
       stdio: ['ignore', 'pipe', 'ignore'],
+      // No Windows, a CLI instalada pelo pnpm é um atalho .cmd, que só roda pelo shell.
+      shell: process.platform === 'win32',
     });
   } catch {
     throw new Error('Supabase local não está rodando. Rode `pnpm db:start` antes dos testes.');
