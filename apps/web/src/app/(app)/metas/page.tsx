@@ -66,7 +66,6 @@ export default async function PaginaMetas() {
 
       {plano.metas.map((p) => {
         const situacao = SITUACOES[p.situacao];
-        const progresso = Math.min(1, p.guardadoAtualCentavos / p.meta.alvoCentavos);
         return (
           <article
             key={p.meta.id}
@@ -106,12 +105,12 @@ export default async function PaginaMetas() {
                 role="progressbar"
                 aria-valuemin={0}
                 aria-valuemax={100}
-                aria-valuenow={Math.round(progresso * 100)}
+                aria-valuenow={p.progressoPercentual}
                 aria-label={`Guardado na meta ${p.meta.nome}`}
               >
                 <div
                   className="h-full rounded-full bg-azul-600"
-                  style={{ width: `${progresso * 100}%` }}
+                  style={{ width: `${p.progressoPercentual}%` }}
                 />
               </div>
               <p className="text-sm text-slate-700" data-testid="guardado">

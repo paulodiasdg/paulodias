@@ -6,7 +6,13 @@ import {
   ErroDeValidacao,
   formatarCompetencia,
   formatarData,
+  formatarDecimos,
+  formatarDiaEMes,
+  formatarMesCurto,
+  formatarMesesDecimos,
+  formatarPercentualDecimos,
   formatarReais,
+  formatarSemana,
   hojeNoBrasil,
   lerReais,
 } from './formatacao';
@@ -25,6 +31,19 @@ describe('formatação para a tela', () => {
     expect(formatarCompetencia('2026-11')).toBe('novembro de 2026');
     expect(formatarCompetencia('2027-03')).toBe('março de 2027');
     expect(comMaiuscula(formatarCompetencia('2026-11'))).toBe('Novembro de 2026');
+    expect(formatarDiaEMes('2026-11-05')).toBe('05/11');
+    expect(formatarSemana('2026-11-02', '2026-11-08')).toBe('02/11 a 08/11');
+    expect(formatarSemana('2026-12-28', '2027-01-03')).toBe('28/12/2026 a 03/01/2027');
+    expect(formatarMesCurto('2027-03')).toBe('mar/2027');
+  });
+
+  it('mostra medidas em décimos sem ponto flutuante', () => {
+    expect(formatarDecimos(439)).toBe('43,9');
+    expect(formatarDecimos(0)).toBe('0,0');
+    expect(formatarDecimos(-15)).toBe('-1,5');
+    expect(formatarPercentualDecimos(1100)).toBe('110,0%');
+    expect(formatarMesesDecimos(15)).toBe('1,5 mês');
+    expect(formatarMesesDecimos(60)).toBe('6,0 meses');
   });
 });
 

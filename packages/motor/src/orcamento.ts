@@ -5,6 +5,7 @@ import {
   somarMesesNaCompetencia,
   ultimoDiaDa,
   type Competencia,
+  type DataCivil,
 } from './datas';
 import { dividir, proporcao, somar, type Centavos } from './dinheiro';
 import { projetarOcorrencias } from './recorrencias';
@@ -70,9 +71,15 @@ function estimarVariaveis(
   dados: DadosFinanceiros,
   competencia: Competencia,
   rendaCentavos: Centavos,
+  dadosAte: DataCivil | undefined,
 ): EstimativaDeVariaveis {
   const teto = dados.perfil.tetoVariavelCentavos;
   if (teto !== null) return { valorCentavos: teto, fonte: 'teto', mesesUsados: [] };
+
+  // Só meses encerrados entram na média. Num mês futuro, o mês de hoje (pela metade) e os
+  // seguintes ainda não aconteceram, e a estimativa fica igual à do mês de hoje.
+  const mesDeHoje = dadosAte === undefined ? null : competenciaDe(dadosAte);
+  const referencia = mesDeHoje !== null && mesDeHoje < competencia ? mesDeHoje : competencia;
 
   const mesesUsados: Competencia[] = [];
   const valores: Centavos[] = [];
@@ -81,7 +88,7 @@ function estimarVariaveis(
     passo <= MESES_MAXIMOS_DE_BUSCA && mesesUsados.length < MESES_DA_MEDIA;
     passo++
   ) {
-    const mes = somarMesesNaCompetencia(competencia, -passo);
+    const mes = somarMesesNaCompetencia(referencia, -passo);
     if (!mesCompleto(dados, mes)) break;
     const temDados = dados.lancamentos.some(
       (lancamento) => ehGastoVariavel(lancamento) && noMes(lancamento, mes),
@@ -108,8 +115,15 @@ function estimarVariaveis(
   };
 }
 
-/** Regra 3.2: orçamento de um mês. */
-export function orcamentoDoMes(dados: DadosFinanceiros, competencia: Competencia): OrcamentoDoMes {
+/**
+ * Regra 3.2: orçamento de um mês. `dadosAte` é o dia até onde há dados reais (hoje): com ele, a
+ * média de gastos variáveis de um mês futuro não usa meses que ainda não terminaram.
+ */
+export function orcamentoDoMes(
+  dados: DadosFinanceiros,
+  competencia: Competencia,
+  dadosAte?: DataCivil,
+): OrcamentoDoMes {
   const primeiroDia = primeiroDiaDa(competencia);
   const ultimoDia = ultimoDiaDa(competencia);
 
@@ -147,7 +161,7 @@ export function orcamentoDoMes(dados: DadosFinanceiros, competencia: Competencia
     fixasCentavos: fixas,
     contasAvulsasCentavos: avulsas,
     livreCentavos: renda - fixas - avulsas,
-    estimativaVariaveis: estimarVariaveis(dados, competencia, renda),
+    estimativaVariaveis: estimarVariaveis(dados, competencia, renda, dadosAte),
     gastoVariavelCentavos: gastoVariavelNoMes(dados, competencia),
   };
 }

@@ -132,3 +132,67 @@ describe('índice de saúde financeira (regra 3.5)', () => {
     ]);
   });
 });
+
+describe('medidas do índice para exibir', () => {
+  it('no cenário 3.6, dá cada medida e os limites da tabela 3.5, em décimos', () => {
+    const saude = indiceDeSaude(cenario36(), HOJE_3_6)!;
+    expect(saude.componentes.map((c) => [c.chave, c.exibicao, c.limites])).toEqual([
+      // (3.000 + 380) ÷ 7.700 = 43,9%.
+      [
+        'compromissoDaRenda',
+        { unidade: 'percentual', decimos: 439 },
+        {
+          notaMaxima: { unidade: 'percentual', decimos: 500 },
+          notaZero: { unidade: 'percentual', decimos: 800 },
+        },
+      ],
+      // (4.320 − 2.200) ÷ 7.700 = 27,5%.
+      [
+        'capacidadeDePoupar',
+        { unidade: 'percentual', decimos: 275 },
+        {
+          notaMaxima: { unidade: 'percentual', decimos: 200 },
+          notaZero: { unidade: 'percentual', decimos: 0 },
+        },
+      ],
+      // 7.800 ÷ (3.000 + 2.200) = 1,5 mês.
+      [
+        'reservaDeEmergencia',
+        { unidade: 'meses', decimos: 15 },
+        {
+          notaMaxima: { unidade: 'meses', decimos: 60 },
+          notaZero: { unidade: 'meses', decimos: 0 },
+        },
+      ],
+      [
+        'contasEmDia',
+        { unidade: 'percentual', decimos: 0 },
+        {
+          notaMaxima: { unidade: 'percentual', decimos: 0 },
+          notaZero: { unidade: 'percentual', decimos: 1000 },
+        },
+      ],
+      // 564,67 ÷ (2.200 × 7 ÷ 30) = 110,0%.
+      [
+        'ritmoDeGastos',
+        { unidade: 'percentual', decimos: 1100 },
+        {
+          notaMaxima: { unidade: 'percentual', decimos: 1000 },
+          notaZero: { unidade: 'percentual', decimos: 1500 },
+        },
+      ],
+    ]);
+  });
+
+  it('sem medida (limite zero ou sem custo mensal), não há o que exibir', () => {
+    const dados = dadosVazios({
+      perfil: { tetoVariavelCentavos: 0 },
+      recorrencias: [renda('salario', 500_000, 5)],
+    });
+    const saude = indiceDeSaude(dados, '2026-11-04')!;
+    const exibicao = Object.fromEntries(saude.componentes.map((c) => [c.chave, c.exibicao]));
+    expect(exibicao.reservaDeEmergencia).toBeNull();
+    expect(exibicao.contasEmDia).toBeNull();
+    expect(exibicao.ritmoDeGastos).toBeNull();
+  });
+});

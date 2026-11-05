@@ -1,5 +1,11 @@
 /** Rotas que exigem login. */
-export const ROTAS_PROTEGIDAS = ['/painel', '/lancamentos', '/contas', '/metas'] as const;
+export const ROTAS_PROTEGIDAS = [
+  '/painel',
+  '/lancamentos',
+  '/contas',
+  '/metas',
+  '/planejamento',
+] as const;
 
 /** Rotas de quem ainda não entrou; quem já entrou vai direto para o painel. */
 export const ROTAS_DE_ENTRADA = ['/entrar', '/criar-cadastro'] as const;

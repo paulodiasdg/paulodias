@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
 import Link from 'next/link';
 import {
   competenciaDe,
-  diferencaEmDias,
   listarContas,
   primeiroDiaDa,
   projetarOcorrencias,
@@ -13,6 +11,8 @@ import {
   type Conta,
 } from '@no-azul/motor';
 import { AcaoComConfirmacao, FormularioRapido } from '@/components/acoes-rapidas';
+import { AvisoDaReserva } from '@/components/aviso-da-reserva';
+import { ItemContaAPagar } from '@/components/conta-a-pagar';
 import { classeBotaoLink, classeBotaoPrincipalLink, Secao } from '@/components/formulario';
 import { carregarDadosFinanceiros } from '@/lib/financeiro/carregar';
 import {
@@ -29,34 +29,12 @@ import {
   corrigirReservaAcao,
   desfazerPagamentoAcao,
   desfazerRecebimentoAcao,
-  pagarContaAcao,
 } from './acoes';
 
 export const metadata: Metadata = { title: 'Contas e fixas · No Azul' };
 
 /** Quantos dias à frente a lista de contas a pagar mostra. */
 const DIAS_A_FRENTE = 45;
-
-function situacaoDoVencimento(conta: Conta, hoje: string): { texto: string; classe: string } {
-  const dias = diferencaEmDias(hoje, conta.vencimento);
-  if (dias < 0) {
-    return {
-      texto: `Vencida há ${-dias} ${dias === -1 ? 'dia' : 'dias'}`,
-      classe: 'bg-red-50 text-red-800',
-    };
-  }
-  if (dias === 0) return { texto: 'Vence hoje', classe: 'bg-amber-50 text-amber-900' };
-  return {
-    texto: `Vence em ${dias} ${dias === 1 ? 'dia' : 'dias'}`,
-    classe: 'bg-slate-100 text-slate-700',
-  };
-}
-
-function Chip({ children, classe }: { children: ReactNode; classe: string }) {
-  return (
-    <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${classe}`}>{children}</span>
-  );
-}
 
 export default async function PaginaContas() {
   const supabase = await criarClienteServidor();
@@ -108,6 +86,8 @@ export default async function PaginaContas() {
         </div>
       </div>
 
+      <AvisoDaReserva />
+
       <Secao
         id="reserva"
         titulo="Reserva de contas"
@@ -155,62 +135,9 @@ export default async function PaginaContas() {
           <p className="text-sm text-slate-600">Nenhuma conta em aberto.</p>
         ) : (
           <ul className="grid gap-3">
-            {abertas.map((conta) => {
-              const situacao = situacaoDoVencimento(conta, hoje);
-              return (
-                <li
-                  key={conta.chave}
-                  className="grid gap-2 rounded-xl border border-slate-200 p-3"
-                  data-conta={conta.nome}
-                >
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <div className="min-w-0">
-                      <p className="font-medium">{conta.nome}</p>
-                      <p className="text-sm text-slate-600">
-                        {formatarData(conta.vencimento)} ·{' '}
-                        {conta.origem === 'fixa' ? 'Despesa fixa' : 'Conta avulsa'}
-                      </p>
-                    </div>
-                    <p className="font-semibold tabular-nums">
-                      {formatarReais(conta.valorCentavos)}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <Chip classe={situacao.classe}>{situacao.texto}</Chip>
-                    {conta.pagaNoCartao ? (
-                      <Chip classe="bg-slate-100 text-slate-700">Paga no cartão</Chip>
-                    ) : null}
-                    {conta.quitaItens ? (
-                      <Chip classe="bg-slate-100 text-slate-700">Fatura com itens importados</Chip>
-                    ) : null}
-                  </div>
-                  <FormularioRapido
-                    acao={pagarContaAcao}
-                    ocultos={{ chave: conta.chave }}
-                    abrir="Pagar"
-                    enviar="Confirmar pagamento"
-                    campos={[
-                      ...(conta.origem === 'fixa'
-                        ? [
-                            {
-                              nome: 'valor',
-                              rotulo: 'Valor pago (R$)',
-                              tipo: 'valor' as const,
-                              valorInicial: centavosParaTexto(conta.valorCentavos),
-                            },
-                          ]
-                        : []),
-                      {
-                        nome: 'pagoEm',
-                        rotulo: 'Data do pagamento',
-                        tipo: 'data',
-                        valorInicial: hoje,
-                      },
-                    ]}
-                  />
-                </li>
-              );
-            })}
+            {abertas.map((conta) => (
+              <ItemContaAPagar key={conta.chave} conta={conta} hoje={hoje} />
+            ))}
           </ul>
         )}
       </Secao>

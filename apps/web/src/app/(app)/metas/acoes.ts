@@ -16,7 +16,7 @@ import {
 import { data, inteiroEntre, marcado, obrigatorio, texto, valor } from '@/lib/formularios';
 import { criarClienteServidor } from '@/lib/supabase/servidor';
 
-const TELAS = ['/metas', '/painel'];
+const TELAS = ['/metas', '/painel', '/planejamento'];
 
 function lerMeta(f: FormData): DadosDaMeta {
   return {

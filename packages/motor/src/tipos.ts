@@ -84,6 +84,13 @@ export interface MovimentoReserva {
   contaAvulsaId: string | null;
 }
 
+/** Categoria de lançamentos e contas; o grupo separa necessidades e desejos (50/30/20). */
+export interface Categoria {
+  id: string;
+  nome: string;
+  grupo: 'essencial' | 'livre' | 'receita' | 'transferencia';
+}
+
 export interface DadosFinanceiros {
   perfil: Perfil;
   recorrencias: readonly Recorrencia[];
@@ -92,4 +99,6 @@ export interface DadosFinanceiros {
   lancamentos: readonly Lancamento[];
   metas: readonly Meta[];
   movimentos: readonly MovimentoReserva[];
+  /** Categorias da pessoa; sem elas, todo gasto conta como sem categoria. */
+  categorias?: readonly Categoria[];
 }

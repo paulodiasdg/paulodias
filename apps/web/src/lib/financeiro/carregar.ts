@@ -1,5 +1,11 @@
 import type { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
-import type { DadosFinanceiros, Meta, MovimentoReserva, Ocorrencia } from '@no-azul/motor';
+import type {
+  Categoria,
+  DadosFinanceiros,
+  Meta,
+  MovimentoReserva,
+  Ocorrencia,
+} from '@no-azul/motor';
 import { dataCivilEm } from '@/lib/formatacao';
 import type { Database, Tables } from '@/lib/supabase/tipos-banco';
 
@@ -32,6 +38,7 @@ export interface LinhasDoBanco {
   lancamentos: Tables<'lancamentos'>[];
   metas: Tables<'metas'>[];
   movimentos: Tables<'movimentos_reserva'>[];
+  categorias: Pick<Tables<'categorias'>, 'id' | 'nome' | 'grupo'>[];
 }
 
 /**
@@ -104,6 +111,11 @@ export function paraDadosFinanceiros(linhas: LinhasDoBanco): DadosFinanceiros {
       ocorrenciaId: m.ocorrencia_id,
       contaAvulsaId: m.conta_avulsa_id,
     })),
+    categorias: linhas.categorias.map((c): Categoria => ({
+      id: c.id,
+      nome: c.nome,
+      grupo: c.grupo as Categoria['grupo'],
+    })),
   };
 }
 
@@ -111,18 +123,29 @@ export function paraDadosFinanceiros(linhas: LinhasDoBanco): DadosFinanceiros {
 export async function carregarDadosFinanceiros(
   supabase: ClienteSupabase,
 ): Promise<DadosFinanceiros> {
-  const [perfil, recorrencias, ocorrencias, contasAvulsas, lancamentos, metas, movimentos] =
-    await Promise.all([
-      supabase.from('perfis').select('teto_variavel_centavos, criado_em').single(),
-      lerTodas((de, ate) => supabase.from('recorrencias').select('*').order('id').range(de, ate)),
-      lerTodas((de, ate) => supabase.from('ocorrencias').select('*').order('id').range(de, ate)),
-      lerTodas((de, ate) => supabase.from('contas_avulsas').select('*').order('id').range(de, ate)),
-      lerTodas((de, ate) => supabase.from('lancamentos').select('*').order('id').range(de, ate)),
-      lerTodas((de, ate) => supabase.from('metas').select('*').order('id').range(de, ate)),
-      lerTodas((de, ate) =>
-        supabase.from('movimentos_reserva').select('*').order('id').range(de, ate),
-      ),
-    ]);
+  const [
+    perfil,
+    recorrencias,
+    ocorrencias,
+    contasAvulsas,
+    lancamentos,
+    metas,
+    movimentos,
+    categorias,
+  ] = await Promise.all([
+    supabase.from('perfis').select('teto_variavel_centavos, criado_em').single(),
+    lerTodas((de, ate) => supabase.from('recorrencias').select('*').order('id').range(de, ate)),
+    lerTodas((de, ate) => supabase.from('ocorrencias').select('*').order('id').range(de, ate)),
+    lerTodas((de, ate) => supabase.from('contas_avulsas').select('*').order('id').range(de, ate)),
+    lerTodas((de, ate) => supabase.from('lancamentos').select('*').order('id').range(de, ate)),
+    lerTodas((de, ate) => supabase.from('metas').select('*').order('id').range(de, ate)),
+    lerTodas((de, ate) =>
+      supabase.from('movimentos_reserva').select('*').order('id').range(de, ate),
+    ),
+    lerTodas((de, ate) =>
+      supabase.from('categorias').select('id, nome, grupo').order('id').range(de, ate),
+    ),
+  ]);
   if (perfil.error || !perfil.data) throw new Error('Perfil não encontrado.');
 
   return paraDadosFinanceiros({
@@ -133,5 +156,6 @@ export async function carregarDadosFinanceiros(
     lancamentos,
     metas,
     movimentos,
+    categorias,
   });
 }

@@ -13,7 +13,7 @@ import {
 import { data, obrigatorio, opcional, texto, valor } from '@/lib/formularios';
 import { criarClienteServidor } from '@/lib/supabase/servidor';
 
-const TELAS = ['/lancamentos', '/painel'];
+const TELAS = ['/lancamentos', '/painel', '/planejamento'];
 const TIPOS = ['despesa', 'receita', 'transferencia'] as const;
 
 function lerLancamento(f: FormData): DadosDoLancamento {

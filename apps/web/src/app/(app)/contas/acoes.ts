@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { executar } from '@/lib/acoes';
 import type { EstadoFormulario } from '@/lib/estado-formulario';
+import { comAvisoDaReserva } from '@/lib/financeiro/aviso-no-servidor';
 import { hojeNoBrasil } from '@/lib/formatacao';
 import {
   confirmarRecebimento,
@@ -33,7 +34,7 @@ import {
 } from '@/lib/formularios';
 import { criarClienteServidor } from '@/lib/supabase/servidor';
 
-const TELAS = ['/contas', '/lancamentos', '/painel'];
+const TELAS = ['/contas', '/lancamentos', '/painel', '/planejamento'];
 
 export async function pagarContaAcao(_: EstadoFormulario, f: FormData): Promise<EstadoFormulario> {
   const supabase = await criarClienteServidor();
@@ -114,10 +115,12 @@ export async function corrigirReservaAcao(
   return executar(
     f,
     () =>
-      corrigirSaldo(supabase, {
-        saldoCorretoCentavos: valor(f, 'valor', 'saldo correto'),
-        data: hojeNoBrasil(),
-      }),
+      comAvisoDaReserva(supabase, () =>
+        corrigirSaldo(supabase, {
+          saldoCorretoCentavos: valor(f, 'valor', 'saldo correto'),
+          data: hojeNoBrasil(),
+        }),
+      ),
     TELAS,
     'Saldo corrigido.',
   );
@@ -149,10 +152,12 @@ export async function salvarRecorrenciaAcao(
   const id = texto(f, 'id');
   const estado = await executar(
     f,
-    () =>
-      id
-        ? editarRecorrencia(supabase, id, lerRecorrencia(f))
-        : criarRecorrencia(supabase, lerRecorrencia(f)),
+    () => {
+      const dados = lerRecorrencia(f);
+      return comAvisoDaReserva(supabase, () =>
+        id ? editarRecorrencia(supabase, id, dados) : criarRecorrencia(supabase, dados),
+      );
+    },
     TELAS,
   );
   if (estado.ok) redirect('/contas');
@@ -166,7 +171,10 @@ export async function encerrarRecorrenciaAcao(
   const supabase = await criarClienteServidor();
   const estado = await executar(
     f,
-    () => encerrarRecorrencia(supabase, obrigatorio(f, 'id', 'o cadastro'), hojeNoBrasil()),
+    () => {
+      const id = obrigatorio(f, 'id', 'o cadastro');
+      return comAvisoDaReserva(supabase, () => encerrarRecorrencia(supabase, id, hojeNoBrasil()));
+    },
     TELAS,
   );
   if (estado.ok) redirect('/contas');
@@ -180,7 +188,10 @@ export async function reativarRecorrenciaAcao(
   const supabase = await criarClienteServidor();
   const estado = await executar(
     f,
-    () => reativarRecorrencia(supabase, obrigatorio(f, 'id', 'o cadastro')),
+    () => {
+      const id = obrigatorio(f, 'id', 'o cadastro');
+      return comAvisoDaReserva(supabase, () => reativarRecorrencia(supabase, id));
+    },
     TELAS,
   );
   if (estado.ok) redirect('/contas');
@@ -194,7 +205,10 @@ export async function excluirRecorrenciaAcao(
   const supabase = await criarClienteServidor();
   const estado = await executar(
     f,
-    () => excluirRecorrencia(supabase, obrigatorio(f, 'id', 'o cadastro')),
+    () => {
+      const id = obrigatorio(f, 'id', 'o cadastro');
+      return comAvisoDaReserva(supabase, () => excluirRecorrencia(supabase, id));
+    },
     TELAS,
   );
   if (estado.ok) redirect('/contas');
@@ -223,10 +237,12 @@ export async function salvarContaAvulsaAcao(
   const id = texto(f, 'id');
   const estado = await executar(
     f,
-    () =>
-      id
-        ? editarContaAvulsa(supabase, id, lerContaAvulsa(f))
-        : criarContaAvulsa(supabase, lerContaAvulsa(f)),
+    () => {
+      const dados = lerContaAvulsa(f);
+      return comAvisoDaReserva(supabase, () =>
+        id ? editarContaAvulsa(supabase, id, dados) : criarContaAvulsa(supabase, dados),
+      );
+    },
     TELAS,
   );
   if (estado.ok) redirect('/contas');
@@ -240,7 +256,10 @@ export async function excluirContaAvulsaAcao(
   const supabase = await criarClienteServidor();
   const estado = await executar(
     f,
-    () => excluirContaAvulsa(supabase, obrigatorio(f, 'id', 'a conta')),
+    () => {
+      const id = obrigatorio(f, 'id', 'a conta');
+      return comAvisoDaReserva(supabase, () => excluirContaAvulsa(supabase, id));
+    },
     TELAS,
   );
   if (estado.ok) redirect('/contas');

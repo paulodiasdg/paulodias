@@ -24,7 +24,7 @@ export function limiteMensal(
   competencia: Competencia,
   hoje: DataCivil,
 ): Centavos {
-  const orcamento = orcamentoDoMes(dados, competencia);
+  const orcamento = orcamentoDoMes(dados, competencia, hoje);
   const metas = planoDasMetas(dados, hoje, competencia);
   const semTeto = orcamento.livreCentavos - metas.alocadoMensalCentavos;
   const teto = dados.perfil.tetoVariavelCentavos;

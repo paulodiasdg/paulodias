@@ -13,13 +13,16 @@ export function hojeEmBrasilia(): { iso: string; dia: number } {
   return { iso: `${parte('year')}-${parte('month')}-${parte('day')}`, dia: Number(parte('day')) };
 }
 
-/** Cria um cadastro novo pela tela e termina no painel. */
-export async function entrarComCadastroNovo(page: Page) {
+/** Cria um cadastro novo pela tela e termina no painel. Devolve o e-mail e a senha. */
+export async function entrarComCadastroNovo(page: Page): Promise<{ email: string; senha: string }> {
   const id = randomUUID().slice(0, 8);
+  const email = `e2e-${id}@teste.noazul.dev`;
+  const senha = `senha-${id}-ok`;
   await page.goto('/criar-cadastro');
   await page.getByLabel('Como quer ser chamado').fill(`Pessoa ${id}`);
-  await page.getByLabel('E-mail').fill(`e2e-${id}@teste.noazul.dev`);
-  await page.getByLabel('Senha (mínimo de 8 caracteres)').fill(`senha-${id}-ok`);
+  await page.getByLabel('E-mail').fill(email);
+  await page.getByLabel('Senha (mínimo de 8 caracteres)').fill(senha);
   await page.getByRole('button', { name: 'Criar cadastro' }).click();
   await expect(page).toHaveURL(/\/painel$/);
+  return { email, senha };
 }

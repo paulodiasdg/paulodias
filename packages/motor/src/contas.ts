@@ -1,4 +1,4 @@
-import type { Competencia, DataCivil } from './datas';
+import { somarDias, type Competencia, type DataCivil } from './datas';
 import type { Centavos } from './dinheiro';
 import { projetarOcorrencias } from './recorrencias';
 import type { DadosFinanceiros } from './tipos';
@@ -20,6 +20,7 @@ export interface Conta {
   quitaItens: boolean;
   /** Fixa paga pela fatura do cartão: entra no orçamento, fica fora da reserva (D4). */
   pagaNoCartao: boolean;
+  categoriaId: string | null;
 }
 
 /** Contas com vencimento até `ate` (e a partir de `de`, se informado), em ordem de vencimento. */
@@ -41,6 +42,7 @@ export function listarContas(
     contaAvulsaId: null,
     quitaItens: false,
     pagaNoCartao: ocorrencia.recorrencia.pagaNoCartao ?? false,
+    categoriaId: ocorrencia.recorrencia.categoriaId ?? null,
   }));
 
   const avulsas: Conta[] = dados.contasAvulsas
@@ -58,6 +60,7 @@ export function listarContas(
       contaAvulsaId: conta.id,
       quitaItens: conta.quitaItens,
       pagaNoCartao: false,
+      categoriaId: conta.categoriaId ?? null,
     }));
 
   return [...fixas, ...avulsas].sort(
@@ -78,4 +81,24 @@ export function entraNoOrcamento(conta: Conta): boolean {
 /** A conta estava em aberto na data (pagamentos feitos nesse dia ou depois não contam). */
 export function estavaEmAberto(conta: Conta, data: DataCivil): boolean {
   return conta.pagoEm === null || conta.pagoEm >= data;
+}
+
+/**
+ * Conta vencida: em aberto e com vencimento antes de hoje. Fixa paga no cartão não conta, porque
+ * sai pela fatura (é a mesma regra do índice de saúde e do alerta do painel).
+ */
+export function contasVencidas(dados: DadosFinanceiros, hoje: DataCivil): Conta[] {
+  return listarContas(dados, null, somarDias(hoje, -1)).filter(
+    (conta) => entraNaReservaDeContas(conta) && conta.pagoEm === null,
+  );
+}
+
+/** Quantos dias o painel mostra em "próximas contas", contando hoje. */
+export const DIAS_DAS_PROXIMAS_CONTAS = 14;
+
+/** Contas em aberto com vencimento até os próximos 14 dias, incluindo as vencidas. */
+export function proximasContas(dados: DadosFinanceiros, hoje: DataCivil): Conta[] {
+  return listarContas(dados, null, somarDias(hoje, DIAS_DAS_PROXIMAS_CONTAS - 1)).filter(
+    (conta) => conta.pagoEm === null,
+  );
 }

@@ -85,6 +85,7 @@ export function FormularioRapido({
   abrir,
   enviar,
   sucesso,
+  sobreFundoEscuro = false,
 }: {
   acao: Acao;
   ocultos: Record<string, string>;
@@ -92,6 +93,8 @@ export function FormularioRapido({
   abrir: string;
   enviar: string;
   sucesso?: string;
+  /** Botão claro, para quando o formulário fica sobre um fundo azul. */
+  sobreFundoEscuro?: boolean;
 }) {
   const [estado, executar, pendente] = useActionState<EstadoFormulario, FormData>(acao, {});
   // Guarda o estado de quando o formulário abriu: um estado novo com ok fecha o formulário.
@@ -106,7 +109,7 @@ export function FormularioRapido({
           <button
             type="button"
             onClick={() => setAbertoEm(estado)}
-            className="rounded-lg bg-azul-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-azul-700"
+            className={`rounded-lg px-3 py-1.5 text-sm font-medium ${sobreFundoEscuro ? 'bg-white text-azul-700 hover:bg-azul-50' : 'bg-azul-600 text-white hover:bg-azul-700'}`}
           >
             {abrir}
           </button>
@@ -117,7 +120,7 @@ export function FormularioRapido({
   }
 
   return (
-    <form action={executar} className="grid gap-3 rounded-xl bg-slate-50 p-3">
+    <form action={executar} className="grid gap-3 rounded-xl bg-slate-50 p-3 text-slate-900">
       {Object.entries(ocultos).map(([nome, valor]) => (
         <input key={nome} type="hidden" name={nome} value={valor} />
       ))}

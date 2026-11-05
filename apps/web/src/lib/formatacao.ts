@@ -101,3 +101,39 @@ export function dataCivilEm(instante: Date, fuso: string = FUSO): DataCivil {
 export function hojeNoBrasil(agora: Date = new Date()): DataCivil {
   return dataCivilEm(agora);
 }
+
+/** AAAA-MM-DD para dd/mm, nas faixas de semana ("02/11 a 08/11"). */
+export function formatarDiaEMes(data: DataCivil): string {
+  const [, mes, dia] = data.split('-');
+  return `${dia}/${mes}`;
+}
+
+/** "02/11 a 08/11"; com anos diferentes, as datas completas. */
+export function formatarSemana(inicio: DataCivil, fim: DataCivil): string {
+  return inicio.slice(0, 4) === fim.slice(0, 4)
+    ? `${formatarDiaEMes(inicio)} a ${formatarDiaEMes(fim)}`
+    : `${formatarData(inicio)} a ${formatarData(fim)}`;
+}
+
+/** AAAA-MM para "nov/2026", nas colunas da projeção. */
+export function formatarMesCurto(competencia: Competencia): string {
+  const [ano, mes] = competencia.split('-');
+  return `${MESES[Number(mes) - 1]!.slice(0, 3)}/${ano}`;
+}
+
+/** Número em décimos (inteiro) com uma casa e vírgula: 439 → "43,9". */
+export function formatarDecimos(decimos: number): string {
+  const sinal = decimos < 0 ? '-' : '';
+  const absoluto = Math.abs(decimos);
+  return `${sinal}${Math.trunc(absoluto / 10)},${absoluto % 10}`;
+}
+
+/** Percentual em décimos: 439 → "43,9%". */
+export function formatarPercentualDecimos(decimos: number): string {
+  return `${formatarDecimos(decimos)}%`;
+}
+
+/** Meses em décimos: 15 → "1,5 mês"; 60 → "6,0 meses". */
+export function formatarMesesDecimos(decimos: number): string {
+  return `${formatarDecimos(decimos)} ${Math.abs(decimos) < 20 ? 'mês' : 'meses'}`;
+}

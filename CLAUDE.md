@@ -4,7 +4,7 @@ Sistema de controle financeiro pessoal que lê documentos e diz, toda semana, qu
 
 - Especificação: `docs/SPEC.md` (fonte da verdade do produto).
 - Revisão da especificação, decisões e plano por etapa: `docs/PLANO.md`. Uma decisão aprovada ali prevalece sobre o texto original da spec.
-- Estado atual: **Etapa 3 (cadastros e lançamentos) entregue; aguardando o Paulo conferir os testes para começar a Etapa 4 (painel e planejamento).** Atualize esta linha ao concluir cada etapa.
+- Estado atual: **Etapa 4 (painel e planejamento) entregue; aguardando o Paulo conferir os testes para começar a Etapa 5 (leitura de documentos).** Atualize esta linha ao concluir cada etapa.
 
 ## Stack
 
@@ -41,6 +41,9 @@ docs/                 SPEC.md e PLANO.md
 - O "hoje" do app é o horário de Brasília (`hojeNoBrasil()` em `apps/web/src/lib/formatacao.ts`); é ele que vai para o motor.
 - Imports dentro de `packages/motor` não levam extensão (`./datas`, não `./datas.js`): o Turbopack do Next não resolve `.js` para `.ts`.
 - `packages/motor/src/index.ts` é a API pública do motor; `resumoDaSemana(dados, hoje)` devolve tudo o que o painel mostra. `packages/motor/src/testes/cenario-3-6.ts` monta o cenário da seção 3.6 da spec.
+- Planejamento no motor: `agendaDeReservas` e `projecaoDeMeses` (`plano.ts`, sobre a simulação `simularPlano`), `comparacao503020`, `alertasDaSemana`, `gastosDaSemana`, `semanaPassada`. As regras estão em `docs/PLANO.md`, seção 4c.
+- Todo número que o painel e o planejamento mostram passa pelos componentes `Valor` (reais) e `Numero` (`apps/web/src/components/numeros.tsx`), com uma chave. O teste de aceite (`apps/web/e2e/painel.spec.ts`) calcula os mesmos números com o motor em `e2e/painel-esperado.ts` e falha se a tela mostrar um "R$" fora deles. Número novo na tela entra nos dois lugares.
+- Gráficos com Recharts só desenham; os valores ficam em texto ao lado, para leitura de tela e para o teste.
 
 ## Comandos
 

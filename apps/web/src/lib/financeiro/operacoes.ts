@@ -170,6 +170,55 @@ export async function registrarAporte(
   return resultado(error);
 }
 
+/**
+ * Registra a reserva da semana: um aporte para a reserva de contas e um para cada meta, em uma
+ * única inserção (o banco grava todos ou nenhum). Valores zerados ficam de fora.
+ */
+export async function registrarReservaDaSemana(
+  supabase: ClienteSupabase,
+  pedido: {
+    data: DataCivil;
+    contasCentavos: Centavos;
+    metas: { metaId: string; valorCentavos: Centavos }[];
+  },
+): Promise<Resultado> {
+  const valores = [pedido.contasCentavos, ...pedido.metas.map((m) => m.valorCentavos)];
+  if (valores.some((v) => !Number.isSafeInteger(v) || v < 0)) {
+    return { ok: false, erro: 'Os valores precisam ser zero ou mais.' };
+  }
+  const linhas = [
+    ...(pedido.contasCentavos > 0
+      ? [{ destino: 'contas', meta_id: null, valor_centavos: pedido.contasCentavos }]
+      : []),
+    ...pedido.metas
+      .filter((m) => m.valorCentavos > 0)
+      .map((m) => ({ destino: 'meta', meta_id: m.metaId, valor_centavos: m.valorCentavos })),
+  ].map((linha) => ({ ...linha, data: pedido.data, tipo: 'aporte' }));
+  if (linhas.length === 0) return { ok: false, erro: 'Informe ao menos um valor para guardar.' };
+
+  const { error } = await supabase.from('movimentos_reserva').insert(linhas);
+  return resultado(error);
+}
+
+/** Define o teto de gastos variáveis do perfil, ou o remove com null. */
+export async function definirTeto(
+  supabase: ClienteSupabase,
+  tetoCentavos: Centavos | null,
+): Promise<Resultado> {
+  if (tetoCentavos !== null && (!Number.isSafeInteger(tetoCentavos) || tetoCentavos < 0)) {
+    return { ok: false, erro: 'O teto precisa ser zero ou mais.' };
+  }
+  const { data: sessao } = await supabase.auth.getClaims();
+  const usuarioId = sessao?.claims?.sub;
+  if (typeof usuarioId !== 'string') return { ok: false, erro: 'Entre de novo para continuar.' };
+
+  const { error } = await supabase
+    .from('perfis')
+    .update({ teto_variavel_centavos: tetoCentavos })
+    .eq('usuario_id', usuarioId);
+  return resultado(error);
+}
+
 /** Corrige o saldo com um movimento de ajuste: saldos nunca são editados direto. */
 export async function corrigirSaldo(
   supabase: ClienteSupabase,
