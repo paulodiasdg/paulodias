@@ -150,7 +150,7 @@ export function Secao({
     <section
       id={id}
       aria-labelledby={id ? `${id}-titulo` : undefined}
-      className="grid gap-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5"
+      className="grid content-start gap-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5"
     >
       <header className="flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0">
