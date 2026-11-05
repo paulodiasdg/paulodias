@@ -5,7 +5,7 @@ import type {
   Meta,
   MovimentoReserva,
   Recorrencia,
-} from '../tipos.js';
+} from '../tipos';
 
 /** Construtores de dados para os testes, com padrões neutros. */
 

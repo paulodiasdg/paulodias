@@ -1,14 +1,14 @@
-import { entraNoOrcamento, listarContas } from './contas.js';
+import { entraNoOrcamento, listarContas } from './contas';
 import {
   competenciaDe,
   primeiroDiaDa,
   somarMesesNaCompetencia,
   ultimoDiaDa,
   type Competencia,
-} from './datas.js';
-import { dividir, proporcao, somar, type Centavos } from './dinheiro.js';
-import { projetarOcorrencias } from './recorrencias.js';
-import type { DadosFinanceiros, Lancamento } from './tipos.js';
+} from './datas';
+import { dividir, proporcao, somar, type Centavos } from './dinheiro';
+import { projetarOcorrencias } from './recorrencias';
+import type { DadosFinanceiros, Lancamento } from './tipos';
 
 /** Sem teto e sem histórico, a estimativa de gastos variáveis é 30% da renda (regra 3.2). */
 export const PERCENTUAL_VARIAVEIS_SEM_HISTORICO = 30;

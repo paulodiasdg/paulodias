@@ -56,6 +56,9 @@ jobs:
       - name: Testes de isolamento entre usuários (RLS)
         run: pnpm test:rls
 
+      - name: Testes de integração com o banco (pagar, desfazer, cadastros)
+        run: pnpm test:integracao
+
       - name: Gerar apps/web/.env.local
         run: pnpm env:local
 

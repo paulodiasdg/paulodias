@@ -21,7 +21,7 @@ import {
   somarMeses,
   somarMesesNaCompetencia,
   ultimoDiaDa,
-} from './datas.js';
+} from './datas';
 
 describe('datas civis', () => {
   it('converte datas em número do dia e volta, sem perder nenhum dia', () => {

@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { listarContas, type Conta } from './contas.js';
-import { somarDias } from './datas.js';
-import { desfazerPagamento, pagarConta, registrarAporte } from './operacoes.js';
-import { calcularReservaContas, motivosDaMudanca } from './reserva-contas.js';
-import { resumoDaSemana } from './semana.js';
-import { cenario36, HOJE_3_6 } from './testes/cenario-3-6.js';
-import { avulsa, movimento } from './testes/construtores.js';
-import type { DadosFinanceiros } from './tipos.js';
+import { listarContas, type Conta } from './contas';
+import { somarDias } from './datas';
+import { desfazerPagamento, pagarConta, registrarAporte } from './operacoes';
+import { calcularReservaContas, motivosDaMudanca } from './reserva-contas';
+import { resumoDaSemana } from './semana';
+import { cenario36, HOJE_3_6 } from './testes/cenario-3-6';
+import { avulsa, movimento } from './testes/construtores';
+import type { DadosFinanceiros } from './tipos';
 
 /** Aceite da Etapa 2: registrar a reserva não muda o valor pedido naquela semana (D3). */
 

@@ -1,16 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { indiceDeSaude } from './saude.js';
-import { cenario36, HOJE_3_6 } from './testes/cenario-3-6.js';
-import {
-  avulsa,
-  dadosVazios,
-  despesa,
-  fixa,
-  meta,
-  movimento,
-  renda,
-} from './testes/construtores.js';
-import type { DadosFinanceiros } from './tipos.js';
+import { indiceDeSaude } from './saude';
+import { cenario36, HOJE_3_6 } from './testes/cenario-3-6';
+import { avulsa, dadosVazios, despesa, fixa, meta, movimento, renda } from './testes/construtores';
+import type { DadosFinanceiros } from './tipos';
 
 function pontos(dados: DadosFinanceiros, hoje: string) {
   const indice = indiceDeSaude(dados, hoje);

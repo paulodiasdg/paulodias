@@ -481,7 +481,33 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      confirmar_recebimento: {
+        Args: {
+          p_competencia: string;
+          p_recebido_em: string;
+          p_recorrencia_id: string;
+          p_valor_centavos: number;
+        };
+        Returns: undefined;
+      };
+      desfazer_pagamento: {
+        Args: { p_conta_avulsa_id?: string; p_ocorrencia_id?: string };
+        Returns: undefined;
+      };
+      desfazer_recebimento: { Args: { p_ocorrencia_id: string }; Returns: undefined };
+      excluir_meta: { Args: { p_meta_id: string }; Returns: undefined };
+      registrar_pagamento: {
+        Args: {
+          p_competencia?: string;
+          p_conta_avulsa_id?: string;
+          p_pago_em: string;
+          p_recorrencia_id?: string;
+          p_saque_centavos: number;
+          p_tipo_lancamento?: string;
+          p_valor_centavos: number;
+        };
+        Returns: undefined;
+      };
     };
     Enums: {
       [_ in never]: never;

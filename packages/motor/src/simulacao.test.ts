@@ -1,10 +1,10 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import { montarData, somarDias } from './datas.js';
-import { simularSemanas } from './simulacao.js';
-import { cenario36, HOJE_3_6 } from './testes/cenario-3-6.js';
-import { avulsa, dadosVazios, fixa, movimento } from './testes/construtores.js';
-import type { DadosFinanceiros } from './tipos.js';
+import { montarData, somarDias } from './datas';
+import { simularSemanas } from './simulacao';
+import { cenario36, HOJE_3_6 } from './testes/cenario-3-6';
+import { avulsa, dadosVazios, fixa, movimento } from './testes/construtores';
+import type { DadosFinanceiros } from './tipos';
 
 /** Gera uma data entre 2026 e 2030, sempre existente (dia até 28). */
 const dataArbitraria = fc

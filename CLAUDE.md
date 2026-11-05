@@ -4,7 +4,7 @@ Sistema de controle financeiro pessoal que lê documentos e diz, toda semana, qu
 
 - Especificação: `docs/SPEC.md` (fonte da verdade do produto).
 - Revisão da especificação, decisões e plano por etapa: `docs/PLANO.md`. Uma decisão aprovada ali prevalece sobre o texto original da spec.
-- Estado atual: **Etapa 2 (motor de cálculo) entregue; aguardando o Paulo conferir os testes para começar a Etapa 3 (cadastros e lançamentos).** Atualize esta linha ao concluir cada etapa.
+- Estado atual: **Etapa 3 (cadastros e lançamentos) entregue; aguardando o Paulo conferir os testes para começar a Etapa 4 (painel e planejamento).** Atualize esta linha ao concluir cada etapa.
 
 ## Stack
 
@@ -37,6 +37,9 @@ docs/                 SPEC.md e PLANO.md
 - `apps/web/src/lib/supabase/tipos-banco.ts` é gerado por `pnpm db:types`; não edite à mão. O CI falha se ele estiver desatualizado em relação às migrações.
 - `supabase/testes/tabelas.ts` lista todas as tabelas. Tabela nova entra nessa lista e nos casos de `isolamento.test.ts`, senão o meta-teste falha.
 - O Next.js instalado traz a documentação da versão em `node_modules/next/dist/docs/`; consulte antes de usar APIs do framework.
+- `apps/web/src/lib/financeiro/` liga o app ao banco: `carregar.ts` lê os dados de quem está logado e os converte para o motor; `operacoes.ts` grava as mudanças. Operações de várias tabelas (pagar, desfazer, receber, excluir meta) chamam funções do banco que gravam tudo em uma transação; o que elas gravam vem do motor (`planoDePagamento`).
+- O "hoje" do app é o horário de Brasília (`hojeNoBrasil()` em `apps/web/src/lib/formatacao.ts`); é ele que vai para o motor.
+- Imports dentro de `packages/motor` não levam extensão (`./datas`, não `./datas.js`): o Turbopack do Next não resolve `.js` para `.ts`.
 - `packages/motor/src/index.ts` é a API pública do motor; `resumoDaSemana(dados, hoje)` devolve tudo o que o painel mostra. `packages/motor/src/testes/cenario-3-6.ts` monta o cenário da seção 3.6 da spec.
 
 ## Comandos
@@ -59,10 +62,11 @@ pnpm db:stop                       # derruba o Supabase local
 pnpm db:types                      # gera os tipos TypeScript do banco
 pnpm env:local                     # gera apps/web/.env.local a partir do Supabase local
 pnpm test:rls                      # isolamento entre usuários (precisa do Supabase local)
+pnpm test:integracao               # operações do app gravando no banco local (precisa do Supabase local)
 pnpm test:e2e                      # Playwright, computador e celular (precisa do Supabase local)
 ```
 
-Antes de dar uma tarefa por concluída, rode `pnpm lint`, `pnpm typecheck` e `pnpm test`. Se mexer em migração ou política, rode também `pnpm db:reset`, `pnpm db:types` e `pnpm test:rls`. Se mexer em tela ou rota, rode `pnpm test:e2e`.
+Antes de dar uma tarefa por concluída, rode `pnpm lint`, `pnpm typecheck` e `pnpm test`. Se mexer em migração, política ou operação do app, rode também `pnpm db:reset`, `pnpm db:types`, `pnpm test:rls` e `pnpm test:integracao`. Se mexer em tela ou rota, rode `pnpm test:e2e`.
 
 Para o Supabase completo, com Studio, use `pnpm exec supabase start`.
 

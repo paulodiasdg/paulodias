@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { limiteDeGastos, limiteMensal } from './limite.js';
-import { dadosVazios, despesa, fixa, meta, renda } from './testes/construtores.js';
+import { limiteDeGastos, limiteMensal } from './limite';
+import { dadosVazios, despesa, fixa, meta, renda } from './testes/construtores';
 
 describe('limite de gastos (regra 3.4)', () => {
   it('sem teto, vale Livre − metas alocadas', () => {

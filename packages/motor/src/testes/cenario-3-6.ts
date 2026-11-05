@@ -1,5 +1,5 @@
-import type { DadosFinanceiros } from '../tipos.js';
-import { avulsa, dadosVazios, despesa, fixa, meta, movimento, renda } from './construtores.js';
+import type { DadosFinanceiros } from '../tipos';
+import { avulsa, dadosVazios, despesa, fixa, meta, movimento, renda } from './construtores';
 
 /**
  * Cenário fictício da seção 3.6 da spec, montado em quarta-feira, 04/11/2026. A semana 1 vai de

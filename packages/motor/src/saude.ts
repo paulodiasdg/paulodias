@@ -1,6 +1,6 @@
-import { dividirInteiros, paraInteiroSeguro } from './aritmetica.js';
-import { CONFIG_SAUDE, type ConfigSaude, type FaixaDeSaude } from './config/saude.js';
-import { entraNaReservaDeContas, listarContas } from './contas.js';
+import { dividirInteiros, paraInteiroSeguro } from './aritmetica';
+import { CONFIG_SAUDE, type ConfigSaude, type FaixaDeSaude } from './config/saude';
+import { entraNaReservaDeContas, listarContas } from './contas';
 import {
   competenciaDe,
   diasDaCompetencia,
@@ -8,12 +8,12 @@ import {
   primeiroDiaDa,
   somarDias,
   type DataCivil,
-} from './datas.js';
-import { somar, type Centavos } from './dinheiro.js';
-import { gastoVariavelEntre, limiteMensal } from './limite.js';
-import { saldoEm } from './movimentos.js';
-import { orcamentoDoMes } from './orcamento.js';
-import type { DadosFinanceiros } from './tipos.js';
+} from './datas';
+import { somar, type Centavos } from './dinheiro';
+import { gastoVariavelEntre, limiteMensal } from './limite';
+import { saldoEm } from './movimentos';
+import { orcamentoDoMes } from './orcamento';
+import type { DadosFinanceiros } from './tipos';
 
 export type ChaveDoComponente = Exclude<keyof ConfigSaude, 'faixas'>;
 

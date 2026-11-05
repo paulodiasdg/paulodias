@@ -1,12 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import {
-  entraNaReservaDeContas,
-  entraNoOrcamento,
-  estavaEmAberto,
-  listarContas,
-} from './contas.js';
-import { projetarOcorrencias } from './recorrencias.js';
-import { avulsa, dadosVazios, fixa, renda } from './testes/construtores.js';
+import { entraNaReservaDeContas, entraNoOrcamento, estavaEmAberto, listarContas } from './contas';
+import { projetarOcorrencias } from './recorrencias';
+import { avulsa, dadosVazios, fixa, renda } from './testes/construtores';
 
 describe('projeção de recorrências', () => {
   it('projeta uma ocorrência por mês a partir do início, no dia certo', () => {

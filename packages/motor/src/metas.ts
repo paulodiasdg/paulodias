@@ -1,4 +1,4 @@
-import { dividirInteiros, paraInteiroSeguro } from './aritmetica.js';
+import { dividirInteiros, paraInteiroSeguro } from './aritmetica';
 import {
   competenciaDe,
   inicioDaSemana,
@@ -6,11 +6,11 @@ import {
   somarMeses,
   type Competencia,
   type DataCivil,
-} from './datas.js';
-import { paraCimaEmReais, proporcao, somar, type Centavos } from './dinheiro.js';
-import { aportesEntre, saldoEm, saldoNoInicioDaSemana } from './movimentos.js';
-import { orcamentoDoMes } from './orcamento.js';
-import type { DadosFinanceiros, Meta } from './tipos.js';
+} from './datas';
+import { paraCimaEmReais, proporcao, somar, type Centavos } from './dinheiro';
+import { aportesEntre, saldoEm, saldoNoInicioDaSemana } from './movimentos';
+import { orcamentoDoMes } from './orcamento';
+import type { DadosFinanceiros, Meta } from './tipos';
 
 export type SituacaoDaMeta = 'concluida' | 'completa' | 'parcial' | 'sem_verba';
 

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { planoDasMetas } from './metas.js';
-import { dadosVazios, meta, movimento, renda } from './testes/construtores.js';
-import type { DadosFinanceiros, Meta } from './tipos.js';
+import { planoDasMetas } from './metas';
+import { dadosVazios, meta, movimento, renda } from './testes/construtores';
+import type { DadosFinanceiros, Meta } from './tipos';
 
 const HOJE = '2026-11-04'; // segunda de referência: 02/11/2026
 

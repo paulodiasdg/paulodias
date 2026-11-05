@@ -4,9 +4,9 @@ import {
   somarMesesNaCompetencia,
   type Competencia,
   type DataCivil,
-} from './datas.js';
-import type { Centavos } from './dinheiro.js';
-import type { DadosFinanceiros, Ocorrencia, Recorrencia } from './tipos.js';
+} from './datas';
+import type { Centavos } from './dinheiro';
+import type { DadosFinanceiros, Ocorrencia, Recorrencia } from './tipos';
 
 /** Ocorrência de uma renda ou fixa em um mês: gravada no banco ou apenas prevista. */
 export interface OcorrenciaProjetada {

@@ -1,11 +1,11 @@
-import { fimDaSemana, inicioDaSemana, competenciaDe, type DataCivil } from './datas.js';
-import type { Centavos } from './dinheiro.js';
-import { limiteDeGastos, type LimiteDeGastos } from './limite.js';
-import { planoDasMetas, type PlanoDasMetas } from './metas.js';
-import { orcamentoDoMes, type OrcamentoDoMes } from './orcamento.js';
-import { calcularReservaContas, type ReservaDeContas } from './reserva-contas.js';
-import { indiceDeSaude, type IndiceDeSaude } from './saude.js';
-import type { DadosFinanceiros } from './tipos.js';
+import { fimDaSemana, inicioDaSemana, competenciaDe, type DataCivil } from './datas';
+import type { Centavos } from './dinheiro';
+import { limiteDeGastos, type LimiteDeGastos } from './limite';
+import { planoDasMetas, type PlanoDasMetas } from './metas';
+import { orcamentoDoMes, type OrcamentoDoMes } from './orcamento';
+import { calcularReservaContas, type ReservaDeContas } from './reserva-contas';
+import { indiceDeSaude, type IndiceDeSaude } from './saude';
+import type { DadosFinanceiros } from './tipos';
 
 export interface ResumoDaSemana {
   hoje: DataCivil;

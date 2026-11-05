@@ -217,6 +217,73 @@ describe('isolamento entre usuários', () => {
       expect(error?.code).toBe('23503');
     },
   );
+
+  describe('funções do banco', () => {
+    async function estadoDaAna() {
+      const ler = async (tabela: Tabela) =>
+        (await admin.from(tabela).select('*').eq('usuario_id', ana.id).order('id')).data;
+      return {
+        ocorrencias: await ler('ocorrencias'),
+        contas: await ler('contas_avulsas'),
+        lancamentos: await ler('lancamentos'),
+        movimentos: await ler('movimentos_reserva'),
+        metas: await ler('metas'),
+      };
+    }
+
+    it('outro usuário não paga, não desfaz, não recebe e não exclui nada da dona', async () => {
+      const rendaDaAna = await ana.cliente
+        .from('recorrencias')
+        .insert({
+          tipo: 'renda',
+          nome: 'Salário',
+          valor_centavos: 500000,
+          dia: 5,
+          inicio: '2026-11-01',
+        })
+        .select('id')
+        .single();
+      expect(rendaDaAna.error).toBeNull();
+      const antes = await estadoDaAna();
+      const tentativas = [
+        bruno.cliente.rpc('registrar_pagamento', {
+          p_pago_em: '2026-11-05',
+          p_valor_centavos: 213000,
+          p_saque_centavos: 0,
+          p_tipo_lancamento: 'despesa',
+          p_recorrencia_id: idsDaAna.recorrencias,
+          p_competencia: '2026-12',
+        }),
+        bruno.cliente.rpc('registrar_pagamento', {
+          p_pago_em: '2026-11-05',
+          p_valor_centavos: 184250,
+          p_saque_centavos: 0,
+          p_tipo_lancamento: 'transferencia',
+          p_conta_avulsa_id: idsDaAna.contas_avulsas,
+        }),
+        bruno.cliente.rpc('desfazer_pagamento', { p_ocorrencia_id: idsDaAna.ocorrencias }),
+        bruno.cliente.rpc('confirmar_recebimento', {
+          p_recorrencia_id: rendaDaAna.data!.id,
+          p_competencia: '2026-12',
+          p_valor_centavos: 1,
+          p_recebido_em: '2026-11-05',
+        }),
+        bruno.cliente.rpc('desfazer_recebimento', { p_ocorrencia_id: idsDaAna.ocorrencias }),
+        bruno.cliente.rpc('excluir_meta', { p_meta_id: idsDaAna.metas }),
+      ];
+      for (const tentativa of tentativas) {
+        const { error } = await tentativa;
+        expect(error?.code).toBe('P0002');
+      }
+      expect(await estadoDaAna()).toEqual(antes);
+    });
+
+    it('quem não entrou não chama nenhuma função', async () => {
+      const visitante = clienteVisitante(ambiente);
+      const { error } = await visitante.rpc('excluir_meta', { p_meta_id: idsDaAna.metas });
+      expect(error?.code).toBe('42501');
+    });
+  });
 });
 
 describe('a dona exclui as próprias linhas', () => {

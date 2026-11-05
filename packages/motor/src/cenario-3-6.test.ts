@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { resumoDaSemana } from './semana.js';
-import { cenario36, HOJE_3_6 } from './testes/cenario-3-6.js';
+import { resumoDaSemana } from './semana';
+import { cenario36, HOJE_3_6 } from './testes/cenario-3-6';
 
 /**
  * Teste de regressão do exemplo da seção 3.6 da spec. Nunca pode quebrar (CLAUDE.md, regra 4).

@@ -1,6 +1,6 @@
-# No Azul: revisão da especificação e plano das Etapas 1 e 2
+# No Azul: revisão da especificação e plano das etapas
 
-04/11/2026 · Referência: `docs/SPEC.md` · **Situação: D1 a D7 aprovadas em 04/11/2026 como recomendado; Etapas 1 e 2 entregues**
+04/11/2026 · Referência: `docs/SPEC.md` · **Situação: D1 a D7 aprovadas em 04/11/2026 como recomendado; Etapas 1, 2 e 3 entregues**
 
 As decisões D1 a D7 (seção 5) valem sobre o texto da spec.
 
@@ -197,10 +197,42 @@ A entrada do motor são objetos simples: perfil, recorrências, ocorrências, co
 | Fixas não marcadas como pagas   | Toda ocorrência entre o início da recorrência e hoje sem pagamento conta como vencida. Na Etapa 3, o cadastro deve sugerir como início o próximo vencimento, para não criar dívidas antigas por engano                                                                                                                    |
 | Meta com verba parcial          | Nova data = segunda-feira + (falta ÷ alocado por mês) meses, arredondado para cima                                                                                                                                                                                                                                        |
 | Meta com prazo vencido          | Segue a fórmula da spec (pede tudo o que falta no mês) e sai marcada como vencida para o alerta. Pode consumir a verba das metas seguintes; a tela deve convidar a mudar o prazo                                                                                                                                          |
-| Desfazer pagamento de fixa      | A ocorrência gravada continua existindo, agora pendente; saldos, lançamentos e números do painel voltam a ser os de antes                                                                                                                                                                                                 |
+| Desfazer pagamento de fixa      | A ocorrência gravada no pagamento é apagada e o mês volta à previsão da recorrência (revisto na Etapa 3, quando o pagamento passou a aceitar outro valor)                                                                                                                                                                 |
 | "Vencido" no índice             | Contas sem pagamento com vencimento antes de hoje, sem contar fixas pagas no cartão                                                                                                                                                                                                                                       |
 | "Meses com dados" na média      | Meses completos com ao menos um gasto variável, até 3, do mais recente para trás                                                                                                                                                                                                                                          |
 | Datas no motor                  | Aritmética própria com o número do dia, sem o objeto `Date`; o ESLint bloqueia `new Date()` e `Date.now()` no pacote                                                                                                                                                                                                      |
+
+## 4b. Etapa 3: cadastros e lançamentos
+
+**Entregue em 05/11/2026.** Telas de Contas e fixas, Lançamentos e Metas, com navegação comum, em computador e celular.
+
+| Tela           | O que faz                                                                                                                                                                                                                                                                                   |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Contas e fixas | Reserva de contas (registrar reserva, corrigir saldo); contas a pagar (vencidas e próximos 45 dias) com pagamento; pagas recentemente com "desfazer"; rendas do mês com confirmação de recebimento; cadastros de rendas, despesas fixas e contas avulsas (criar, editar, encerrar, excluir) |
+| Lançamentos    | Mês a mês, com busca por descrição, filtro por categoria, totais de gastos, receitas e transferências, criar, editar, excluir e exportar em CSV                                                                                                                                             |
+| Metas          | Plano do motor (aporte da semana, necessário por mês, prazo, previsão, situação), criar, editar, registrar aporte, corrigir o guardado, concluir e excluir                                                                                                                                  |
+
+**Aceite (pagar e desfazer devolve lançamentos e saldos ao estado anterior):** coberto em três níveis. No motor, o estado depois de pagar e desfazer é igual ao de antes. No banco (17 testes de integração), a foto de lançamentos, movimentos, contas em aberto, saldo e números do painel volta igual para despesa fixa, conta avulsa, fatura e fixa paga no cartão, também quando a fixa foi paga com outro valor. Na tela (Playwright), pagar o aluguel tira R$ 1.000 da reserva e cria o lançamento; desfazer devolve o saldo e apaga o lançamento.
+
+**Escolhas de implementação:**
+
+| Item                      | Escolha                                                                                                                                                                                                                                                               |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Transação                 | Pagar, desfazer, receber, desfazer recebimento e excluir meta são funções do banco (`SECURITY INVOKER`, com o RLS de quem chama). Elas não calculam: o app pede ao motor o tipo do lançamento e quanto sai da reserva (`planoDePagamento`) e passa os valores prontos |
+| Desfazer                  | Apaga o saque, o lançamento e a ocorrência do mês; o mês volta à previsão da recorrência (o motor faz o mesmo)                                                                                                                                                        |
+| Valor diferente ao pagar  | Despesa fixa aceita o valor real (conta de luz que veio mais alta). Conta avulsa só é paga pelo valor cadastrado; para pagar outro, edita-se a conta antes, e assim desfazer devolve tudo como estava                                                                 |
+| Histórico protegido       | Recorrência com pagamento ou recebimento não é excluída, só encerrada (o pagamento continua vinculado e não vira gasto variável). Conta avulsa paga não é editada nem excluída. Lançamento de pagamento ou recebimento só muda desfazendo a operação na conta         |
+| Reserva de contas         | "Registrar reserva" e "Corrigir saldo" ficam em Contas e fixas; a correção grava um ajuste com a diferença calculada pelo motor (`valorDoAjuste`). O painel da Etapa 4 terá o atalho para registrar a reserva da semana                                               |
+| Excluir meta              | Apaga a meta e os aportes dela na mesma transação; o dinheiro continua onde estiver, o sistema só deixa de acompanhar                                                                                                                                                 |
+| Data de hoje              | Horário de Brasília para todos na primeira versão                                                                                                                                                                                                                     |
+| Início de uma recorrência | Hoje, por padrão, para não criar meses antigos vencidos (ponto 2 da Etapa 2)                                                                                                                                                                                          |
+| CSV                       | Ponto e vírgula, vírgula decimal, datas dd/mm/aaaa e BOM UTF-8, para abrir direto no Excel e no Google Planilhas; descrições que começam com =, +, - ou @ ganham um apóstrofo para não virarem fórmula                                                                |
+| Limite de login local     | O Supabase local aceita 300 entradas e cadastros a cada 5 minutos (o padrão é 30), porque a bateria de testes cria dezenas de usuários; não afeta o projeto na nuvem                                                                                                  |
+
+**Lacunas novas, para decidir depois:**
+
+- A spec prevê categorias próprias, mas nenhuma tela para criá-las. Hoje só há as 20 categorias padrão; proposta: criar e renomear categorias numa tela de configurações na Etapa 6.
+- Não há como mudar a previsão de um mês só (ex.: aluguel reajustado só em dezembro) sem pagar; hoje se edita a recorrência inteira. Proposta: deixar para quando a leitura de boletos (Etapa 5) trouxer o valor real antes do vencimento.
 
 ## 5. Decisões para aprovar
 

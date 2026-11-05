@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { calcularReservaContas } from './reserva-contas.js';
-import { avulsa, dadosVazios, fixa, movimento } from './testes/construtores.js';
+import { calcularReservaContas } from './reserva-contas';
+import { avulsa, dadosVazios, fixa, movimento } from './testes/construtores';
 
 const HOJE = '2026-11-04'; // semana de 02 a 08/11
 

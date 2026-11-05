@@ -1,10 +1,10 @@
-import { entraNaReservaDeContas, listarContas, type Conta } from './contas.js';
-import { inicioDaSemana, somarDias, type DataCivil } from './datas.js';
-import type { Centavos } from './dinheiro.js';
-import { saldoEm } from './movimentos.js';
-import { pagarConta, registrarAporte, valorSacadoAoPagar } from './operacoes.js';
-import { calcularReservaContas } from './reserva-contas.js';
-import type { DadosFinanceiros } from './tipos.js';
+import { entraNaReservaDeContas, listarContas, type Conta } from './contas';
+import { inicioDaSemana, somarDias, type DataCivil } from './datas';
+import type { Centavos } from './dinheiro';
+import { saldoEm } from './movimentos';
+import { pagarConta, registrarAporte, valorSacadoAoPagar } from './operacoes';
+import { calcularReservaContas } from './reserva-contas';
+import type { DadosFinanceiros } from './tipos';
 
 export interface PagamentoSimulado {
   conta: Conta;

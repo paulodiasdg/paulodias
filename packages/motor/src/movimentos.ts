@@ -1,6 +1,6 @@
-import type { DataCivil } from './datas.js';
-import { somar, type Centavos } from './dinheiro.js';
-import type { MovimentoReserva } from './tipos.js';
+import type { DataCivil } from './datas';
+import { somar, type Centavos } from './dinheiro';
+import type { MovimentoReserva } from './tipos';
 
 /** Efeito do movimento no saldo: aporte soma, saque subtrai, ajuste vale com o próprio sinal. */
 export function efeitoNoSaldo(movimento: MovimentoReserva): Centavos {

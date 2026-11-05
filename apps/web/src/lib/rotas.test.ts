@@ -2,11 +2,14 @@ import { describe, expect, it } from 'vitest';
 import { destinoSeguro, ehRotaDeEntrada, ehRotaProtegida } from './rotas';
 
 describe('rotas', () => {
-  it('protege o painel e suas subpáginas', () => {
+  it('protege as telas de quem entrou e suas subpáginas', () => {
     expect(ehRotaProtegida('/painel')).toBe(true);
     expect(ehRotaProtegida('/painel/semana')).toBe(true);
     expect(ehRotaProtegida('/painelx')).toBe(false);
     expect(ehRotaProtegida('/entrar')).toBe(false);
+    expect(ehRotaProtegida('/lancamentos')).toBe(true);
+    expect(ehRotaProtegida('/contas/avulsas/nova')).toBe(true);
+    expect(ehRotaProtegida('/metas')).toBe(true);
   });
 
   it('reconhece as rotas de entrada', () => {

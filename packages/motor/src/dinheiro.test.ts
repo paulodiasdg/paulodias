@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { dividirInteiros, exigirInteiro, paraInteiroSeguro } from './aritmetica.js';
-import { centavos, dividir, paraCimaEmReais, proporcao, somar } from './dinheiro.js';
+import { dividirInteiros, exigirInteiro, paraInteiroSeguro } from './aritmetica';
+import { centavos, dividir, paraCimaEmReais, proporcao, somar } from './dinheiro';
 
 describe('dinheiro', () => {
   it('soma valores em centavos inteiros', () => {

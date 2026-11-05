@@ -15,6 +15,7 @@
     "format:check": "prettier --check .",
     "test": "pnpm -r test",
     "test:rls": "vitest run --config supabase/testes/vitest.config.ts",
+    "test:integracao": "pnpm --filter @no-azul/web test:integracao",
     "test:e2e": "pnpm --filter @no-azul/web test:e2e",
     "db:start": "supabase start -x studio,postgres-meta,mailpit,imgproxy,vector,supavisor,logflare",
     "db:stop": "supabase stop",

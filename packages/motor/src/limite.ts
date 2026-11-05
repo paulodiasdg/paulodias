@@ -1,4 +1,4 @@
-import { dividirInteiros, paraInteiroSeguro } from './aritmetica.js';
+import { dividirInteiros, paraInteiroSeguro } from './aritmetica';
 import {
   competenciaDe,
   diasDaCompetencia,
@@ -9,11 +9,11 @@ import {
   somarDias,
   type Competencia,
   type DataCivil,
-} from './datas.js';
-import { dividir, somar, type Centavos } from './dinheiro.js';
-import { planoDasMetas } from './metas.js';
-import { ehGastoVariavel, orcamentoDoMes } from './orcamento.js';
-import type { DadosFinanceiros } from './tipos.js';
+} from './datas';
+import { dividir, somar, type Centavos } from './dinheiro';
+import { planoDasMetas } from './metas';
+import { ehGastoVariavel, orcamentoDoMes } from './orcamento';
+import type { DadosFinanceiros } from './tipos';
 
 /**
  * Regra 3.4: Limite mensal = min(Teto, Livre − Metas alocadas), com mínimo zero.

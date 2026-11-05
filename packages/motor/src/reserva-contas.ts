@@ -1,14 +1,8 @@
-import { entraNaReservaDeContas, estavaEmAberto, listarContas, type Conta } from './contas.js';
-import {
-  diferencaEmDias,
-  fimDaSemana,
-  inicioDaSemana,
-  somarDias,
-  type DataCivil,
-} from './datas.js';
-import { dividir, paraCimaEmReais, somar, type Centavos } from './dinheiro.js';
-import { aportesEntre, saldoEm, saldoNoInicioDaSemana } from './movimentos.js';
-import type { DadosFinanceiros } from './tipos.js';
+import { entraNaReservaDeContas, estavaEmAberto, listarContas, type Conta } from './contas';
+import { diferencaEmDias, fimDaSemana, inicioDaSemana, somarDias, type DataCivil } from './datas';
+import { dividir, paraCimaEmReais, somar, type Centavos } from './dinheiro';
+import { aportesEntre, saldoEm, saldoNoInicioDaSemana } from './movimentos';
+import type { DadosFinanceiros } from './tipos';
 
 /** Horizonte da regra 3.1: o valor semanal cobre as próximas 8 semanas. */
 export const SEMANAS_DO_HORIZONTE = 8;

@@ -1,7 +1,7 @@
-import type { Competencia, DataCivil } from './datas.js';
-import type { Centavos } from './dinheiro.js';
-import { projetarOcorrencias } from './recorrencias.js';
-import type { DadosFinanceiros } from './tipos.js';
+import type { Competencia, DataCivil } from './datas';
+import type { Centavos } from './dinheiro';
+import { projetarOcorrencias } from './recorrencias';
+import type { DadosFinanceiros } from './tipos';
 
 /** Conta a pagar: ocorrência de despesa fixa ou conta avulsa. */
 export interface Conta {

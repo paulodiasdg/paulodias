@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { ehGastoVariavel, orcamentoDoMes } from './orcamento.js';
-import { avulsa, dadosVazios, despesa, fixa, receita, renda } from './testes/construtores.js';
+import { ehGastoVariavel, orcamentoDoMes } from './orcamento';
+import { avulsa, dadosVazios, despesa, fixa, receita, renda } from './testes/construtores';
 
 describe('orçamento do mês (regra 3.2)', () => {
   it('Livre = renda − fixas − contas avulsas', () => {

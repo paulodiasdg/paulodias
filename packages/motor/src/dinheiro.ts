@@ -3,7 +3,7 @@ import {
   exigirInteiro,
   paraInteiroSeguro,
   type Arredondamento,
-} from './aritmetica.js';
+} from './aritmetica';
 
 /**
  * Valor monetário em centavos inteiros. Nunca use ponto flutuante para dinheiro.

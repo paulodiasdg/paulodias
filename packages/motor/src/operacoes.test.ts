@@ -1,23 +1,24 @@
 import { describe, expect, it } from 'vitest';
-import { listarContas, type Conta } from './contas.js';
-import { saldoEm } from './movimentos.js';
-import { desfazerPagamento, pagarConta, registrarAporte, valorSacadoAoPagar } from './operacoes.js';
-import { orcamentoDoMes } from './orcamento.js';
-import { resumoDaSemana } from './semana.js';
-import { cenario36, HOJE_3_6 } from './testes/cenario-3-6.js';
-import { avulsa, dadosVazios, fixa, movimento } from './testes/construtores.js';
-import type { DadosFinanceiros } from './tipos.js';
+import { listarContas, type Conta } from './contas';
+import { saldoEm } from './movimentos';
+import {
+  desfazerPagamento,
+  pagarConta,
+  planoDePagamento,
+  registrarAporte,
+  valorDoAjuste,
+  valorSacadoAoPagar,
+} from './operacoes';
+import { orcamentoDoMes } from './orcamento';
+import { resumoDaSemana } from './semana';
+import { cenario36, HOJE_3_6 } from './testes/cenario-3-6';
+import { avulsa, dadosVazios, fixa, movimento } from './testes/construtores';
+import type { DadosFinanceiros } from './tipos';
 
 function contaPorNome(dados: DadosFinanceiros, nome: string): Conta {
   const encontrada = listarContas(dados, null, '2027-12-31').find((c) => c.nome === nome);
   if (!encontrada) throw new Error(`Conta ${nome} não encontrada`);
   return encontrada;
-}
-
-function semIdDeOcorrencia(valor: unknown): unknown {
-  return JSON.parse(
-    JSON.stringify(valor, (chave, item) => (chave === 'ocorrenciaId' ? undefined : item)),
-  );
 }
 
 const saldoDeContas = (dados: DadosFinanceiros, data: string) =>
@@ -100,13 +101,20 @@ describe('desfazer o pagamento', () => {
       expect(desfeito.lancamentos).toEqual(antes.lancamentos);
       expect(desfeito.movimentos).toEqual(antes.movimentos);
       expect(contaPorNome(desfeito, nome).pagoEm).toBeNull();
-      // A ocorrência gravada no pagamento continua existindo, agora pendente; os números do
-      // painel voltam a ser exatamente os de antes.
-      expect(semIdDeOcorrencia(resumoDaSemana(desfeito, '2026-11-05'))).toEqual(
-        semIdDeOcorrencia(resumoDaSemana(antes, '2026-11-05')),
-      );
+      expect(desfeito).toEqual(antes);
+      expect(resumoDaSemana(desfeito, '2026-11-05')).toEqual(resumoDaSemana(antes, '2026-11-05'));
     },
   );
+
+  it('pago com outro valor, volta à previsão da recorrência', () => {
+    const antes = cenario36();
+    const aluguel = { ...contaPorNome(antes, 'Aluguel'), valorCentavos: 220_000 };
+    const pago = pagarConta(antes, aluguel, '2026-11-15');
+    expect(contaPorNome(pago, 'Aluguel').valorCentavos).toBe(220_000);
+    const desfeito = desfazerPagamento(pago, contaPorNome(pago, 'Aluguel'));
+    expect(contaPorNome(desfeito, 'Aluguel').valorCentavos).toBe(213_000);
+    expect(desfeito).toEqual(antes);
+  });
 });
 
 describe('registrar aporte', () => {
@@ -132,5 +140,67 @@ describe('registrar aporte', () => {
         registrarAporte(dadosVazios(), { id: 'x', data: '2026-11-02', valorCentavos }),
       ).toThrow(RangeError);
     }
+  });
+});
+
+describe('plano de pagamento (o que o app grava no banco)', () => {
+  it('despesa comum: lançamento de despesa e saque até o saldo', () => {
+    const dados = cenario36();
+    expect(planoDePagamento(dados, contaPorNome(dados, 'Aluguel'), '2026-11-15')).toEqual({
+      valorCentavos: 213_000,
+      tipoDoLancamento: 'despesa',
+      saqueCentavos: 80_000,
+    });
+  });
+
+  it('fatura com itens importados: transferência; fixa no cartão: sem lançamento nem saque', () => {
+    const dados = dadosVazios({
+      recorrencias: [fixa('streaming', 5_590, 10, { pagaNoCartao: true })],
+      contasAvulsas: [avulsa('fatura', 184_250, '2026-11-20', { quitaItens: true })],
+      movimentos: [movimento('saldo', 'ajuste', 500_000, '2026-11-01')],
+    });
+    expect(planoDePagamento(dados, contaPorNome(dados, 'fatura'), '2026-11-20')).toEqual({
+      valorCentavos: 184_250,
+      tipoDoLancamento: 'transferencia',
+      saqueCentavos: 184_250,
+    });
+    expect(planoDePagamento(dados, contaPorNome(dados, 'streaming'), '2026-11-10')).toEqual({
+      valorCentavos: 5_590,
+      tipoDoLancamento: null,
+      saqueCentavos: 0,
+    });
+  });
+
+  it('usa o valor efetivamente pago quando ele muda na hora de pagar', () => {
+    const dados = cenario36();
+    const luz = { ...contaPorNome(dados, 'Plano de saúde'), valorCentavos: 54_321 };
+    expect(planoDePagamento(dados, luz, '2026-11-07').saqueCentavos).toBe(54_321);
+    expect(() => planoDePagamento(dados, { ...luz, valorCentavos: -1 }, '2026-11-07')).toThrow(
+      RangeError,
+    );
+  });
+
+  it('o pagarConta segue exatamente o plano', () => {
+    const dados = cenario36();
+    const conta = contaPorNome(dados, 'Aluguel');
+    const plano = planoDePagamento(dados, conta, '2026-11-15');
+    const pago = pagarConta(dados, conta, '2026-11-15');
+    expect(pago.lancamentos.at(-1)).toMatchObject({
+      tipo: plano.tipoDoLancamento,
+      valorCentavos: plano.valorCentavos,
+    });
+    expect(pago.movimentos.at(-1)).toMatchObject({
+      tipo: 'saque',
+      valorCentavos: plano.saqueCentavos,
+    });
+  });
+});
+
+describe('ajuste de saldo', () => {
+  it('é a diferença entre o saldo correto e o atual', () => {
+    expect(valorDoAjuste(80_000, 100_000)).toBe(20_000);
+    expect(valorDoAjuste(80_000, 50_000)).toBe(-30_000);
+    expect(valorDoAjuste(80_000, 80_000)).toBe(0);
+    expect(() => valorDoAjuste(0.5, 1)).toThrow(RangeError);
   });
 });

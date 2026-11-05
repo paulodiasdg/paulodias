@@ -1,5 +1,5 @@
-import type { Competencia, DataCivil } from './datas.js';
-import type { Centavos } from './dinheiro.js';
+import type { Competencia, DataCivil } from './datas';
+import type { Centavos } from './dinheiro';
 
 /**
  * Dados de entrada do motor. Espelham as tabelas do banco (supabase/migrations), mas contêm
@@ -59,7 +59,7 @@ export interface Lancamento {
   /** Vínculo com uma conta: despesa vinculada não é gasto variável. */
   ocorrenciaId: string | null;
   contaAvulsaId: string | null;
-  origem?: 'manual' | 'documento' | 'pagamento';
+  origem?: 'manual' | 'documento' | 'pagamento' | 'recebimento';
 }
 
 export interface Meta {

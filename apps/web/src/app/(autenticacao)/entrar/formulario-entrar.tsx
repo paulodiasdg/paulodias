@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useActionState } from 'react';
 import { entrar, type EstadoFormulario } from '../acoes';
-import { Aviso, BotaoEnviar, Campo } from '../campos';
+import { Aviso, BotaoEnviar, Campo } from '@/components/formulario';
 
 export function FormularioEntrar({ proximo }: { proximo: string | undefined }) {
   const [estado, acao, pendente] = useActionState<EstadoFormulario, FormData>(entrar, {});
