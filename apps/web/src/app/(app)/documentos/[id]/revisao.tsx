@@ -289,7 +289,7 @@ export function Revisao({
         <fieldset className="grid gap-2" data-revisao="linhas">
           <legend className="mb-1 text-sm font-semibold">
             {extracao.tipo === 'fatura_cartao' ? 'Itens da fatura' : 'Lançamentos'} · {marcadas} de{' '}
-            {linhas.length} marcados
+            {linhas.length} {linhas.length === 1 ? 'marcado' : 'marcados'}
           </legend>
           {linhas.map((linha, i) => {
             const lida = extracao.lancamentos[i];
