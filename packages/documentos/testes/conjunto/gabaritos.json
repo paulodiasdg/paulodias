@@ -1,0 +1,1874 @@
+[
+  {
+    "arquivo": "01-comprovante-pix-aurora.pdf",
+    "formato": "pdf_texto",
+    "tipo": "comprovante",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-11-05",
+        "valorCentavos": 15000,
+        "tipo": "despesa",
+        "descricao": "Maria Fictícia da Silva"
+      }
+    ]
+  },
+  {
+    "arquivo": "02-comprovante-pix-academia.jpg",
+    "formato": "foto",
+    "tipo": "comprovante",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-11-03",
+        "valorCentavos": 8990,
+        "tipo": "despesa",
+        "descricao": "Academia Movimento Ltda"
+      }
+    ]
+  },
+  {
+    "arquivo": "03-cupom-mercado.jpg",
+    "formato": "foto",
+    "tipo": "comprovante",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-11-05",
+        "valorCentavos": 6217,
+        "tipo": "despesa",
+        "descricao": "Mercado Bom Preço"
+      }
+    ]
+  },
+  {
+    "arquivo": "04-cupom-farmacia.pdf",
+    "formato": "pdf_digitalizado",
+    "tipo": "comprovante",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-10-28",
+        "valorCentavos": 4735,
+        "tipo": "despesa",
+        "descricao": "Farmácia Vida"
+      }
+    ]
+  },
+  {
+    "arquivo": "05-comprovante-pagamento-luz.pdf",
+    "formato": "pdf_texto",
+    "tipo": "comprovante",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-11-06",
+        "valorCentavos": 18990,
+        "tipo": "despesa",
+        "descricao": "Companhia de Energia Serra Azul"
+      }
+    ]
+  },
+  {
+    "arquivo": "06-comprovante-ted-aluguel.jpg",
+    "formato": "foto",
+    "tipo": "comprovante",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-11-04",
+        "valorCentavos": 120000,
+        "tipo": "despesa",
+        "descricao": "Imobiliária Lar Doce Ltda"
+      }
+    ]
+  },
+  {
+    "arquivo": "07-conta-luz.pdf",
+    "formato": "pdf_texto",
+    "tipo": "boleto",
+    "conta": {
+      "valorCentavos": 18990,
+      "vencimento": "2026-11-18"
+    },
+    "lancamentos": []
+  },
+  {
+    "arquivo": "08-conta-agua.jpg",
+    "formato": "foto",
+    "tipo": "boleto",
+    "conta": {
+      "valorCentavos": 9640,
+      "vencimento": "2026-11-22"
+    },
+    "lancamentos": []
+  },
+  {
+    "arquivo": "09-boleto-internet.pdf",
+    "formato": "pdf_texto",
+    "tipo": "boleto",
+    "conta": {
+      "valorCentavos": 11990,
+      "vencimento": "2026-11-15"
+    },
+    "lancamentos": []
+  },
+  {
+    "arquivo": "10-boleto-condominio.pdf",
+    "formato": "pdf_digitalizado",
+    "tipo": "boleto",
+    "conta": {
+      "valorCentavos": 65000,
+      "vencimento": "2026-11-10"
+    },
+    "lancamentos": []
+  },
+  {
+    "arquivo": "11-boleto-curso.jpg",
+    "formato": "foto",
+    "tipo": "boleto",
+    "conta": {
+      "valorCentavos": 48000,
+      "vencimento": "2026-12-05"
+    },
+    "lancamentos": []
+  },
+  {
+    "arquivo": "12-conta-gas.pdf",
+    "formato": "pdf_texto",
+    "tipo": "boleto",
+    "conta": {
+      "valorCentavos": 7425,
+      "vencimento": "2026-11-25"
+    },
+    "lancamentos": []
+  },
+  {
+    "arquivo": "13-fatura-aurora.pdf",
+    "formato": "pdf_texto",
+    "tipo": "fatura_cartao",
+    "conta": {
+      "valorCentavos": 110770,
+      "vencimento": "2026-11-20"
+    },
+    "lancamentos": [
+      {
+        "data": "2026-10-20",
+        "valorCentavos": 152040,
+        "tipo": "transferencia",
+        "descricao": "PAGAMENTO RECEBIDO - OBRIGADO"
+      },
+      {
+        "data": "2026-10-11",
+        "valorCentavos": 28790,
+        "tipo": "despesa",
+        "descricao": "MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-10-13",
+        "valorCentavos": 18000,
+        "tipo": "despesa",
+        "descricao": "POSTO ESTRELA"
+      },
+      {
+        "data": "2026-10-15",
+        "valorCentavos": 5490,
+        "tipo": "despesa",
+        "descricao": "IFOOD *RESTAURANTE SABOR"
+      },
+      {
+        "data": "2026-10-16",
+        "valorCentavos": 2345,
+        "tipo": "despesa",
+        "descricao": "UBER *TRIP"
+      },
+      {
+        "data": "2026-10-18",
+        "valorCentavos": 3990,
+        "tipo": "despesa",
+        "descricao": "NETFLIX.COM"
+      },
+      {
+        "data": "2026-11-10",
+        "valorCentavos": 12000,
+        "tipo": "despesa",
+        "descricao": "LOJA MODA VIVA"
+      },
+      {
+        "data": "2026-10-22",
+        "valorCentavos": 6780,
+        "tipo": "despesa",
+        "descricao": "FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-25",
+        "valorCentavos": 4500,
+        "tipo": "receita",
+        "descricao": "ESTORNO LOJA MODA VIVA"
+      },
+      {
+        "data": "2026-10-28",
+        "valorCentavos": 6400,
+        "tipo": "despesa",
+        "descricao": "CINEMA CENTRAL"
+      },
+      {
+        "data": "2026-11-01",
+        "valorCentavos": 1875,
+        "tipo": "despesa",
+        "descricao": "PADARIA PAO QUENTE"
+      },
+      {
+        "data": "2026-11-03",
+        "valorCentavos": 7990,
+        "tipo": "despesa",
+        "descricao": "IFOOD *PIZZARIA BELLA"
+      },
+      {
+        "data": "2026-11-05",
+        "valorCentavos": 3120,
+        "tipo": "despesa",
+        "descricao": "UBER *TRIP"
+      },
+      {
+        "data": "2026-11-07",
+        "valorCentavos": 14990,
+        "tipo": "despesa",
+        "descricao": "MARKETPLACE CASA FACIL"
+      },
+      {
+        "data": "2026-11-08",
+        "valorCentavos": 3500,
+        "tipo": "despesa",
+        "descricao": "ANUIDADE CARTAO"
+      }
+    ]
+  },
+  {
+    "arquivo": "14-fatura-horizonte.pdf",
+    "formato": "pdf_texto",
+    "tipo": "fatura_cartao",
+    "conta": {
+      "valorCentavos": 141059,
+      "vencimento": "2026-11-15"
+    },
+    "lancamentos": [
+      {
+        "data": "2026-10-07",
+        "valorCentavos": 98750,
+        "tipo": "transferencia",
+        "descricao": "PAGAMENTO EFETUADO"
+      },
+      {
+        "data": "2026-10-06",
+        "valorCentavos": 21340,
+        "tipo": "despesa",
+        "descricao": "SUPERMERCADO ECONOMIA"
+      },
+      {
+        "data": "2026-10-09",
+        "valorCentavos": 3890,
+        "tipo": "despesa",
+        "descricao": "DROGARIA BEM ESTAR"
+      },
+      {
+        "data": "2026-10-12",
+        "valorCentavos": 8650,
+        "tipo": "despesa",
+        "descricao": "RESTAURANTE SABOR CASEIRO"
+      },
+      {
+        "data": "2026-11-05",
+        "valorCentavos": 41650,
+        "tipo": "despesa",
+        "descricao": "LOJA TECH NOTEBOOK"
+      },
+      {
+        "data": "2026-10-15",
+        "valorCentavos": 3250,
+        "tipo": "despesa",
+        "descricao": "SPOTIFY USD 5,99"
+      },
+      {
+        "data": "2026-10-15",
+        "valorCentavos": 114,
+        "tipo": "despesa",
+        "descricao": "IOF TRANSACAO EXTERIOR"
+      },
+      {
+        "data": "2026-10-18",
+        "valorCentavos": 15000,
+        "tipo": "despesa",
+        "descricao": "POSTO AVENIDA"
+      },
+      {
+        "data": "2026-10-21",
+        "valorCentavos": 7490,
+        "tipo": "despesa",
+        "descricao": "LIVRARIA PAGINA"
+      },
+      {
+        "data": "2026-10-24",
+        "valorCentavos": 2780,
+        "tipo": "despesa",
+        "descricao": "APP TRANSPORTE"
+      },
+      {
+        "data": "2026-10-27",
+        "valorCentavos": 12900,
+        "tipo": "despesa",
+        "descricao": "PET SHOP AMIGO"
+      },
+      {
+        "data": "2026-10-30",
+        "valorCentavos": 18765,
+        "tipo": "despesa",
+        "descricao": "SUPERMERCADO ECONOMIA"
+      },
+      {
+        "data": "2026-11-02",
+        "valorCentavos": 2990,
+        "tipo": "despesa",
+        "descricao": "STREAMING VIDEO PLUS"
+      },
+      {
+        "data": "2026-11-04",
+        "valorCentavos": 2240,
+        "tipo": "despesa",
+        "descricao": "PADARIA DOCE MANHA"
+      }
+    ]
+  },
+  {
+    "arquivo": "15-fatura-ponte-digitalizada.pdf",
+    "formato": "pdf_digitalizado",
+    "tipo": "fatura_cartao",
+    "conta": {
+      "valorCentavos": 81229,
+      "vencimento": "2026-11-12"
+    },
+    "lancamentos": [
+      {
+        "data": "2026-10-02",
+        "valorCentavos": 15680,
+        "tipo": "despesa",
+        "descricao": "MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 12000,
+        "tipo": "despesa",
+        "descricao": "POSTO ESTRELA"
+      },
+      {
+        "data": "2026-11-12",
+        "valorCentavos": 30000,
+        "tipo": "despesa",
+        "descricao": "LOJA DE MOVEIS LAR"
+      },
+      {
+        "data": "2026-10-14",
+        "valorCentavos": 4590,
+        "tipo": "despesa",
+        "descricao": "RESTAURANTE PRATO FEITO"
+      },
+      {
+        "data": "2026-10-19",
+        "valorCentavos": 2899,
+        "tipo": "despesa",
+        "descricao": "FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-23",
+        "valorCentavos": 5200,
+        "tipo": "despesa",
+        "descricao": "CINEMA CENTRAL"
+      },
+      {
+        "data": "2026-10-27",
+        "valorCentavos": 1870,
+        "tipo": "despesa",
+        "descricao": "UBER *TRIP"
+      },
+      {
+        "data": "2026-10-30",
+        "valorCentavos": 8990,
+        "tipo": "despesa",
+        "descricao": "ACADEMIA MOVIMENTO"
+      }
+    ]
+  },
+  {
+    "arquivo": "16-fatura-vale-verde-foto.jpg",
+    "formato": "foto",
+    "tipo": "fatura_cartao",
+    "conta": {
+      "valorCentavos": 46855,
+      "vencimento": "2026-11-07"
+    },
+    "lancamentos": [
+      {
+        "data": "2026-10-01",
+        "valorCentavos": 64320,
+        "tipo": "transferencia",
+        "descricao": "PAGAMENTO FATURA"
+      },
+      {
+        "data": "2026-10-03",
+        "valorCentavos": 4570,
+        "tipo": "despesa",
+        "descricao": "HORTIFRUTI VERDE"
+      },
+      {
+        "data": "2026-10-08",
+        "valorCentavos": 9000,
+        "tipo": "despesa",
+        "descricao": "POSTO ESTRELA"
+      },
+      {
+        "data": "2026-10-12",
+        "valorCentavos": 3890,
+        "tipo": "despesa",
+        "descricao": "IFOOD *LANCHES"
+      },
+      {
+        "data": "2026-10-17",
+        "valorCentavos": 22130,
+        "tipo": "despesa",
+        "descricao": "MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-10-24",
+        "valorCentavos": 4500,
+        "tipo": "despesa",
+        "descricao": "BARBEARIA CLASSICA"
+      },
+      {
+        "data": "2026-10-26",
+        "valorCentavos": 2765,
+        "tipo": "despesa",
+        "descricao": "PAPELARIA CRIATIVA"
+      }
+    ]
+  },
+  {
+    "arquivo": "17-fatura-virada-de-ano.pdf",
+    "formato": "pdf_texto",
+    "tipo": "fatura_cartao",
+    "conta": {
+      "valorCentavos": 280190,
+      "vencimento": "2026-01-10"
+    },
+    "lancamentos": [
+      {
+        "data": "2025-12-01",
+        "valorCentavos": 210000,
+        "tipo": "transferencia",
+        "descricao": "PAGAMENTO RECEBIDO - OBRIGADO"
+      },
+      {
+        "data": "2025-12-02",
+        "valorCentavos": 31250,
+        "tipo": "despesa",
+        "descricao": "MERCADO BOM PRECO"
+      },
+      {
+        "data": "2025-12-05",
+        "valorCentavos": 18990,
+        "tipo": "despesa",
+        "descricao": "LOJA DE BRINQUEDOS ALEGRIA"
+      },
+      {
+        "data": "2025-12-08",
+        "valorCentavos": 20000,
+        "tipo": "despesa",
+        "descricao": "POSTO ESTRELA"
+      },
+      {
+        "data": "2025-12-12",
+        "valorCentavos": 25900,
+        "tipo": "despesa",
+        "descricao": "PERFUMARIA AROMA"
+      },
+      {
+        "data": "2025-12-15",
+        "valorCentavos": 96000,
+        "tipo": "despesa",
+        "descricao": "HOTEL PRAIA SERENA"
+      },
+      {
+        "data": "2025-12-18",
+        "valorCentavos": 23480,
+        "tipo": "despesa",
+        "descricao": "RESTAURANTE MAR AZUL"
+      },
+      {
+        "data": "2025-12-20",
+        "valorCentavos": 8970,
+        "tipo": "despesa",
+        "descricao": "MARKETPLACE CASA FACIL"
+      },
+      {
+        "data": "2025-12-23",
+        "valorCentavos": 44560,
+        "tipo": "despesa",
+        "descricao": "SUPERMERCADO ECONOMIA"
+      },
+      {
+        "data": "2025-12-27",
+        "valorCentavos": 4250,
+        "tipo": "despesa",
+        "descricao": "UBER *TRIP"
+      },
+      {
+        "data": "2025-12-29",
+        "valorCentavos": 6790,
+        "tipo": "despesa",
+        "descricao": "IFOOD *RESTAURANTE SABOR"
+      }
+    ]
+  },
+  {
+    "arquivo": "18-fatura-longa.pdf",
+    "formato": "pdf_texto",
+    "tipo": "fatura_cartao",
+    "conta": {
+      "valorCentavos": 365931,
+      "vencimento": "2026-11-13"
+    },
+    "lancamentos": [
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 287415,
+        "tipo": "transferencia",
+        "descricao": "PAGAMENTO RECEBIDO"
+      },
+      {
+        "data": "2026-10-22",
+        "valorCentavos": 6658,
+        "tipo": "despesa",
+        "descricao": "IFOOD *RESTAURANTE SABOR"
+      },
+      {
+        "data": "2026-10-19",
+        "valorCentavos": 14001,
+        "tipo": "despesa",
+        "descricao": "PET SHOP AMIGO"
+      },
+      {
+        "data": "2026-10-20",
+        "valorCentavos": 12782,
+        "tipo": "despesa",
+        "descricao": "SUPERMERCADO ECONOMIA"
+      },
+      {
+        "data": "2026-10-18",
+        "valorCentavos": 3160,
+        "tipo": "despesa",
+        "descricao": "PADARIA PAO QUENTE"
+      },
+      {
+        "data": "2026-10-24",
+        "valorCentavos": 27024,
+        "tipo": "despesa",
+        "descricao": "LOJA MODA VIVA"
+      },
+      {
+        "data": "2026-10-26",
+        "valorCentavos": 9182,
+        "tipo": "despesa",
+        "descricao": "SUPERMERCADO ECONOMIA"
+      },
+      {
+        "data": "2026-10-22",
+        "valorCentavos": 1609,
+        "tipo": "despesa",
+        "descricao": "PADARIA PAO QUENTE"
+      },
+      {
+        "data": "2026-10-12",
+        "valorCentavos": 8287,
+        "tipo": "despesa",
+        "descricao": "PET SHOP AMIGO"
+      },
+      {
+        "data": "2026-10-11",
+        "valorCentavos": 25824,
+        "tipo": "despesa",
+        "descricao": "LOJA MODA VIVA"
+      },
+      {
+        "data": "2026-10-30",
+        "valorCentavos": 6265,
+        "tipo": "despesa",
+        "descricao": "LIVRARIA PAGINA"
+      },
+      {
+        "data": "2026-10-07",
+        "valorCentavos": 7677,
+        "tipo": "despesa",
+        "descricao": "FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-16",
+        "valorCentavos": 5249,
+        "tipo": "despesa",
+        "descricao": "FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-07",
+        "valorCentavos": 28621,
+        "tipo": "despesa",
+        "descricao": "LOJA MODA VIVA"
+      },
+      {
+        "data": "2026-10-11",
+        "valorCentavos": 4717,
+        "tipo": "despesa",
+        "descricao": "IFOOD *RESTAURANTE SABOR"
+      },
+      {
+        "data": "2026-10-13",
+        "valorCentavos": 3319,
+        "tipo": "despesa",
+        "descricao": "CINEMA CENTRAL"
+      },
+      {
+        "data": "2026-10-10",
+        "valorCentavos": 8990,
+        "tipo": "despesa",
+        "descricao": "IFOOD *RESTAURANTE SABOR"
+      },
+      {
+        "data": "2026-11-02",
+        "valorCentavos": 7241,
+        "tipo": "despesa",
+        "descricao": "CINEMA CENTRAL"
+      },
+      {
+        "data": "2026-11-02",
+        "valorCentavos": 4682,
+        "tipo": "despesa",
+        "descricao": "HORTIFRUTI VERDE"
+      },
+      {
+        "data": "2026-11-01",
+        "valorCentavos": 3347,
+        "tipo": "despesa",
+        "descricao": "HORTIFRUTI VERDE"
+      },
+      {
+        "data": "2026-10-25",
+        "valorCentavos": 22727,
+        "tipo": "despesa",
+        "descricao": "MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-11-01",
+        "valorCentavos": 2957,
+        "tipo": "despesa",
+        "descricao": "HORTIFRUTI VERDE"
+      },
+      {
+        "data": "2026-10-13",
+        "valorCentavos": 3609,
+        "tipo": "despesa",
+        "descricao": "FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-30",
+        "valorCentavos": 4933,
+        "tipo": "despesa",
+        "descricao": "IFOOD *RESTAURANTE SABOR"
+      },
+      {
+        "data": "2026-10-06",
+        "valorCentavos": 7276,
+        "tipo": "despesa",
+        "descricao": "CINEMA CENTRAL"
+      },
+      {
+        "data": "2026-10-14",
+        "valorCentavos": 16707,
+        "tipo": "despesa",
+        "descricao": "PET SHOP AMIGO"
+      },
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 10180,
+        "tipo": "despesa",
+        "descricao": "SUPERMERCADO ECONOMIA"
+      },
+      {
+        "data": "2026-10-11",
+        "valorCentavos": 3440,
+        "tipo": "despesa",
+        "descricao": "PADARIA PAO QUENTE"
+      },
+      {
+        "data": "2026-10-07",
+        "valorCentavos": 2970,
+        "tipo": "despesa",
+        "descricao": "UBER *TRIP"
+      },
+      {
+        "data": "2026-10-22",
+        "valorCentavos": 7476,
+        "tipo": "despesa",
+        "descricao": "CINEMA CENTRAL"
+      },
+      {
+        "data": "2026-10-22",
+        "valorCentavos": 9096,
+        "tipo": "despesa",
+        "descricao": "LIVRARIA PAGINA"
+      },
+      {
+        "data": "2026-10-08",
+        "valorCentavos": 10309,
+        "tipo": "despesa",
+        "descricao": "LOJA MODA VIVA"
+      },
+      {
+        "data": "2026-10-10",
+        "valorCentavos": 1778,
+        "tipo": "despesa",
+        "descricao": "PADARIA PAO QUENTE"
+      },
+      {
+        "data": "2026-10-15",
+        "valorCentavos": 6341,
+        "tipo": "despesa",
+        "descricao": "IFOOD *RESTAURANTE SABOR"
+      },
+      {
+        "data": "2026-10-08",
+        "valorCentavos": 3659,
+        "tipo": "despesa",
+        "descricao": "HORTIFRUTI VERDE"
+      },
+      {
+        "data": "2026-11-03",
+        "valorCentavos": 35990,
+        "tipo": "despesa",
+        "descricao": "ELETRO CASA GELADEIRA"
+      },
+      {
+        "data": "2026-10-21",
+        "valorCentavos": 8990,
+        "tipo": "despesa",
+        "descricao": "ACADEMIA MOVIMENTO"
+      },
+      {
+        "data": "2026-10-12",
+        "valorCentavos": 2790,
+        "tipo": "despesa",
+        "descricao": "APP STORE ASSINATURA"
+      },
+      {
+        "data": "2026-10-12",
+        "valorCentavos": 98,
+        "tipo": "despesa",
+        "descricao": "IOF COMPRA INTERNACIONAL"
+      },
+      {
+        "data": "2026-10-26",
+        "valorCentavos": 15430,
+        "tipo": "despesa",
+        "descricao": "LOJA ONLINE GLOBAL"
+      },
+      {
+        "data": "2026-10-26",
+        "valorCentavos": 540,
+        "tipo": "despesa",
+        "descricao": "IOF COMPRA INTERNACIONAL"
+      }
+    ]
+  },
+  {
+    "arquivo": "19-extrato-aurora.ofx",
+    "formato": "ofx",
+    "tipo": "extrato",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-10-03",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 9280,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB POSTO ESTRELA"
+      },
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 487632,
+        "tipo": "receita",
+        "descricao": "TED RECEBIDA ESTUDIO TRACO FINO"
+      },
+      {
+        "data": "2026-10-06",
+        "valorCentavos": 12346,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-07",
+        "valorCentavos": 15043,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO 123.456.789-09 CARLOS FICTICIO"
+      },
+      {
+        "data": "2026-10-08",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-10-09",
+        "valorCentavos": 3992,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-10-09",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-10-15",
+        "valorCentavos": 2694,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-15",
+        "valorCentavos": 23849,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO 123.456.789-09 CARLOS FICTICIO"
+      },
+      {
+        "data": "2026-10-15",
+        "valorCentavos": 69207,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO CLIENTE ALFA DESIGN"
+      },
+      {
+        "data": "2026-10-16",
+        "valorCentavos": 75261,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO CLIENTE ALFA DESIGN"
+      },
+      {
+        "data": "2026-10-16",
+        "valorCentavos": 7229,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-19",
+        "valorCentavos": 2720,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-23",
+        "valorCentavos": 7335,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-24",
+        "valorCentavos": 20000,
+        "tipo": "despesa",
+        "descricao": "SAQUE 24H"
+      },
+      {
+        "data": "2026-10-26",
+        "valorCentavos": 19998,
+        "tipo": "despesa",
+        "descricao": "DEB AUTOMATICO ENERGIA SERRA AZUL"
+      },
+      {
+        "data": "2026-10-26",
+        "valorCentavos": 27710,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO MARIA FICTICIA DA SILVA"
+      },
+      {
+        "data": "2026-10-27",
+        "valorCentavos": 6606,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO MARIA FICTICIA DA SILVA"
+      },
+      {
+        "data": "2026-10-29",
+        "valorCentavos": 14075,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO JOAO EXEMPLO"
+      }
+    ]
+  },
+  {
+    "arquivo": "20-extrato-horizonte.ofx",
+    "formato": "ofx",
+    "tipo": "extrato",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-10-03",
+        "valorCentavos": 1418,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB PADARIA PAO QUENTE"
+      },
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 9944,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO 123.456.789-09 CARLOS FICTICIO"
+      },
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 487632,
+        "tipo": "receita",
+        "descricao": "TED RECEBIDA ESTUDIO TRACO FINO"
+      },
+      {
+        "data": "2026-10-07",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-10-07",
+        "valorCentavos": 3290,
+        "tipo": "despesa",
+        "descricao": "TARIFA PACOTE DE SERVICOS"
+      },
+      {
+        "data": "2026-10-09",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-10-10",
+        "valorCentavos": 3171,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-10",
+        "valorCentavos": 1917,
+        "tipo": "receita",
+        "descricao": "RENDIMENTO POUPANCA"
+      },
+      {
+        "data": "2026-10-24",
+        "valorCentavos": 8463,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-25",
+        "valorCentavos": 53743,
+        "tipo": "transferencia",
+        "descricao": "RESGATE AUTOMATICO"
+      },
+      {
+        "data": "2026-10-26",
+        "valorCentavos": 20370,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB POSTO ESTRELA"
+      },
+      {
+        "data": "2026-10-28",
+        "valorCentavos": 6269,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO JOAO EXEMPLO"
+      }
+    ]
+  },
+  {
+    "arquivo": "21-extrato-vale-verde.csv",
+    "formato": "csv",
+    "tipo": "extrato",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-10-02",
+        "valorCentavos": 2544,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTÃO DÉB PADARIA PÃO QUENTE"
+      },
+      {
+        "data": "2026-10-02",
+        "valorCentavos": 3290,
+        "tipo": "despesa",
+        "descricao": "TARIFA PACOTE DE SERVIÇOS"
+      },
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 487632,
+        "tipo": "receita",
+        "descricao": "TED RECEBIDA ESTÚDIO TRAÇO FINO"
+      },
+      {
+        "data": "2026-10-07",
+        "valorCentavos": 6884,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTÃO DÉB MERCADO BOM PREÇO"
+      },
+      {
+        "data": "2026-10-08",
+        "valorCentavos": 4405,
+        "tipo": "despesa",
+        "descricao": "UBER DO BRASIL"
+      },
+      {
+        "data": "2026-10-10",
+        "valorCentavos": 38758,
+        "tipo": "transferencia",
+        "descricao": "RESGATE AUTOMATICO"
+      },
+      {
+        "data": "2026-10-10",
+        "valorCentavos": 3290,
+        "tipo": "despesa",
+        "descricao": "TARIFA PACOTE DE SERVIÇOS"
+      },
+      {
+        "data": "2026-10-11",
+        "valorCentavos": 3483,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTÃO DÉB FARMÁCIA VIDA"
+      },
+      {
+        "data": "2026-10-11",
+        "valorCentavos": 4072,
+        "tipo": "despesa",
+        "descricao": "UBER DO BRASIL"
+      },
+      {
+        "data": "2026-10-12",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-10-13",
+        "valorCentavos": 9898,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-14",
+        "valorCentavos": 17391,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO MARIA FICTÍCIA DA SILVA"
+      },
+      {
+        "data": "2026-10-23",
+        "valorCentavos": 5765,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTÃO DÉB MERCADO BOM PREÇO"
+      },
+      {
+        "data": "2026-10-23",
+        "valorCentavos": 16639,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO 123.456.789-09 CARLOS FICTICIO"
+      },
+      {
+        "data": "2026-10-24",
+        "valorCentavos": 51365,
+        "tipo": "transferencia",
+        "descricao": "APLICAÇÃO AUTOMATICA"
+      },
+      {
+        "data": "2026-10-24",
+        "valorCentavos": 4241,
+        "tipo": "despesa",
+        "descricao": "UBER DO BRASIL"
+      },
+      {
+        "data": "2026-10-26",
+        "valorCentavos": 19200,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTÃO DÉB POSTO ESTRELA"
+      },
+      {
+        "data": "2026-10-27",
+        "valorCentavos": 25000,
+        "tipo": "despesa",
+        "descricao": "SAQUE 24H"
+      },
+      {
+        "data": "2026-10-28",
+        "valorCentavos": 2357,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-30",
+        "valorCentavos": 41841,
+        "tipo": "transferencia",
+        "descricao": "APLICAÇÃO AUTOMATICA"
+      }
+    ]
+  },
+  {
+    "arquivo": "22-extrato-ponte.csv",
+    "formato": "csv",
+    "tipo": "extrato",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-10-04",
+        "valorCentavos": 6278,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-04",
+        "valorCentavos": 24858,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO MARIA FICTICIA DA SILVA"
+      },
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 6433,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 487632,
+        "tipo": "receita",
+        "descricao": "TED RECEBIDA ESTUDIO TRACO FINO"
+      },
+      {
+        "data": "2026-10-07",
+        "valorCentavos": 8305,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO MARIA FICTICIA DA SILVA"
+      },
+      {
+        "data": "2026-10-09",
+        "valorCentavos": 12386,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-10-13",
+        "valorCentavos": 3599,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-13",
+        "valorCentavos": 3256,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB PADARIA PAO QUENTE"
+      },
+      {
+        "data": "2026-10-13",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-10-14",
+        "valorCentavos": 23139,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-10-16",
+        "valorCentavos": 6793,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-10-17",
+        "valorCentavos": 16079,
+        "tipo": "despesa",
+        "descricao": "DEB AUTOMATICO ENERGIA SERRA AZUL"
+      },
+      {
+        "data": "2026-10-20",
+        "valorCentavos": 3290,
+        "tipo": "despesa",
+        "descricao": "TARIFA PACOTE DE SERVICOS"
+      },
+      {
+        "data": "2026-10-21",
+        "valorCentavos": 2670,
+        "tipo": "despesa",
+        "descricao": "UBER DO BRASIL"
+      },
+      {
+        "data": "2026-10-24",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      }
+    ]
+  },
+  {
+    "arquivo": "23-extrato-ponte.xlsx",
+    "formato": "xlsx",
+    "tipo": "extrato",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 487632,
+        "tipo": "receita",
+        "descricao": "TED RECEBIDA ESTUDIO TRACO FINO"
+      },
+      {
+        "data": "2026-10-07",
+        "valorCentavos": 115042,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO CLIENTE ALFA DESIGN"
+      },
+      {
+        "data": "2026-10-07",
+        "valorCentavos": 131513,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO CLIENTE ALFA DESIGN"
+      },
+      {
+        "data": "2026-10-10",
+        "valorCentavos": 23228,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-10-12",
+        "valorCentavos": 1872,
+        "tipo": "despesa",
+        "descricao": "UBER DO BRASIL"
+      },
+      {
+        "data": "2026-10-15",
+        "valorCentavos": 21789,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO 123.456.789-09 CARLOS FICTICIO"
+      },
+      {
+        "data": "2026-10-16",
+        "valorCentavos": 21627,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-10-16",
+        "valorCentavos": 13284,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB POSTO ESTRELA"
+      },
+      {
+        "data": "2026-10-20",
+        "valorCentavos": 17476,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-10-20",
+        "valorCentavos": 1639,
+        "tipo": "receita",
+        "descricao": "RENDIMENTO POUPANCA"
+      },
+      {
+        "data": "2026-10-22",
+        "valorCentavos": 3150,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-23",
+        "valorCentavos": 21623,
+        "tipo": "despesa",
+        "descricao": "DEB AUTOMATICO ENERGIA SERRA AZUL"
+      },
+      {
+        "data": "2026-10-25",
+        "valorCentavos": 1327,
+        "tipo": "receita",
+        "descricao": "RENDIMENTO POUPANCA"
+      },
+      {
+        "data": "2026-10-27",
+        "valorCentavos": 111600,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO CLIENTE ALFA DESIGN"
+      },
+      {
+        "data": "2026-10-29",
+        "valorCentavos": 16705,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB POSTO ESTRELA"
+      }
+    ]
+  },
+  {
+    "arquivo": "24-extrato-horizonte.pdf",
+    "formato": "pdf_texto",
+    "tipo": "extrato",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-10-01",
+        "valorCentavos": 1486,
+        "tipo": "receita",
+        "descricao": "RENDIMENTO POUPANCA"
+      },
+      {
+        "data": "2026-10-03",
+        "valorCentavos": 10878,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO 123.456.789-09 CARLOS FICTICIO"
+      },
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 487632,
+        "tipo": "receita",
+        "descricao": "TED RECEBIDA ESTUDIO TRACO FINO"
+      },
+      {
+        "data": "2026-10-07",
+        "valorCentavos": 465,
+        "tipo": "receita",
+        "descricao": "RENDIMENTO POUPANCA"
+      },
+      {
+        "data": "2026-10-10",
+        "valorCentavos": 1324,
+        "tipo": "receita",
+        "descricao": "RENDIMENTO POUPANCA"
+      },
+      {
+        "data": "2026-10-10",
+        "valorCentavos": 1069,
+        "tipo": "receita",
+        "descricao": "RENDIMENTO POUPANCA"
+      },
+      {
+        "data": "2026-10-11",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-10-12",
+        "valorCentavos": 2997,
+        "tipo": "despesa",
+        "descricao": "UBER DO BRASIL"
+      },
+      {
+        "data": "2026-10-13",
+        "valorCentavos": 10360,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-14",
+        "valorCentavos": 1801,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB PADARIA PAO QUENTE"
+      },
+      {
+        "data": "2026-10-15",
+        "valorCentavos": 5718,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-15",
+        "valorCentavos": 72922,
+        "tipo": "transferencia",
+        "descricao": "RESGATE AUTOMATICO"
+      },
+      {
+        "data": "2026-10-19",
+        "valorCentavos": 9723,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-20",
+        "valorCentavos": 4218,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB PADARIA PAO QUENTE"
+      },
+      {
+        "data": "2026-10-20",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-10-22",
+        "valorCentavos": 9204,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-24",
+        "valorCentavos": 1498,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB PADARIA PAO QUENTE"
+      },
+      {
+        "data": "2026-10-24",
+        "valorCentavos": 13425,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO JOAO EXEMPLO"
+      }
+    ]
+  },
+  {
+    "arquivo": "25-extrato-aurora-longo.pdf",
+    "formato": "pdf_texto",
+    "tipo": "extrato",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-09-02",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-09-02",
+        "valorCentavos": 2097,
+        "tipo": "despesa",
+        "descricao": "UBER DO BRASIL"
+      },
+      {
+        "data": "2026-09-03",
+        "valorCentavos": 3130,
+        "tipo": "despesa",
+        "descricao": "UBER DO BRASIL"
+      },
+      {
+        "data": "2026-09-05",
+        "valorCentavos": 5403,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO 123.456.789-09 CARLOS FICTICIO"
+      },
+      {
+        "data": "2026-09-05",
+        "valorCentavos": 487632,
+        "tipo": "receita",
+        "descricao": "TED RECEBIDA ESTUDIO TRACO FINO"
+      },
+      {
+        "data": "2026-09-06",
+        "valorCentavos": 24576,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO 123.456.789-09 CARLOS FICTICIO"
+      },
+      {
+        "data": "2026-09-07",
+        "valorCentavos": 39154,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO CLIENTE ALFA DESIGN"
+      },
+      {
+        "data": "2026-09-11",
+        "valorCentavos": 13308,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB POSTO ESTRELA"
+      },
+      {
+        "data": "2026-09-11",
+        "valorCentavos": 143750,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO CLIENTE ALFA DESIGN"
+      },
+      {
+        "data": "2026-09-13",
+        "valorCentavos": 15790,
+        "tipo": "despesa",
+        "descricao": "DEB AUTOMATICO ENERGIA SERRA AZUL"
+      },
+      {
+        "data": "2026-09-13",
+        "valorCentavos": 17984,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO 123.456.789-09 CARLOS FICTICIO"
+      },
+      {
+        "data": "2026-09-13",
+        "valorCentavos": 4004,
+        "tipo": "despesa",
+        "descricao": "UBER DO BRASIL"
+      },
+      {
+        "data": "2026-09-16",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-09-18",
+        "valorCentavos": 10900,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-09-18",
+        "valorCentavos": 3290,
+        "tipo": "despesa",
+        "descricao": "TARIFA PACOTE DE SERVICOS"
+      },
+      {
+        "data": "2026-09-21",
+        "valorCentavos": 40990,
+        "tipo": "transferencia",
+        "descricao": "APLICACAO AUTOMATICA"
+      },
+      {
+        "data": "2026-09-21",
+        "valorCentavos": 4113,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-09-21",
+        "valorCentavos": 1370,
+        "tipo": "receita",
+        "descricao": "RENDIMENTO POUPANCA"
+      },
+      {
+        "data": "2026-09-22",
+        "valorCentavos": 1284,
+        "tipo": "despesa",
+        "descricao": "UBER DO BRASIL"
+      },
+      {
+        "data": "2026-09-24",
+        "valorCentavos": 97724,
+        "tipo": "transferencia",
+        "descricao": "APLICACAO AUTOMATICA"
+      },
+      {
+        "data": "2026-09-24",
+        "valorCentavos": 51560,
+        "tipo": "transferencia",
+        "descricao": "APLICACAO AUTOMATICA"
+      },
+      {
+        "data": "2026-09-25",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-09-26",
+        "valorCentavos": 13226,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-09-26",
+        "valorCentavos": 18455,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB POSTO ESTRELA"
+      },
+      {
+        "data": "2026-09-26",
+        "valorCentavos": 3010,
+        "tipo": "despesa",
+        "descricao": "UBER DO BRASIL"
+      },
+      {
+        "data": "2026-09-26",
+        "valorCentavos": 2879,
+        "tipo": "despesa",
+        "descricao": "UBER DO BRASIL"
+      },
+      {
+        "data": "2026-09-27",
+        "valorCentavos": 17353,
+        "tipo": "despesa",
+        "descricao": "DEB AUTOMATICO ENERGIA SERRA AZUL"
+      },
+      {
+        "data": "2026-09-27",
+        "valorCentavos": 2757,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-09-28",
+        "valorCentavos": 10000,
+        "tipo": "despesa",
+        "descricao": "SAQUE 24H"
+      },
+      {
+        "data": "2026-09-30",
+        "valorCentavos": 6533,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-03",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-10-04",
+        "valorCentavos": 11440,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO MARIA FICTICIA DA SILVA"
+      },
+      {
+        "data": "2026-10-04",
+        "valorCentavos": 25000,
+        "tipo": "despesa",
+        "descricao": "SAQUE 24H"
+      },
+      {
+        "data": "2026-10-04",
+        "valorCentavos": 3290,
+        "tipo": "despesa",
+        "descricao": "TARIFA PACOTE DE SERVICOS"
+      },
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 487632,
+        "tipo": "receita",
+        "descricao": "TED RECEBIDA ESTUDIO TRACO FINO"
+      },
+      {
+        "data": "2026-10-06",
+        "valorCentavos": 19291,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB POSTO ESTRELA"
+      },
+      {
+        "data": "2026-10-07",
+        "valorCentavos": 9429,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-08",
+        "valorCentavos": 4065,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-08",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-10-10",
+        "valorCentavos": 10000,
+        "tipo": "despesa",
+        "descricao": "SAQUE 24H"
+      },
+      {
+        "data": "2026-10-15",
+        "valorCentavos": 24195,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-10-16",
+        "valorCentavos": 18832,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB POSTO ESTRELA"
+      },
+      {
+        "data": "2026-10-16",
+        "valorCentavos": 13797,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-16",
+        "valorCentavos": 687,
+        "tipo": "receita",
+        "descricao": "RENDIMENTO POUPANCA"
+      },
+      {
+        "data": "2026-10-18",
+        "valorCentavos": 27859,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB MERCADO BOM PRECO"
+      },
+      {
+        "data": "2026-10-21",
+        "valorCentavos": 13479,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB POSTO ESTRELA"
+      },
+      {
+        "data": "2026-10-22",
+        "valorCentavos": 1752,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB PADARIA PAO QUENTE"
+      },
+      {
+        "data": "2026-10-22",
+        "valorCentavos": 3290,
+        "tipo": "despesa",
+        "descricao": "TARIFA PACOTE DE SERVICOS"
+      },
+      {
+        "data": "2026-10-23",
+        "valorCentavos": 11990,
+        "tipo": "despesa",
+        "descricao": "PAGTO BOLETO FIBRANET INTERNET"
+      },
+      {
+        "data": "2026-10-23",
+        "valorCentavos": 44366,
+        "tipo": "transferencia",
+        "descricao": "RESGATE AUTOMATICO"
+      },
+      {
+        "data": "2026-10-23",
+        "valorCentavos": 3290,
+        "tipo": "despesa",
+        "descricao": "TARIFA PACOTE DE SERVICOS"
+      },
+      {
+        "data": "2026-10-24",
+        "valorCentavos": 10303,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO 123.456.789-09 CARLOS FICTICIO"
+      },
+      {
+        "data": "2026-10-24",
+        "valorCentavos": 14538,
+        "tipo": "despesa",
+        "descricao": "PIX ENVIADO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-24",
+        "valorCentavos": 9403,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-25",
+        "valorCentavos": 30000,
+        "tipo": "despesa",
+        "descricao": "SAQUE 24H"
+      },
+      {
+        "data": "2026-10-26",
+        "valorCentavos": 4746,
+        "tipo": "despesa",
+        "descricao": "COMPRA CARTAO DEB FARMACIA VIDA"
+      },
+      {
+        "data": "2026-10-26",
+        "valorCentavos": 25000,
+        "tipo": "despesa",
+        "descricao": "SAQUE 24H"
+      },
+      {
+        "data": "2026-10-27",
+        "valorCentavos": 7579,
+        "tipo": "receita",
+        "descricao": "PIX RECEBIDO JOAO EXEMPLO"
+      },
+      {
+        "data": "2026-10-27",
+        "valorCentavos": 1985,
+        "tipo": "despesa",
+        "descricao": "UBER DO BRASIL"
+      },
+      {
+        "data": "2026-10-30",
+        "valorCentavos": 632,
+        "tipo": "receita",
+        "descricao": "RENDIMENTO POUPANCA"
+      }
+    ]
+  },
+  {
+    "arquivo": "26-contracheque-traco-fino.pdf",
+    "formato": "pdf_texto",
+    "tipo": "contracheque",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-11-05",
+        "valorCentavos": 487832,
+        "tipo": "receita",
+        "descricao": "Salário Estúdio Traço Fino Design Ltda"
+      }
+    ]
+  },
+  {
+    "arquivo": "27-holerite-foto.jpg",
+    "formato": "foto",
+    "tipo": "contracheque",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-10-30",
+        "valorCentavos": 343580,
+        "tipo": "receita",
+        "descricao": "Salário Agência Ponto Criativo Ltda"
+      }
+    ]
+  },
+  {
+    "arquivo": "28-contracheque-digitalizado.pdf",
+    "formato": "pdf_digitalizado",
+    "tipo": "contracheque",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-10-05",
+        "valorCentavos": 293015,
+        "tipo": "receita",
+        "descricao": "Salário Clínica Bem Estar S.A."
+      }
+    ]
+  },
+  {
+    "arquivo": "29-rpa-editora.pdf",
+    "formato": "pdf_texto",
+    "tipo": "contracheque",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-10-31",
+        "valorCentavos": 210000,
+        "tipo": "receita",
+        "descricao": "Salário Editora Folha Viva Ltda"
+      }
+    ]
+  },
+  {
+    "arquivo": "30-folha-sem-data.pdf",
+    "formato": "pdf_texto",
+    "tipo": "contracheque",
+    "conta": null,
+    "lancamentos": [
+      {
+        "data": "2026-10-31",
+        "valorCentavos": 197745,
+        "tipo": "receita",
+        "descricao": "Salário Mercado Bom Preço Ltda"
+      }
+    ]
+  }
+]

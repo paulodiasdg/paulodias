@@ -1,0 +1,36 @@
+{
+  "name": "@no-azul/documentos",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./leitura": "./src/leitura/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "conjunto:gerar": "node testes/conjunto/gerar.ts",
+    "avaliar": "vitest run src/avaliacao.conjunto.test.ts --reporter=verbose"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "1.1.0",
+    "@no-azul/motor": "workspace:*",
+    "@tesseract.js-data/por": "1.0.0",
+    "exceljs": "4.4.0",
+    "papaparse": "5.7.0",
+    "sharp": "0.35.5",
+    "tesseract.js": "7.0.0",
+    "unpdf": "2.1.0",
+    "zxing-wasm": "3.1.6"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "22.20.5",
+    "@types/papaparse": "5.5.2",
+    "bwip-js": "4.11.4",
+    "pdf-lib": "1.17.1",
+    "typescript": "6.0.3",
+    "vitest": "5.1.0"
+  }
+}
