@@ -82,4 +82,27 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    // As regras de leitura de documentos recebem a data como parâmetro, como o motor. Só a
+    // pasta leitura/ (PDF, OCR, planilhas) toca em arquivos e bibliotecas nativas.
+    files: ['packages/documentos/src/**/*.ts'],
+    ignores: ['packages/documentos/src/leitura/**'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: "NewExpression[callee.name='Date'][arguments.length=0]",
+          message: 'As regras de leitura recebem a data como parâmetro (CLAUDE.md, regra 3).',
+        },
+        {
+          selector: "CallExpression[callee.object.name='Date'][callee.property.name='now']",
+          message: 'As regras de leitura recebem a data como parâmetro (CLAUDE.md, regra 3).',
+        },
+        {
+          selector: "CallExpression[callee.name='parseFloat']",
+          message: 'Valores monetários são centavos inteiros (CLAUDE.md, regra 2).',
+        },
+      ],
+    },
+  },
 );
