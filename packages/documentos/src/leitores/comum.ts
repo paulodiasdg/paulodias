@@ -22,6 +22,58 @@ export function textoComLetras(texto: string): string | null {
   return /[a-zA-ZÀ-ú]{2,}/.test(limpo) ? limpo : null;
 }
 
+/** Palavras que são rótulo de campo, não nome de pessoa ou empresa. */
+const ROTULOS = new Set([
+  'nome',
+  'cpf',
+  'cnpj',
+  'banco',
+  'instituicao',
+  'agencia',
+  'conta',
+  'agencia / conta',
+  'agencia e conta',
+  'chave',
+  'chave pix',
+  'tipo',
+  'valor',
+  'data',
+  'para',
+  'de',
+  'origem',
+  'destino',
+  'favorecido',
+  'competencia',
+  'referencia',
+  'periodo',
+  'vencimento',
+  'emissao',
+  'cliente',
+  'endereco',
+  'cargo',
+  'funcao',
+  'matricula',
+  'contratante',
+  'prestador',
+  'pagador',
+  'beneficiario',
+  'empresa',
+]);
+
+/**
+ * Nome de pessoa ou empresa: texto com letras que não seja outro rótulo ("Nome", "CPF",
+ * "Competência"). Uma palavra só precisa de 5 letras ou mais: "CNP)" é o OCR errando "CNPJ".
+ */
+export function nomeDePessoaOuEmpresa(texto: string): string | null {
+  const limpo = textoComLetras(texto);
+  if (!limpo) return null;
+  if (ROTULOS.has(normalizar(limpo).replace(/:$/, ''))) return null;
+  const palavras = limpo.split(/\s+/).filter((p) => /[a-zA-ZÀ-ú]{2,}/.test(p));
+  if (palavras.length === 1 && (palavras[0]?.replace(/[^a-zA-ZÀ-ú]/g, '').length ?? 0) < 5)
+    return null;
+  return limpo;
+}
+
 /** Confiança de um campo achado por rótulo: perto do rótulo vale mais. */
 export function confiancaDoAchado(achado: Achado<unknown> | null, porAproximacao = false): number {
   if (!achado) return 0;
@@ -40,18 +92,31 @@ export function procurar<T>(
   return procurarValor(documento, rotulos, ler, { evitar });
 }
 
-/** Primeira linha com letras: costuma ser o nome da empresa ou do banco. */
+/**
+ * Primeira linha com letras: costuma ser o nome da empresa ou do banco. Fica só o começo, antes
+ * de um separador ("Banco Aurora · Extrato de…" vira "Banco Aurora").
+ */
 export function primeiraLinhaComTexto(documento: DocumentoDeTexto): string | null {
   for (const linha of documento.linhas.slice(0, 6)) {
-    const texto = linha.celulas[0]?.texto ?? linha.texto;
-    if (/[a-zA-ZÀ-ú]{3,}/.test(texto)) return texto.trim();
+    const texto = linha.celulas
+      .map((c) => c.texto)
+      .join(' ')
+      .split(/\s+[·|•]\s+|\s+-\s+/)[0]
+      ?.replace(/\s+/g, ' ')
+      .trim();
+    if (texto && /[a-zA-ZÀ-ú]{3,}/.test(texto)) return texto.slice(0, 80);
   }
   return null;
 }
 
 export function novoLancamento(
   campos: Pick<LancamentoExtraido, 'data' | 'descricao' | 'valorCentavos' | 'tipo'> &
-    Partial<Pick<LancamentoExtraido, 'confianca' | 'natureza' | 'parcela' | 'marcado' | 'avisos'>>,
+    Partial<
+      Pick<
+        LancamentoExtraido,
+        'categoria' | 'confianca' | 'natureza' | 'parcela' | 'marcado' | 'avisos'
+      >
+    >,
 ): LancamentoExtraido {
   return {
     categoria: null,

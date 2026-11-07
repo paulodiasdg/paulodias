@@ -10,6 +10,7 @@ import {
   type DataCivil,
 } from '@no-azul/motor';
 import { descricoesParecidas } from './categorias';
+import { normalizar as normalizarNome } from './texto';
 import type { Extracao, LancamentoExtraido } from './tipos';
 
 /**
@@ -279,14 +280,17 @@ function cruzarConta(extracao: Extracao, contas: readonly Conta[]): SugestaoDaCo
   const criar: AcaoDaConta = { tipo: 'criar' };
   const naoGravar: AcaoDaConta = { tipo: 'nao_gravar', motivo: 'A conta não será gravada.' };
 
-  // Conta avulsa já cadastrada (fatura ou boleto lançado à mão antes).
+  // Conta avulsa já cadastrada (fatura ou boleto lançado à mão antes): mesmo valor, ou nome
+  // parecido com valor perto (até 20% de diferença), a até 5 dias do vencimento.
   const avulsa = maisProxima(
     contas.filter(
       (c) =>
         c.origem === 'avulsa' &&
+        valor !== null &&
         distancia(c.vencimento, vencimento) <= DIAS_DO_PAGAMENTO &&
-        ((valor !== null && c.valorCentavos === valor) ||
-          descricoesParecidas(c.nome, nomeDoDocumento)),
+        (c.valorCentavos === valor ||
+          (descricoesParecidas(c.nome, nomeDoDocumento) &&
+            Math.abs(c.valorCentavos - valor) <= Math.max(c.valorCentavos, valor) * 0.2)),
     ),
     (c) => c.vencimento,
     vencimento,
@@ -308,13 +312,13 @@ function cruzarConta(extracao: Extracao, contas: readonly Conta[]): SugestaoDaCo
   // Fixa do mesmo mês: o boleto traz o valor real (resolve a lacuna da Etapa 3).
   const fixas = contas.filter((c) => c.origem === 'fixa' && c.pagoEm === null && !c.pagaNoCartao);
   if (extracao.tipo === 'fatura_cartao') {
+    // Fixa com cara de fatura (nome com fatura ou cartão, ou o nome do banco) perto do vencimento.
     const fixa = maisProxima(
       fixas.filter(
         (c) =>
           distancia(c.vencimento, vencimento) <= DIAS_DO_PAGAMENTO &&
-          (descricoesParecidas(c.nome, nomeDoDocumento) ||
-            (valor !== null &&
-              Math.abs(c.valorCentavos - valor) <= Math.max(c.valorCentavos, valor) * 0.2)),
+          (/\b(fatura|cartao|credito)\b/.test(normalizarNome(c.nome)) ||
+            descricoesParecidas(c.nome, nomeDoDocumento)),
       ),
       (c) => c.vencimento,
       vencimento,

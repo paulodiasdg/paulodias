@@ -95,10 +95,11 @@ const REGRAS_DE_DESPESA: Regra[] = [
   ],
   [/\b(brinquedo|brinquedos|presente|presentes|doacao|floricultura)\b/, 'presentes_doacoes'],
   [
-    /\b(moda|marketplace|amazon|magazine|eletro|moveis|tech|papelaria|roupa|calcados|shopping)\b/,
+    /\b(moda|marketplace|amazon|magazine|eletro|moveis|tech|papelaria|roupa|calcados|shopping|loja online)\b/,
     'compras',
   ],
   [/\b(pagamento fatura|pagto fatura|fatura cartao)\b/, 'pagamento_fatura'],
+  [/\b(pet shop|petshop|veterinari[ao]|saque)\b/, 'outros'],
 ];
 
 const REGRAS_DE_RECEITA: Regra[] = [

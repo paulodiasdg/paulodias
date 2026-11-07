@@ -124,14 +124,21 @@ export type Database = {
           aprovado_em: string | null;
           arquivo_chave: string | null;
           criado_em: string;
+          descartado_em: string | null;
+          erro: string | null;
           extracao_json: Json | null;
           hash: string;
           id: string;
           modelo_usado: string | null;
           nome: string;
+          processado_em: string | null;
+          processando_desde: string | null;
           reenvio_confirmado: boolean;
           status: string;
+          tamanho_bytes: number | null;
           tipo: string | null;
+          tipo_informado: string | null;
+          tipo_mime: string | null;
           usuario_id: string;
         };
         ComputedFields: never;
@@ -139,28 +146,42 @@ export type Database = {
           aprovado_em?: string | null;
           arquivo_chave?: string | null;
           criado_em?: string;
+          descartado_em?: string | null;
+          erro?: string | null;
           extracao_json?: Json | null;
           hash: string;
           id?: string;
           modelo_usado?: string | null;
           nome: string;
+          processado_em?: string | null;
+          processando_desde?: string | null;
           reenvio_confirmado?: boolean;
           status?: string;
+          tamanho_bytes?: number | null;
           tipo?: string | null;
+          tipo_informado?: string | null;
+          tipo_mime?: string | null;
           usuario_id?: string;
         };
         Update: {
           aprovado_em?: string | null;
           arquivo_chave?: string | null;
           criado_em?: string;
+          descartado_em?: string | null;
+          erro?: string | null;
           extracao_json?: Json | null;
           hash?: string;
           id?: string;
           modelo_usado?: string | null;
           nome?: string;
+          processado_em?: string | null;
+          processando_desde?: string | null;
           reenvio_confirmado?: boolean;
           status?: string;
+          tamanho_bytes?: number | null;
           tipo?: string | null;
+          tipo_informado?: string | null;
+          tipo_mime?: string | null;
           usuario_id?: string;
         };
         Relationships: [];
@@ -481,6 +502,17 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      aprovar_documento: {
+        Args: {
+          p_conta: Json;
+          p_documento_id: string;
+          p_lancamentos: Json;
+          p_manter_arquivo: boolean;
+          p_pagamentos: Json;
+          p_recebimentos: Json;
+        };
+        Returns: undefined;
+      };
       confirmar_recebimento: {
         Args: {
           p_competencia: string;

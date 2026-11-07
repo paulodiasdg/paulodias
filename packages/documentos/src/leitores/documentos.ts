@@ -6,6 +6,7 @@ import type { ContaExtraida, Extracao, LancamentoExtraido } from '../tipos';
 import {
   confiancaDoAchado,
   naturezaNaFatura,
+  nomeDePessoaOuEmpresa,
   novoLancamento,
   parcelaDaDescricao,
   primeiraData,
@@ -89,8 +90,8 @@ export function lerComprovante(documento: DocumentoDeTexto): Parcial {
 
   const destino = procurar(
     documento,
-    ['favorecido', 'destino', 'nome', 'empresa', 'beneficiario'],
-    textoComLetras,
+    ['favorecido', 'destino', 'beneficiario', 'empresa', 'nome'],
+    nomeDePessoaOuEmpresa,
     ['chave'],
   );
   const recebido = /\bpix recebido\b|\brecebido de\b/.test(normalizar(texto));
@@ -323,7 +324,7 @@ export function lerContracheque(documento: DocumentoDeTexto): Parcial {
     ],
     primeiraData,
   );
-  const contratante = autonomo ? procurar(documento, ['contratante'], textoComLetras) : null;
+  const contratante = autonomo ? procurar(documento, ['contratante'], nomeDePessoaOuEmpresa) : null;
   const empresa =
     contratante?.valor ??
     documento.linhas
@@ -334,7 +335,7 @@ export function lerContracheque(documento: DocumentoDeTexto): Parcial {
       .find((t) => t !== undefined) ??
     primeiraLinhaComTexto(documento);
 
-  resultado.emissor = empresa?.replace(/\s*[·|-]\s*CNPJ.*$/i, '').trim() ?? null;
+  resultado.emissor = empresa?.split(/\s+[·|•]\s+|\s+-\s+CNPJ/i)[0]?.trim() ?? null;
   resultado.competencia = competencia?.valor ?? null;
   const data = pagamento?.valor ?? (competencia ? ultimoDiaDa(competencia.valor) : null);
   const avisos = pagamento
@@ -346,6 +347,7 @@ export function lerContracheque(documento: DocumentoDeTexto): Parcial {
       descricao: `${autonomo ? 'Serviço' : 'Salário'} ${resultado.emissor ?? ''}`.trim(),
       valorCentavos: liquido?.valor ?? null,
       tipo: 'receita',
+      categoria: autonomo ? 'trabalho_autonomo' : 'salario',
       confianca: {
         data: pagamento ? confiancaDoAchado(pagamento) : competencia ? 0.6 : 0,
         valor: confiancaDoAchado(liquido),

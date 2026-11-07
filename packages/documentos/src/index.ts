@@ -1,6 +1,18 @@
 // API pura do pacote: tipos da extração, validação, categorias, cruzamento e avaliação. Pode ser
 // usada em qualquer lugar. A leitura dos arquivos (PDF, OCR, planilhas) fica em
 // `@no-azul/documentos/leitura` e só roda no servidor.
+export {
+  planoDaAprovacao,
+  type ContaParaGravar,
+  type ContaRevisada,
+  type LancamentoParaGravar,
+  type LinhaRevisada,
+  type PagamentoParaGravar,
+  type PlanoDaAprovacao,
+  type RecebimentoParaGravar,
+  type ResultadoDaAprovacao,
+  type Revisao,
+} from './aprovacao';
 export { avaliar, type Esperado, type ResultadoDaAvaliacao } from './avaliacao';
 export { descricoesParecidas, sugerirCategoria, type CategoriaDoHistorico } from './categorias';
 export {

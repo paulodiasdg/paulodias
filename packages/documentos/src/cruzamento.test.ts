@@ -306,6 +306,21 @@ describe('boleto e fatura', () => {
     expect(resultado.linhas[0]?.acao.tipo).toBe('ignorar');
   });
 
+  it('fixa sem cara de fatura, mesmo com valor parecido, não troca a fatura', () => {
+    const parecida = { ...aluguel, valorCentavos: 110000, dia: 20 };
+    const resultado = cruzar(
+      leitura(
+        'fatura_cartao',
+        [saida('2026-10-11', 28790, 'MERCADO')],
+        contaLida(110770, '2026-11-20', 'Fatura'),
+      ),
+      dados({ recorrencias: [parecida] }),
+      HOJE,
+    );
+    expect(resultado.conta?.acao.tipo).toBe('criar');
+    expect(resultado.linhas[0]?.acao.tipo).toBe('lancar');
+  });
+
   it('item de fixa paga no cartão se vincula à fixa (D4)', () => {
     const netflix = {
       ...aluguel,

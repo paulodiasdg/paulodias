@@ -9,6 +9,7 @@ const ITENS = [
   { href: '/lancamentos', rotulo: 'Lançamentos' },
   { href: '/contas', rotulo: 'Contas e fixas' },
   { href: '/metas', rotulo: 'Metas' },
+  { href: '/documentos', rotulo: 'Documentos' },
   { href: '/planejamento', rotulo: 'Planejamento' },
 ];
 

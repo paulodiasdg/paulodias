@@ -4,6 +4,7 @@ export const ROTAS_PROTEGIDAS = [
   '/lancamentos',
   '/contas',
   '/metas',
+  '/documentos',
   '/planejamento',
 ] as const;
 

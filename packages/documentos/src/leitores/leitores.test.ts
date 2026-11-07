@@ -135,6 +135,32 @@ describe('comprovante', () => {
     expect(lancamento?.confianca.valor).toBeGreaterThanOrEqual(0.8);
   });
 
+  it('o destinatário é o nome, não o rótulo "Nome" embaixo do título "Favorecido"', () => {
+    const doc = documentoDeTeste([
+      'Comprovante de Transferência - TED',
+      'Data da transferência | 04/11/2026',
+      'Valor | R$ 1.200,00',
+      'Favorecido',
+      'Nome | Imobiliária Lar Doce Ltda',
+      'CNPJ | 22.333.444/0001-55',
+      'Remetente',
+      'Nome | Paulo Exemplo',
+    ]);
+    expect(lerComprovante(doc).lancamentos[0]?.descricao).toBe('Imobiliária Lar Doce Ltda');
+    // O OCR às vezes lê "CNPJ" como "CNP)": isso não é nome.
+    const comErroDeOcr = documentoDeTeste([
+      'Comprovante',
+      'Valor | R$ 10,00',
+      'Favorecido',
+      'Nome',
+      'CNP) 22.333.444/0001-55',
+      'Nome | Imobiliária Lar Doce Ltda',
+    ]);
+    expect(lerComprovante(comErroDeOcr).lancamentos[0]?.descricao).toBe(
+      'Imobiliária Lar Doce Ltda',
+    );
+  });
+
   it('sem rótulo, usa o valor com R$ e a primeira data, com confiança menor', () => {
     const doc = documentoDeTeste(['Horizonte', 'Pix enviado', 'R$ 89,90', '03/11/2026 - 07:15']);
     const [lancamento] = lerComprovante(doc).lancamentos;

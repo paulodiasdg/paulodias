@@ -270,12 +270,93 @@ describe('isolamento entre usuários', () => {
         }),
         bruno.cliente.rpc('desfazer_recebimento', { p_ocorrencia_id: idsDaAna.ocorrencias }),
         bruno.cliente.rpc('excluir_meta', { p_meta_id: idsDaAna.metas }),
+        bruno.cliente.rpc('aprovar_documento', {
+          p_documento_id: idsDaAna.documentos,
+          p_conta: null,
+          p_pagamentos: [],
+          p_recebimentos: [],
+          p_lancamentos: [],
+          p_manter_arquivo: false,
+        }),
       ];
       for (const tentativa of tentativas) {
         const { error } = await tentativa;
         expect(error?.code).toBe('P0002');
       }
       expect(await estadoDaAna()).toEqual(antes);
+    });
+
+    it('B não usa contas, fixas nem categorias de A ao aprovar o próprio documento', async () => {
+      const documento = await bruno.cliente
+        .from('documentos')
+        .insert({ nome: 'b.pdf', hash: 'b'.repeat(64), status: 'em_revisao' })
+        .select('id')
+        .single();
+      expect(documento.error).toBeNull();
+      const aprovar = (parcial: Record<string, unknown>) =>
+        bruno.cliente.rpc('aprovar_documento', {
+          p_documento_id: documento.data!.id,
+          p_conta: null,
+          p_pagamentos: [],
+          p_recebimentos: [],
+          p_lancamentos: [],
+          p_manter_arquivo: false,
+          ...parcial,
+        });
+      const antes = await estadoDaAna();
+      const tentativas = [
+        aprovar({
+          p_conta: {
+            acao: 'atualizar_avulsa',
+            conta_avulsa_id: idsDaAna.contas_avulsas,
+            valor_centavos: 1,
+            vencimento: '2026-11-20',
+            quita_itens: true,
+          },
+        }),
+        aprovar({
+          p_conta: {
+            acao: 'prever_fixa',
+            recorrencia_id: idsDaAna.recorrencias,
+            competencia: '2026-12',
+            valor_centavos: 1,
+          },
+        }),
+        aprovar({
+          p_pagamentos: [
+            {
+              pago_em: '2026-11-05',
+              valor_centavos: 184250,
+              saque_centavos: 0,
+              tipo_lancamento: 'despesa',
+              conta_avulsa_id: idsDaAna.contas_avulsas,
+            },
+          ],
+        }),
+      ];
+      for (const tentativa of tentativas) {
+        const { error } = await tentativa;
+        expect(error?.code).toBe('P0002');
+      }
+      const comCategoriaDaAna = await aprovar({
+        p_lancamentos: [
+          {
+            data: '2026-11-05',
+            descricao: 'Invasão',
+            valor_centavos: 100,
+            tipo: 'despesa',
+            categoria_id: idsDaAna.categorias,
+          },
+        ],
+      });
+      expect(comCategoriaDaAna.error?.code).toBe('23503');
+      expect(await estadoDaAna()).toEqual(antes);
+      const depois = await bruno.cliente
+        .from('documentos')
+        .select('status')
+        .eq('id', documento.data!.id)
+        .single();
+      expect(depois.data?.status).toBe('em_revisao');
     });
 
     it('quem não entrou não chama nenhuma função', async () => {

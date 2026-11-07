@@ -158,6 +158,8 @@ describe('categorias', () => {
     expect(sugerirCategoria('PIX RECEBIDO JOAO', 'receita')).toBe('outras_receitas');
     expect(sugerirCategoria('APLICACAO AUTOMATICA', 'transferencia')).toBe('transferencia');
     expect(sugerirCategoria('PAGAMENTO FATURA', 'transferencia')).toBe('pagamento_fatura');
+    expect(sugerirCategoria('PET SHOP AMIGO', 'despesa')).toBe('outros');
+    expect(sugerirCategoria('LOJA ONLINE GLOBAL', 'despesa')).toBe('compras');
     expect(sugerirCategoria('XYZ', 'despesa')).toBeNull();
   });
 

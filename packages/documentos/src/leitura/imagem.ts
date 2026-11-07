@@ -62,17 +62,20 @@ export async function encerrarOcr(): Promise<void> {
 let leitorPronto: Promise<void> | null = null;
 
 function prepararLeitorDeCodigos(): Promise<void> {
-  leitorPronto ??= readFile(caminhosPadrao().leitorDeCodigos).then((wasm) => {
-    prepareZXingModule({
-      overrides: {
-        wasmBinary: wasm.buffer.slice(
-          wasm.byteOffset,
-          wasm.byteOffset + wasm.byteLength,
-        ) as ArrayBuffer,
-      },
-      fireImmediately: true,
-    });
-  });
+  // O caminho vem do app (definirCaminhos); o empacotador não precisa rastreá-lo.
+  leitorPronto ??= readFile(/*turbopackIgnore: true*/ caminhosPadrao().leitorDeCodigos).then(
+    (wasm) => {
+      prepareZXingModule({
+        overrides: {
+          wasmBinary: wasm.buffer.slice(
+            wasm.byteOffset,
+            wasm.byteOffset + wasm.byteLength,
+          ) as ArrayBuffer,
+        },
+        fireImmediately: true,
+      });
+    },
+  );
   return leitorPronto;
 }
 

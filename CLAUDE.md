@@ -4,7 +4,7 @@ Sistema de controle financeiro pessoal que lê documentos e diz, toda semana, qu
 
 - Especificação: `docs/SPEC.md` (fonte da verdade do produto).
 - Revisão da especificação, decisões e plano por etapa: `docs/PLANO.md`. Uma decisão aprovada ali prevalece sobre o texto original da spec.
-- Estado atual: **Etapa 5 (leitura de documentos) em andamento; plano em `docs/PLANO.md`, seção 4d.** Atualize esta linha ao concluir cada etapa.
+- Estado atual: **Etapa 5 (leitura de documentos) entregue; aguardando o Paulo conferir os testes para começar a Etapa 6 (análise e acabamento).** Atualize esta linha ao concluir cada etapa.
 
 ## Stack
 
@@ -44,6 +44,9 @@ docs/                 SPEC.md e PLANO.md
 - Planejamento no motor: `agendaDeReservas` e `projecaoDeMeses` (`plano.ts`, sobre a simulação `simularPlano`), `comparacao503020`, `alertasDaSemana`, `gastosDaSemana`, `semanaPassada`. As regras estão em `docs/PLANO.md`, seção 4c.
 - Todo número que o painel e o planejamento mostram passa pelos componentes `Valor` (reais) e `Numero` (`apps/web/src/components/numeros.tsx`), com uma chave. O teste de aceite (`apps/web/e2e/painel.spec.ts`) calcula os mesmos números com o motor em `e2e/painel-esperado.ts` e falha se a tela mostrar um "R$" fora deles. Número novo na tela entra nos dois lugares.
 - Gráficos com Recharts só desenham; os valores ficam em texto ao lado, para leitura de tela e para o teste.
+- Leitura de documentos (Etapa 5, decisão D8): sem IA. `@no-azul/documentos` (índice) é puro: regras de cada tipo, validação, máscaras, cruzamento e `planoDaAprovacao`. `@no-azul/documentos/leitura` abre os arquivos no servidor (unpdf, Tesseract, ZXing, sharp, exceljs) e só roda lá. Essas bibliotecas ficam em `serverExternalPackages` (`apps/web/next.config.ts`) e também são dependências do app; `apps/web/src/lib/documentos/leitura.ts` informa onde estão o idioma do OCR e o leitor de códigos.
+- O caminho do documento: o navegador envia o arquivo direto ao Storage (bucket privado `documentos`, pasta `<usuario>/<documento>`), o servidor lê logo depois (`after`) com a sessão da pessoa e grava a proposta em `documentos.extracao_json`; a revisão cruza com os dados do momento e a aprovação grava tudo pela função `aprovar_documento`.
+- O conjunto de teste da leitura fica em `packages/documentos/testes/conjunto` (30 documentos fictícios e `gabaritos.json`). O teste `avaliacao.conjunto.test.ts` lê todos e falha abaixo de 95%. Regra nova de leitura não pode baixar essa taxa.
 
 ## Comandos
 
@@ -59,7 +62,9 @@ pnpm format                        # Prettier (pnpm format:check só confere)
 pnpm test                          # testes unitários de todos os pacotes (Vitest)
 pnpm --filter @no-azul/motor test  # só o motor
 pnpm --filter @no-azul/motor test:cobertura  # motor com relatório de cobertura
-pnpm db:start                      # sobe o Supabase local (Docker), sem Studio e serviços extras
+pnpm --filter @no-azul/documentos test       # leitura de documentos, com a avaliação dos 30 documentos
+pnpm --filter @no-azul/documentos conjunto:gerar  # gera de novo o conjunto de teste (raramente)
+pnpm db:start                      # sobe o Supabase local (Docker) com o Storage, sem Studio e serviços extras
 pnpm db:reset                      # recria o banco local aplicando as migrações
 pnpm db:stop                       # derruba o Supabase local
 pnpm db:types                      # gera os tipos TypeScript do banco
