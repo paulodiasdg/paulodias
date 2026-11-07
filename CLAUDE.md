@@ -4,20 +4,20 @@ Sistema de controle financeiro pessoal que lê documentos e diz, toda semana, qu
 
 - Especificação: `docs/SPEC.md` (fonte da verdade do produto).
 - Revisão da especificação, decisões e plano por etapa: `docs/PLANO.md`. Uma decisão aprovada ali prevalece sobre o texto original da spec.
-- Estado atual: **Etapa 4 (painel e planejamento) entregue; aguardando o Paulo conferir os testes para começar a Etapa 5 (leitura de documentos).** Atualize esta linha ao concluir cada etapa.
+- Estado atual: **Etapa 5 (leitura de documentos) em andamento; plano em `docs/PLANO.md`, seção 4d.** Atualize esta linha ao concluir cada etapa.
 
 ## Stack
 
-| Camada                  | Escolha                                                      |
-| ----------------------- | ------------------------------------------------------------ |
-| Interface e servidor    | Next.js (App Router) com TypeScript estrito                  |
-| Estilo e gráficos       | Tailwind CSS e Recharts                                      |
-| Banco, login e arquivos | Supabase (PostgreSQL, Auth, Storage) com Row Level Security  |
-| Leitura de documentos   | API do Claude, saída validada com Zod (Etapa 5)              |
-| Segundo plano           | Fila de tarefas, Inngest ou Trigger.dev (decidir na Etapa 5) |
-| Testes                  | Vitest (unidade e isolamento) e Playwright (ponta a ponta)   |
-| Monorepo                | pnpm workspaces, Node 22                                     |
-| Hospedagem              | Vercel e Supabase                                            |
+| Camada                  | Escolha                                                                   |
+| ----------------------- | ------------------------------------------------------------------------- |
+| Interface e servidor    | Next.js (App Router) com TypeScript estrito                               |
+| Estilo e gráficos       | Tailwind CSS e Recharts                                                   |
+| Banco, login e arquivos | Supabase (PostgreSQL, Auth, Storage) com Row Level Security               |
+| Leitura de documentos   | Local, sem IA (D8): regras por tipo, OCR com Tesseract e código de barras |
+| Segundo plano           | Sem fila externa: o servidor lê o documento logo depois do envio (D8)     |
+| Testes                  | Vitest (unidade e isolamento) e Playwright (ponta a ponta)                |
+| Monorepo                | pnpm workspaces, Node 22                                                  |
+| Hospedagem              | Vercel e Supabase                                                         |
 
 As versões ficam fixadas nos `package.json`. Não troque biblioteca da stack sem combinar antes.
 
@@ -26,7 +26,7 @@ As versões ficam fixadas nos `package.json`. Não troque biblioteca da stack se
 ```text
 apps/web/             telas, rotas e ações do servidor
 packages/motor/       cálculos financeiros puros e seus testes
-packages/documentos/  preparação, extração e cruzamento de documentos (Etapa 5)
+packages/documentos/  leitura, validação e cruzamento de documentos, sem IA, e o conjunto de teste
 supabase/             config, migrações e testes de isolamento (supabase/testes)
 scripts/              utilitários de desenvolvimento
 docs/                 SPEC.md e PLANO.md

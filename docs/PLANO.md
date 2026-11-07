@@ -1,8 +1,8 @@
 # No Azul: revisão da especificação e plano das etapas
 
-04/11/2026 · Referência: `docs/SPEC.md` · **Situação: D1 a D7 aprovadas em 04/11/2026 como recomendado (D7 revista em 05/11/2026); Etapas 1 a 4 entregues**
+04/11/2026 · Referência: `docs/SPEC.md` · **Situação: D1 a D7 aprovadas em 04/11/2026 como recomendado (D7 revista em 05/11/2026), D8 em 07/11/2026; Etapas 1 a 4 entregues, Etapa 5 em andamento**
 
-As decisões D1 a D7 (seção 5) valem sobre o texto da spec.
+As decisões D1 a D8 (seção 5) valem sobre o texto da spec.
 
 ## 1. Contradições e lacunas que precisam de decisão agora
 
@@ -300,16 +300,94 @@ A análise por IA da tela Planejamento fica para a Etapa 6, como na spec.
 - A pessoa pode alterar `perfis.criado_em` pela API, porque a permissão de alteração vale para a tabela inteira. Isso só muda os cálculos dela (a média de gastos e as semanas visíveis), mas o certo é liberar só as colunas editáveis. Proposta: permissão por coluna na revisão de segurança da Etapa 7.
 - O campo de data do celular segue o idioma do aparelho, não o do sistema. No navegador de teste, que estava em inglês, apareceu 11/04/2026 para 04/11/2026. Proposta: conferir em aparelhos reais antes da Etapa 6.
 
+## 4d. Etapa 5: leitura de documentos
+
+**Decisões do Paulo em 07/11/2026:**
+
+- **D8. Leitura local, sem IA.** O próprio No Azul lê os documentos, sem enviar nada para um serviço de IA e sem custo por documento. Isso substitui a API do Claude das seções 4.2 e 6 da spec, e o aviso de IA da 4.5 vira "o arquivo é lido aqui no No Azul". A extração continua só propondo os dados; nada entra nos cálculos sem a revisão.
+- Fotos e PDFs digitalizados também são lidos, com reconhecimento de texto (OCR) no próprio servidor; o boleto em foto usa o código de barras.
+- Sem fila externa: o servidor lê o documento logo depois do envio. Sem IA externa, a leitura leva segundos e não há chamada para repetir.
+- Sem limite mensal de documentos, porque não há custo de IA. Fica o limite de 15 MB por arquivo; os limites de uso voltam na revisão de segurança da Etapa 7.
+- Os 30 documentos de teste são fictícios, criados por mim com o gabarito de cada um, antes das regras de leitura.
+
+**Caminho de um documento**
+
+| Passo      | O que acontece                                                                                                                                                                                                                                                                                                                                                                              |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Envio      | Na tela Documentos, a pessoa escolhe o arquivo ou tira a foto e, se quiser, informa o tipo. O navegador calcula o hash; o servidor confere o tamanho, o formato e se o arquivo já foi enviado (avisa a data do envio anterior e oferece "Enviar de novo"). O arquivo vai do navegador direto para o Storage privado, na pasta da pessoa, porque a Vercel recusa requisições acima de 4,5 MB |
+| Leitura    | Logo depois do envio, o servidor confere o formato real pelo conteúdo e o hash, e o status vira "processando". Se a leitura falhar ou demorar demais, o status vira "erro" com o motivo (sem conteúdo do documento), e a pessoa pode tentar de novo ou lançar à mão                                                                                                                         |
+| Preparação | OFX, CSV e XLSX viram uma tabela. PDF com texto vira as linhas de cada página. PDF digitalizado e foto passam pelo OCR (Tesseract, em português, rodando no servidor), depois de endireitar e limpar a imagem. A foto perde os metadados, inclusive a localização. Boleto: valor e vencimento saem do código de barras ou da linha digitável, conferidos pelos dígitos verificadores        |
+| Extração   | Regras por tipo de documento (tabela abaixo) montam o resultado no formato da seção 4.3. Cada campo tem uma confiança: 1 para tabela e código de barras, menor para texto achado por aproximação e para OCR. A categoria vem da descrição: primeiro a que a pessoa já usou para uma descrição parecida, depois uma lista de palavras (iFood, Uber, posto, farmácia…)                        |
+| Validação  | Datas existentes, valores em centavos positivos, soma dos itens contra o total do documento. CPF, CNPJ, número de cartão e código de barras são mascarados nas descrições antes de gravar `extracao_json`. O status vira "em revisão"                                                                                                                                                       |
+| Cruzamento | Feito quando a pessoa abre a revisão, com os dados daquele momento (tabela abaixo). O resultado é só sugestão                                                                                                                                                                                                                                                                               |
+| Revisão    | O arquivo aparece ao lado dos dados, por um link temporário. Cada linha pode ser corrigida, marcada ou desmarcada; campo com confiança abaixo de 0,8 fica destacado; avisos e sugestões aparecem na linha                                                                                                                                                                                   |
+| Gravação   | Uma função do banco grava tudo em uma transação: lançamentos, contas, pagamentos e recebimentos. Quanto sai da reserva em cada pagamento vem do motor, um depois do outro. O status vira "aprovado", o arquivo original é apagado (salvo se a pessoa escolheu guardar) e, se o valor da semana mudou, a tela seguinte mostra o motivo (D3)                                                  |
+
+**Leitura por tipo de documento**
+
+| Documento                | O que as regras procuram                                                                                                                                                                                                                                                                                                    |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Comprovante, nota fiscal | Valor ("Valor", "Total", "Valor pago"), data, e o destinatário ou o estabelecimento como descrição. Vira uma despesa                                                                                                                                                                                                        |
+| Boleto, conta de consumo | Código de barras ou linha digitável (valor e vencimento exatos); sem eles, "Vencimento" e "Valor do documento", "Total a pagar". O nome vem do tipo de conta (luz, água, gás, internet, condomínio) ou do beneficiário. Vira uma conta a pagar                                                                              |
+| Fatura de cartão         | Total, vencimento e fechamento; cada linha com data, descrição e valor vira um item. Pagamento da fatura anterior, estorno, IOF, juros e anuidade são reconhecidos pela descrição                                                                                                                                           |
+| Extrato                  | OFX pelos campos do padrão; CSV e XLSX pelas colunas de data, descrição e valor (ou débito e crédito), com ponto e vírgula ou vírgula e com acentuação do Windows; PDF pelas linhas com data e valor, sem as de saldo. Entrada vira receita; saída, despesa; aplicação, resgate e transferência entre contas, transferência |
+| Contracheque             | Líquido, mês de referência e data do crédito. Vira uma receita pelo líquido. Sem data do crédito, usa o último dia do mês de referência                                                                                                                                                                                     |
+
+O tipo vem da escolha da pessoa no envio ou, sem ela, das palavras do documento (fatura, beneficiário, extrato, líquido…).
+
+**Regras do cruzamento** (funções puras, cada uma com teste):
+
+| Situação                                  | Quando se aplica                                                                                                                                                                                 | O que a revisão propõe                                                                                                                                      |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Duplicata (4.4)                           | Lançamento já gravado com valor igual, data a até 1 dia e descrição parecida: metade ou mais das palavras em comum, sem acentos, números e palavras genéricas como "pix", "compra" e "pagamento" | Linha desmarcada, com aviso e o lançamento parecido                                                                                                         |
+| Conta ou renda já registrada              | Saída com o valor de uma conta já paga, ou entrada com o valor de uma renda já recebida, a até 5 dias da data do pagamento ou do recebimento                                                     | Linha desmarcada, com aviso ("parece o pagamento de Aluguel já registrado")                                                                                 |
+| Pagamento em extrato ou comprovante (4.4) | Saída com valor igual a uma conta em aberto (fixa ou avulsa) e data a até 5 dias do vencimento                                                                                                   | "Quitar Aluguel": a linha vira o pagamento da conta, e não um gasto a mais                                                                                  |
+| Renda prevista (lacuna da seção 2)        | Entrada a até 5 dias do dia previsto de uma renda em aberto, com o mesmo valor (renda variável: qualquer valor). No contracheque, a renda em aberto do mês de referência, pelo líquido           | "Confirmar recebimento de Salário" com o valor real                                                                                                         |
+| Boleto de despesa fixa                    | Boleto que vence no mês de uma fixa em aberto, com nome ou categoria parecidos                                                                                                                   | "Usar como valor de Luz em novembro": muda a previsão só daquele mês, sem criar conta avulsa. Resolve a lacuna da Etapa 3                                   |
+| Fatura já cadastrada                      | Conta avulsa com valor igual ou nome parecido e vencimento a até 5 dias                                                                                                                          | Atualizar a conta existente em vez de criar outra. Se ela já foi paga, o pagamento vira transferência na mesma gravação, para o gasto não contar duas vezes |
+| Fatura cadastrada como despesa fixa       | Fixa com valor parecido e vencimento a até 5 dias                                                                                                                                                | Aviso. A fatura muda a previsão da fixa no mês, sem os itens; para importar os itens, a fatura precisa ser conta avulsa                                     |
+| Item de fixa paga no cartão (D4)          | Item da fatura com o valor ou o nome de uma fixa paga no cartão, no mês do item                                                                                                                  | O item marca a fixa como paga e fica vinculado a ela, sem virar gasto variável                                                                              |
+
+**Regras da extração** (lacunas novas, com proposta):
+
+- **Pagamento da fatura anterior** dentro da fatura: vem desmarcado, porque já entrou quando aquela fatura foi paga.
+- **Estorno ou devolução na fatura:** entra como receita avulsa, com aviso. Na folga do mês, o efeito é o mesmo de abater a compra. O lançamento não aceita valor negativo, e mudar isso mexeria no motor inteiro.
+- **Parcela de compra antiga** (PARC 03/10): entra com a data de fechamento da fatura (ou de vencimento, se o fechamento não aparecer), para não mudar meses já encerrados. A descrição mantém o número da parcela. As parcelas futuras continuam fora (limitação da seção 2).
+- **Ano que não aparece** na data (fatura com "12/10"): vem do vencimento ou do período do documento, nunca do relógio do servidor.
+- **Fator de vencimento do boleto:** o código de barras conta os dias desde 07/10/1997, e a contagem recomeçou em 22/02/2025. Vale a data mais próxima da data do envio.
+
+**Avaliação da leitura (aceite de 95%)**
+
+- O conjunto tem 30 documentos fictícios: comprovantes e notas, boletos e contas de consumo, faturas, extratos (PDF, CSV, OFX e XLSX) e contracheques, em PDF com texto, PDF digitalizado e foto. Empresas, pessoas e números são inventados.
+- Cada documento tem um gabarito com os valores e as datas esperados: total e vencimento da conta, e a data e o valor de cada lançamento. O conjunto e os gabaritos entram no repositório antes das regras de leitura.
+- Acerto é o valor ou a data exatamente igual. Linha esperada que não veio e linha a mais contam como erro.
+- **Meta:** acertos ÷ (campos esperados + campos a mais) ≥ 95% no conjunto inteiro. O resultado sai também por documento e por formato (texto, tabela, digitalizado, foto).
+- A avaliação é um teste comum: roda no CI, sem custo, e falha se a taxa cair.
+- Limite conhecido: as regras conhecem os layouts que existem no conjunto e os parecidos. Em documentos reais de outros bancos e empresas, a taxa tende a ser menor, principalmente em fotos; o que não for lido aparece na revisão para completar.
+
+**Testes**
+
+1. `packages/documentos`: formato pelo conteúdo, CSV com vírgula e ponto e vírgula e acentuação do Windows, OFX, XLSX, PDF com e sem texto, código de barras e linha digitável (dígitos verificadores, fator antigo e novo), cada tipo de documento, categorias, máscaras, soma contra o total e cada regra de cruzamento ligada e desligada.
+2. Banco: isolamento do Storage (B não lê, não grava nem apaga arquivo na pasta de A); a aprovação grava tudo ou nada.
+3. Aceite "nenhum dado entra nos cálculos sem aprovação": com um documento em revisão, todos os números do motor ficam iguais aos de antes. Um teste também falha se `carregar.ts` ler a tabela `documentos`.
+4. Aceite "fatura com itens importados não conta o mesmo gasto duas vezes": importar a fatura e depois o extrato com o pagamento dela dá gasto variável igual à soma dos itens, e o pagamento entra como transferência. Vale também para a fatura já cadastrada e já paga, e para a fixa paga no cartão.
+5. Ponta a ponta, em computador e celular: enviar, revisar, corrigir, aprovar, descartar, reenviar o mesmo arquivo e tentar de novo após erro.
+
+**Bibliotecas novas:** `unpdf` e `@napi-rs/canvas` (texto e imagem das páginas do PDF), `tesseract.js` com o português (OCR), `zxing-wasm` (código de barras), `sharp` (tratamento das fotos), `exceljs` (XLSX), `papaparse` (CSV) e `zod` (validação do que a tela envia). Para gerar o conjunto de teste: `pdf-lib` e `bwip-js`. Tudo roda no servidor, sem chamar serviço externo.
+
+**Segurança:** a leitura usa a sessão de quem enviou, com o RLS de sempre; não precisa da chave de serviço. O arquivo fica no Storage privado, na pasta da pessoa, só até a aprovação ou o descarte (salvo se ela escolheu guardar), e a revisão o mostra por link temporário. Os registros levam o identificador, o formato, o status e a duração.
+
 ## 5. Decisões para aprovar
 
 As cinco decisões da seção 8 da spec seguem a recomendação de lá: uso pessoal com estrutura para vários usuários, limite mensal de documentos, arquivo original apagado por padrão, só pessoa física e nome provisório No Azul.
 
-| #   | Decisão                                    | Recomendação                                                     |
-| --- | ------------------------------------------ | ---------------------------------------------------------------- |
-| D1  | Contagem de meses até o prazo (C1)         | Meses de calendário; o exemplo 3.6 fica como está                |
-| D2  | Critério da simulação de 52 semanas (C2)   | Toda conta paga inteira pela reserva no vencimento               |
-| D3  | Valor fixo na semana (C3)                  | Foto da segunda-feira; cadastros recalculam e mostram o motivo   |
-| D4  | Fatura e fixas pagas no cartão (C4)        | Fatura na reserva e fora do orçamento; marcação `paga_no_cartao` |
-| D5  | Ajustes no modelo de dados (C5 e C6)       | Todos os listados                                                |
-| D6  | Arredondamentos e casos de borda (C7 e C8) | Como proposto                                                    |
-| D7  | Deploy                                     | Só local e CI até a Etapa 7 (revisto pelo Paulo em 05/11/2026)   |
+| #   | Decisão                                        | Recomendação                                                     |
+| --- | ---------------------------------------------- | ---------------------------------------------------------------- |
+| D1  | Contagem de meses até o prazo (C1)             | Meses de calendário; o exemplo 3.6 fica como está                |
+| D2  | Critério da simulação de 52 semanas (C2)       | Toda conta paga inteira pela reserva no vencimento               |
+| D3  | Valor fixo na semana (C3)                      | Foto da segunda-feira; cadastros recalculam e mostram o motivo   |
+| D4  | Fatura e fixas pagas no cartão (C4)            | Fatura na reserva e fora do orçamento; marcação `paga_no_cartao` |
+| D5  | Ajustes no modelo de dados (C5 e C6)           | Todos os listados                                                |
+| D6  | Arredondamentos e casos de borda (C7 e C8)     | Como proposto                                                    |
+| D7  | Deploy                                         | Só local e CI até a Etapa 7 (revisto pelo Paulo em 05/11/2026)   |
+| D8  | Leitura de documentos (decidida em 07/11/2026) | Local, sem IA e sem custo por documento (seção 4d)               |
